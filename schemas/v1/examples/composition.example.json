@@ -7,6 +7,27 @@
     "mer_example"
   ],
   "parent_composition_id": null,
+  "pending_input_parts": [
+    {
+      "desired_attributes": {
+        "colours": [
+          "green",
+          "neutral"
+        ],
+        "formality": null,
+        "free_text": null,
+        "garment_keywords": [],
+        "materials": [],
+        "style_tags": []
+      },
+      "explanation": "Add your shoe size to check availability.",
+      "missing_inputs": [
+        "CUSTOMER_SIZE_REQUIRED"
+      ],
+      "part_id": "prt_example_shoes",
+      "part_type": "SHOES"
+    }
+  ],
   "saved": false,
   "schema_version": "1.0.0",
   "selected_parts": [

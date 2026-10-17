@@ -14,12 +14,12 @@
     ]
   },
   "mandatory_constraints": {
-    "max_price_cents": null,
+    "max_price_cents": 250000,
     "must_arrive_by": "2026-12-11",
     "required_colours": [],
     "required_garment_keywords": [],
     "required_materials": [],
-    "size": "M"
+    "size": null
   },
   "optional_preferences": [
     "rewearable"
@@ -28,5 +28,5 @@
   "part_id": "prt_example_dress",
   "part_type": "DRESS_OR_SUIT",
   "schema_version": "1.0.0",
-  "status": "AVAILABLE"
+  "status": "PENDING_VERIFICATION"
 }

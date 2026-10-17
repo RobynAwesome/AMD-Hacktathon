@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
-from goa.examples import EXAMPLES  # noqa: E402
+from goa.examples import EXAMPLES, EXTRA_EXAMPLES  # noqa: E402
 from goa.schemas import PUBLIC_CONTRACTS, SCHEMA_VERSION  # noqa: E402
 
 OUT = ROOT / "schemas" / f"v{SCHEMA_VERSION.split('.')[0]}"
@@ -29,6 +29,9 @@ def render() -> dict[Path, str]:
         files[OUT / f"{name}.schema.json"] = json.dumps(schema, indent=2, sort_keys=True) + "\n"
         example = EXAMPLES[name]().model_dump(mode="json")
         files[OUT / "examples" / f"{name}.example.json"] = json.dumps(example, indent=2, sort_keys=True) + "\n"
+    for stem, (_contract, factory) in EXTRA_EXAMPLES.items():
+        example = factory().model_dump(mode="json")
+        files[OUT / "examples" / f"{stem}.example.json"] = json.dumps(example, indent=2, sort_keys=True) + "\n"
     return files
 
 

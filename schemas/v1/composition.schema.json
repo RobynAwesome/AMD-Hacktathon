@@ -121,6 +121,44 @@
       "title": "PartType",
       "type": "string"
     },
+    "PendingInputPart": {
+      "additionalProperties": false,
+      "description": "Verification cannot complete until the customer supplies an input (e.g. size).",
+      "properties": {
+        "desired_attributes": {
+          "$ref": "#/$defs/DesiredAttributes"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "missing_inputs": {
+          "items": {
+            "$ref": "#/$defs/UnmetReason"
+          },
+          "minItems": 1,
+          "title": "Missing Inputs",
+          "type": "array"
+        },
+        "part_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Part Id",
+          "type": "string"
+        },
+        "part_type": {
+          "$ref": "#/$defs/PartType"
+        }
+      },
+      "required": [
+        "part_id",
+        "part_type",
+        "desired_attributes",
+        "missing_inputs",
+        "explanation"
+      ],
+      "title": "PendingInputPart",
+      "type": "object"
+    },
     "SelectedBy": {
       "enum": [
         "CUSTOMER",
@@ -206,6 +244,7 @@
     },
     "UnmetPart": {
       "additionalProperties": false,
+      "description": "A genuine supply-side gap: all inputs known, no eligible catalogue item.",
       "properties": {
         "desired_attributes": {
           "$ref": "#/$defs/DesiredAttributes"
@@ -367,6 +406,13 @@
       ],
       "default": null,
       "title": "Parent Composition Id"
+    },
+    "pending_input_parts": {
+      "items": {
+        "$ref": "#/$defs/PendingInputPart"
+      },
+      "title": "Pending Input Parts",
+      "type": "array"
     },
     "saved": {
       "default": false,

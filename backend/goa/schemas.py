@@ -12,6 +12,8 @@ Fixed invariants (Y) encoded here:
 
 from __future__ import annotations
 
+import hashlib
+import json
 from datetime import date, datetime
 from enum import StrEnum
 from typing import Any, ClassVar, Literal
@@ -70,8 +72,9 @@ class CheckState(StrEnum):
 
 class PartStatus(StrEnum):
     PENDING_VERIFICATION = "PENDING_VERIFICATION"
+    NEEDS_CUSTOMER_INPUT = "NEEDS_CUSTOMER_INPUT"  # UI: "Add your size to check availability"
     AVAILABLE = "AVAILABLE"
-    NOT_ON_OFFER_YET = "NOT_ON_OFFER_YET"
+    NOT_ON_OFFER_YET = "NOT_ON_OFFER_YET"  # only after all inputs are known
 
 
 class PartOrigin(StrEnum):
@@ -252,6 +255,12 @@ class CreativeBrief(_Contract):
         ids = [p.part_id for p in self.requested_parts]
         if len(ids) != len(set(ids)):
             raise ValueError("part_id values must be unique within a brief")
+        for part in self.requested_parts:
+            size = part.mandatory_constraints.size
+            if size is not None and self.sizes.get(part.part_type) != size:
+                raise ValueError(
+                    f"part {part.part_id} carries size {size!r} that the customer did not supply"
+                )
         return self
 
 
@@ -341,11 +350,35 @@ class SelectedPart(_Part):
 
 
 class UnmetPart(_Part):
+    """A genuine supply-side gap: all inputs known, no eligible catalogue item."""
+
     part_id: str = Field(pattern=ID_PATTERN)
     part_type: PartType
     desired_attributes: DesiredAttributes
     reasons: list[UnmetReason] = Field(min_length=1)
     explanation: str
+
+    @model_validator(mode="after")
+    def _supply_reasons_only(self) -> "UnmetPart":
+        if set(self.reasons) & CUSTOMER_INPUT_REASONS:
+            raise ValueError("missing customer input belongs in pending_input_parts, not unmet_parts")
+        return self
+
+
+class PendingInputPart(_Part):
+    """Verification cannot complete until the customer supplies an input (e.g. size)."""
+
+    part_id: str = Field(pattern=ID_PATTERN)
+    part_type: PartType
+    desired_attributes: DesiredAttributes
+    missing_inputs: list[UnmetReason] = Field(min_length=1)
+    explanation: str
+
+    @model_validator(mode="after")
+    def _customer_reasons_only(self) -> "PendingInputPart":
+        if not set(self.missing_inputs) <= CUSTOMER_INPUT_REASONS:
+            raise ValueError("pending_input_parts may only list customer-input reasons")
+        return self
 
 
 class Composition(_Contract):
@@ -354,6 +387,7 @@ class Composition(_Contract):
     parent_composition_id: str | None = None
     selected_parts: list[SelectedPart] = Field(default_factory=list)
     unmet_parts: list[UnmetPart] = Field(default_factory=list)
+    pending_input_parts: list[PendingInputPart] = Field(default_factory=list)
     total_price_cents: StrictInt = Field(ge=0)
     budget_cents: StrictInt | None = Field(default=None, ge=1)
     validation_status: CompositionStatus
@@ -366,12 +400,19 @@ class Composition(_Contract):
         total = sum(p.unit_price_cents for p in self.selected_parts)
         if total != self.total_price_cents:
             raise ValueError("total_price_cents must equal the sum of selected part prices")
-        sel = {p.part_id for p in self.selected_parts}
-        unmet = {p.part_id for p in self.unmet_parts}
-        if sel & unmet:
-            raise ValueError("a part cannot be both selected and unmet")
-        if self.validation_status == CompositionStatus.VERIFIED_COMPLETE and self.unmet_parts:
-            raise ValueError("a composition with unmet parts cannot be VERIFIED_COMPLETE")
+        groups = [
+            {p.part_id for p in self.selected_parts},
+            {p.part_id for p in self.unmet_parts},
+            {p.part_id for p in self.pending_input_parts},
+        ]
+        if (groups[0] & groups[1]) or (groups[0] & groups[2]) or (groups[1] & groups[2]):
+            raise ValueError("a part must be in exactly one of selected, unmet or pending_input")
+        if self.validation_status == CompositionStatus.VERIFIED_COMPLETE and (
+            self.unmet_parts or self.pending_input_parts or not self.selected_parts
+        ):
+            raise ValueError("only a fully selected, verified composition can be VERIFIED_COMPLETE")
+        if self.validation_status == CompositionStatus.VERIFIED_PARTIAL and not self.selected_parts:
+            raise ValueError("VERIFIED_PARTIAL requires at least one selected part")
         if (
             self.validation_status in (CompositionStatus.VERIFIED_COMPLETE, CompositionStatus.VERIFIED_PARTIAL)
             and self.budget_cents is not None
@@ -429,22 +470,51 @@ class CustomerRequirements(_Part):
 
 
 class ItemRevalidation(_Part):
-    part_id: str
-    product_id: str
-    variant_id: str
+    part_id: str = Field(pattern=ID_PATTERN)
+    product_id: str = Field(pattern=ID_PATTERN)
+    variant_id: str = Field(pattern=ID_PATTERN)
+    merchant_id: str = Field(pattern=ID_PATTERN)
     belongs_to_addressed_merchant: bool
+    verified_unit_price_cents: StrictInt | None = Field(default=None, ge=1)
+    verified_stock_quantity: StrictInt | None = Field(default=None, ge=0)
     verification_result: VerificationResult
 
 
+RECEIPT_ISSUER = "goa-verification-engine"
+
+
 class ValidationReceipt(_Part):
+    """Server-generated only. Clients can never submit a receipt (API rejects it)."""
+
+    issued_by: Literal["goa-verification-engine"] = RECEIPT_ISSUER
     revalidated_at: datetime
     engine_version: str
+    evaluated_on: date
+    event_date: date
+    budget_cents: StrictInt | None = Field(default=None, ge=1)
     items: list[ItemRevalidation]
     all_items_pass: bool
     excluded_parts_other_merchants: list[str] = Field(
         default_factory=list,
         description="Selected parts that belong to other merchants and were NOT sent here.",
     )
+    receipt_digest: str = Field(
+        default="", description="SHA-256 over the canonical receipt body (tamper evidence)."
+    )
+
+    def compute_digest(self) -> str:
+        body = self.model_dump(mode="json", exclude={"receipt_digest"})
+        return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    @model_validator(mode="after")
+    def _consistent(self) -> "ValidationReceipt":
+        actual = all(
+            i.belongs_to_addressed_merchant and i.verification_result.overall == CheckState.PASS
+            for i in self.items
+        ) and bool(self.items)
+        if self.all_items_pass != actual:
+            raise ValueError("all_items_pass must reflect the individual item revalidations")
+        return self
 
 
 class QuoteEnquiry(_Contract):
@@ -456,6 +526,7 @@ class QuoteEnquiry(_Contract):
     event_date: date
     known_total_cents: StrictInt = Field(ge=1)
     customer_authorized: Literal[True]
+    authorized_at: datetime
     status: EnquiryStatus
     created_at: datetime
     validation_receipt: ValidationReceipt
@@ -466,13 +537,34 @@ class QuoteEnquiry(_Contract):
 
     @model_validator(mode="after")
     def _integrity(self) -> "QuoteEnquiry":
+        receipt = self.validation_receipt
+        if not receipt.all_items_pass:
+            raise ValueError("an enquiry can only be sent after successful revalidation")
+        if receipt.receipt_digest != receipt.compute_digest():
+            raise ValueError("validation receipt digest does not match its content")
+        if receipt.event_date != self.event_date:
+            raise ValueError("receipt event_date differs from enquiry event_date")
+        by_part = {}
+        for rv in receipt.items:
+            if rv.part_id in by_part:
+                raise ValueError(f"duplicate revalidation for part {rv.part_id}")
+            by_part[rv.part_id] = rv
+        if set(by_part) != {i.part_id for i in self.line_items}:
+            raise ValueError("every line item needs exactly one revalidation and vice versa")
         for item in self.line_items:
-            if item.merchant_id != self.merchant_id:
+            rv = by_part[item.part_id]
+            if item.merchant_id != self.merchant_id or rv.merchant_id != self.merchant_id:
                 raise ValueError(f"line item {item.product_id} belongs to another merchant")
+            if (rv.product_id, rv.variant_id) != (item.product_id, item.variant_id):
+                raise ValueError(f"revalidation does not match line item {item.part_id}")
+            if rv.verified_unit_price_cents != item.unit_price_cents:
+                raise ValueError(f"line item {item.part_id} price differs from verified catalogue price")
+            if rv.verified_stock_quantity is None or rv.verified_stock_quantity < item.quantity:
+                raise ValueError(f"insufficient verified stock for line item {item.part_id}")
         if sum(i.unit_price_cents * i.quantity for i in self.line_items) != self.known_total_cents:
             raise ValueError("known_total_cents must equal the sum of line items")
-        if not self.validation_receipt.all_items_pass:
-            raise ValueError("an enquiry can only be sent after successful revalidation")
+        if receipt.budget_cents is not None and self.known_total_cents > receipt.budget_cents:
+            raise ValueError("enquiry total exceeds the customer's budget")
         return self
 
 

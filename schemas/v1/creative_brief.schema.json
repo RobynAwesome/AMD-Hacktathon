@@ -157,6 +157,7 @@
     "PartStatus": {
       "enum": [
         "PENDING_VERIFICATION",
+        "NEEDS_CUSTOMER_INPUT",
         "AVAILABLE",
         "NOT_ON_OFFER_YET"
       ],

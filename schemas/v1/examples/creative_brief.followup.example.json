@@ -1,0 +1,71 @@
+{
+  "brief_id": "brf_example",
+  "budget_cents": 250000,
+  "constraints": [
+    "outdoor event",
+    "warm weather"
+  ],
+  "created_at": "2026-10-17T17:00:00Z",
+  "event_date": "2026-12-12",
+  "formality": "SMART_CASUAL",
+  "interpretation_source": "RULE_BASED_FALLBACK",
+  "location": "Cape Town",
+  "occasion": "graduation",
+  "preferred_colours": [
+    "green"
+  ],
+  "raw_prompt": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.",
+  "requested_parts": [
+    {
+      "brief_id": "brf_example",
+      "desired_attributes": {
+        "colours": [
+          "green"
+        ],
+        "formality": "SMART_CASUAL",
+        "free_text": null,
+        "garment_keywords": [],
+        "materials": [],
+        "style_tags": [
+          "elegant",
+          "breathable"
+        ]
+      },
+      "mandatory_constraints": {
+        "max_price_cents": 250000,
+        "must_arrive_by": "2026-12-11",
+        "required_colours": [],
+        "required_garment_keywords": [],
+        "required_materials": [],
+        "size": "M"
+      },
+      "optional_preferences": [
+        "rewearable"
+      ],
+      "origin": "INFERRED_DEFAULT",
+      "part_id": "prt_example_dress",
+      "part_type": "DRESS_OR_SUIT",
+      "schema_version": "1.0.0",
+      "status": "PENDING_VERIFICATION"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "session_id": "ses_example",
+  "sizes": {
+    "DRESS_OR_SUIT": "M"
+  },
+  "style_preferences": [
+    "elegant",
+    "outdoor",
+    "warm-weather",
+    "breathable"
+  ],
+  "sustainability_or_reuse_preferences": [
+    "rewearable"
+  ],
+  "uncertainties": [
+    "event year inferred as next occurrence (2026)",
+    "dress size M supplied by customer follow-up; shoe size not supplied",
+    "'elegant but not formal' mapped to SMART_CASUAL"
+  ]
+}

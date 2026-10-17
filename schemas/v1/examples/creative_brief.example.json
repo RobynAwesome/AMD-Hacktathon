@@ -32,12 +32,12 @@
         ]
       },
       "mandatory_constraints": {
-        "max_price_cents": null,
+        "max_price_cents": 250000,
         "must_arrive_by": "2026-12-11",
         "required_colours": [],
         "required_garment_keywords": [],
         "required_materials": [],
-        "size": "M"
+        "size": null
       },
       "optional_preferences": [
         "rewearable"
@@ -46,14 +46,12 @@
       "part_id": "prt_example_dress",
       "part_type": "DRESS_OR_SUIT",
       "schema_version": "1.0.0",
-      "status": "AVAILABLE"
+      "status": "PENDING_VERIFICATION"
     }
   ],
   "schema_version": "1.0.0",
   "session_id": "ses_example",
-  "sizes": {
-    "DRESS_OR_SUIT": "M"
-  },
+  "sizes": {},
   "style_preferences": [
     "elegant",
     "outdoor",
@@ -65,6 +63,7 @@
   ],
   "uncertainties": [
     "event year inferred as next occurrence (2026)",
-    "shoe size not supplied"
+    "no garment or shoe sizes supplied; customer must add sizes before availability can be checked",
+    "'elegant but not formal' mapped to SMART_CASUAL"
   ]
 }

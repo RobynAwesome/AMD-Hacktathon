@@ -87,26 +87,61 @@
           "title": "Belongs To Addressed Merchant",
           "type": "boolean"
         },
+        "merchant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Merchant Id",
+          "type": "string"
+        },
         "part_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
           "title": "Part Id",
           "type": "string"
         },
         "product_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
           "title": "Product Id",
           "type": "string"
         },
         "variant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
           "title": "Variant Id",
           "type": "string"
         },
         "verification_result": {
           "$ref": "#/$defs/VerificationResult"
+        },
+        "verified_stock_quantity": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified Stock Quantity"
+        },
+        "verified_unit_price_cents": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified Unit Price Cents"
         }
       },
       "required": [
         "part_id",
         "product_id",
         "variant_id",
+        "merchant_id",
         "belongs_to_addressed_merchant",
         "verification_result"
       ],
@@ -180,13 +215,37 @@
     },
     "ValidationReceipt": {
       "additionalProperties": false,
+      "description": "Server-generated only. Clients can never submit a receipt (API rejects it).",
       "properties": {
         "all_items_pass": {
           "title": "All Items Pass",
           "type": "boolean"
         },
+        "budget_cents": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Cents"
+        },
         "engine_version": {
           "title": "Engine Version",
+          "type": "string"
+        },
+        "evaluated_on": {
+          "format": "date",
+          "title": "Evaluated On",
+          "type": "string"
+        },
+        "event_date": {
+          "format": "date",
+          "title": "Event Date",
           "type": "string"
         },
         "excluded_parts_other_merchants": {
@@ -197,12 +256,24 @@
           "title": "Excluded Parts Other Merchants",
           "type": "array"
         },
+        "issued_by": {
+          "const": "goa-verification-engine",
+          "default": "goa-verification-engine",
+          "title": "Issued By",
+          "type": "string"
+        },
         "items": {
           "items": {
             "$ref": "#/$defs/ItemRevalidation"
           },
           "title": "Items",
           "type": "array"
+        },
+        "receipt_digest": {
+          "default": "",
+          "description": "SHA-256 over the canonical receipt body (tamper evidence).",
+          "title": "Receipt Digest",
+          "type": "string"
         },
         "revalidated_at": {
           "format": "date-time",
@@ -213,6 +284,8 @@
       "required": [
         "revalidated_at",
         "engine_version",
+        "evaluated_on",
+        "event_date",
         "items",
         "all_items_pass"
       ],
@@ -283,6 +356,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "authorized_at": {
+      "format": "date-time",
+      "title": "Authorized At",
+      "type": "string"
+    },
     "composition_id": {
       "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
       "title": "Composition Id",
@@ -363,6 +441,7 @@
     "event_date",
     "known_total_cents",
     "customer_authorized",
+    "authorized_at",
     "status",
     "created_at",
     "validation_receipt"

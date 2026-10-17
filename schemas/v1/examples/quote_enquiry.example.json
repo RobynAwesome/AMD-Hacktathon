@@ -1,4 +1,5 @@
 {
+  "authorized_at": "2026-10-17T17:00:00Z",
   "composition_id": "cmp_example",
   "created_at": "2026-10-17T17:00:00Z",
   "customer_authorized": true,
@@ -31,11 +32,16 @@
   "status": "SENT_TO_DEMO_INBOX",
   "validation_receipt": {
     "all_items_pass": true,
+    "budget_cents": 250000,
     "engine_version": "goa-verify-1.0.0",
+    "evaluated_on": "2026-10-17",
+    "event_date": "2026-12-12",
     "excluded_parts_other_merchants": [],
+    "issued_by": "goa-verification-engine",
     "items": [
       {
         "belongs_to_addressed_merchant": true,
+        "merchant_id": "mer_example",
         "part_id": "prt_example_dress",
         "product_id": "prd_example_dress",
         "variant_id": "var_example_dress_m",
@@ -99,9 +105,12 @@
             "reason": "positive stock",
             "state": "PASS"
           }
-        }
+        },
+        "verified_stock_quantity": 4,
+        "verified_unit_price_cents": 129900
       }
     ],
+    "receipt_digest": "ae5d6610f8758ab13c160e26676989a132f7b34f5e015dba49114e83980ad7d7",
     "revalidated_at": "2026-10-17T17:00:00Z"
   }
 }
