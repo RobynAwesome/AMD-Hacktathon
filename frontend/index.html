@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOA Creative Commerce — Imagine Freely. Ground Every Part.</title>
+  <style>
+    :root {
+      --bg: #f7f4ed;
+      --surface: #ffffff;
+      --surface-alt: #efeae0;
+      --ink: #1d241f;
+      --muted: #5a625c;
+      --emerald: #1f6f50;
+      --emerald-soft: #e3f1ea;
+      --amber: #9b5b18;
+      --amber-soft: #fdf2e4;
+      --blue: #234b6e;
+      --blue-soft: #e7eff6;
+      --border: #d8d1c3;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      background: #173529;
+      color: #f7f4ed;
+      padding: 1.1rem 1.5rem;
+      border-bottom: 3px solid #cfa640;
+    }
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+    }
+    .brand p {
+      margin: 0.2rem 0 0;
+      font-size: 0.88rem;
+      color: #cfe0d6;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .tab-btn.active {
+      background: #cfa640;
+      color: #173529;
+      border-color: #cfa640;
+    }
+    .demo-banner {
+      background: #efe6d0;
+      color: #3d331f;
+      font-size: 0.82rem;
+      padding: 0.45rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    main {
+      max-width: 1180px;
+      margin: 1.25rem auto 3rem;
+      padding: 0 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card h2, .card h3 {
+      margin-top: 0;
+    }
+    textarea {
+      width: 100%;
+      min-height: 84px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.98rem;
+      font-family: inherit;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+    .btn {
+      background: var(--emerald);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    .btn.secondary {
+      background: var(--surface-alt);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    select, input[type="text"] {
+      padding: 0.48rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: #fff;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+    .badge.available { background: var(--emerald-soft); color: var(--emerald); }
+    .badge.unmet { background: var(--amber-soft); color: var(--amber); }
+    .badge.pending { background: var(--blue-soft); color: var(--blue); }
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .part-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .part-card.unmet-card {
+      background: #fffaf3;
+      border-color: #e4c39a;
+    }
+    .part-card.pending-card {
+      background: #f4f8fc;
+      border-color: #b7cde2;
+    }
+    .part-img {
+      width: 100%;
+      height: 170px;
+      object-fit: contain;
+      background: #f6f2ea;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+    }
+    .price-tag {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--emerald);
+    }
+    .checks-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+    }
+    .check-pill {
+      font-size: 0.7rem;
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: var(--surface-alt);
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      margin-top: 0.75rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1>GOA Creative Commerce</h1>
+        <p>Imagine freely. Ground every part. Surface unmet demand.</p>
+      </div>
+      <div class="nav-tabs">
+        <button id="tabCustomer" class="tab-btn active" onclick="switchTab('customer')">1. Customer Creation Studio</button>
+        <button id="tabMerchant" class="tab-btn" onclick="switchTab('merchant')">2. Merchant Inbox &amp; Gap View</button>
+      </div>
+    </div>
+  </header>
+  <div class="demo-banner">
+    <strong>DEMO BOUNDARY:</strong> All 3 merchants and 48 products are fictional synthetic data.
+    Creating, remixing or saving is <strong>not</strong> purchase intent. AI proposes; deterministic Python code decides eligibility.
+  </div>
+
+  <main>
+    <!-- ==================== CUSTOMER VIEW ==================== -->
+    <section id="viewCustomer">
+      <div class="card">
+        <h2>Step 1 — Describe the Graduation Outfit You Imagine</h2>
+        <p style="margin-top:0;color:var(--muted);font-size:0.9rem;">
+          Start from free imagination. You can leave sizes blank first to see how GOA refuses to guess sizes, or supply sizes to run full verification.
+        </p>
+        <textarea id="promptInput">Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.</textarea>
+        <div class="row">
+          <label>Dress / Outer size:
+            <select id="apparelSize">
+              <option value="">-- Not provided yet --</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL (test unavailable size)</option>
+            </select>
+          </label>
+          <label>Shoe size:
+            <select id="shoeSize">
+              <option value="">-- Not provided yet --</option>
+              <option value="UK3">UK3</option>
+              <option value="UK4">UK4</option>
+              <option value="UK5">UK5</option>
+              <option value="UK6">UK6</option>
+              <option value="UK7">UK7</option>
+              <option value="UK8">UK8</option>
+              <option value="UK9">UK9</option>
+              <option value="UK10">UK10</option>
+            </select>
+          </label>
+          <label>Matcher:
+            <select id="matchMethod">
+              <option value="TAG_OVERLAP">GOA Tag/Attribute Overlap (honest prototype)</option>
+              <option value="KEYWORD_BASELINE">Plain Keyword Search Baseline</option>
+            </select>
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="runInterpret()">Interpret &amp; Verify Outfit</button>
+          <button class="btn secondary" onclick="presetThandiRaw()">Preset: Thandi (unresolved, no sizes)</button>
+          <button class="btn secondary" onclick="presetThandiSized()">Preset: Thandi + Sizes (M, UK6)</button>
+          <button class="btn secondary" onclick="presetGreenLinenJacket()">Preset: Green Linen Jacket Gap</button>
+        </div>
+        <div id="provenanceBar" class="meta-bar hidden"></div>
+      </div>
+
+      <div id="compositionSection" class="card hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+          <h2 id="compositionTitle" style="margin:0;">Step 2 — Grounded Outfit Composition</h2>
+          <div id="budgetSummary" class="price-tag"></div>
+        </div>
+        <p id="uncertaintiesNote" style="font-size:0.86rem;color:var(--muted);margin:0.4rem 0 0;"></p>
+        <div id="partsGrid" class="parts-grid"></div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:1.25rem 0;" />
+
+        <h3>Step 3 — Save Creation or Authorize Demo Merchant Quote Enquiry</h3>
+        <div class="row">
+          <button class="btn secondary" onclick="saveCreation()">Save Creation (No Purchase Commitment)</button>
+          <span id="saveNotice" style="font-size:0.88rem;color:var(--emerald);"></span>
+        </div>
+
+        <div id="enquiryBox" style="margin-top:1rem;padding:1rem;background:var(--surface-alt);border-radius:8px;">
+          <div class="row" style="margin-top:0;">
+            <label>Addressed Fictional Merchant:
+              <select id="enquiryMerchant"></select>
+            </label>
+            <label>Optional note to merchant:
+              <input type="text" id="enquiryNotes" placeholder="e.g. Confirm hem length for outdoor lawn" style="width:280px;" />
+            </label>
+          </div>
+          <div class="row">
+            <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.9rem;">
+              <input type="checkbox" id="authorizeCheckbox" />
+              <span><strong>I explicitly authorize</strong> sending this verified quote enquiry to the fictional demo merchant above. I understand this is a <strong>simulated demo enquiry</strong>, not a payment, order or reservation.</span>
+            </label>
+          </div>
+          <div class="row">
+            <button class="btn" onclick="sendEnquiry()">Revalidate &amp; Send Demo Quote Enquiry</button>
+          </div>
+          <div id="enquiryResult" style="margin-top:0.75rem;font-size:0.88rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MERCHANT VIEW ==================== -->
+    <section id="viewMerchant" class="hidden">
+      <div class="card">
+        <h2>Unmet-Demand Gap View (20 Frozen Scripted Graduation Briefs)</h2>
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:0;">
+          Computed directly from stored <code>DemandGap</code> records produced by the 20 frozen evaluation briefs
+          (missing customer sizes/dates are excluded). Nothing here is hardcoded marketing copy or a revenue forecast.
+        </p>
+        <div id="evalGapTableWrap"></div>
+        <h3 style="margin-top:1.25rem;">Interactive Demo Session Gaps</h3>
+        <div id="sessionGapTableWrap"></div>
+      </div>
+
+      <div class="card">
+        <h2>Fictional Merchant Demo Quote Inbox</h2>
+        <div class="row" style="margin-top:0;margin-bottom:0.75rem;">
+          <label>Select fictional merchant inbox:
+            <select id="inboxMerchantSelect" onchange="loadMerchantInbox()">
+              <option value="mer_fynbos_atelier">Fynbos Atelier (fictional demo merchant)</option>
+              <option value="mer_karoo_cobble">Karoo &amp; Cobble (fictional demo merchant)</option>
+              <option value="mer_tablebay_tailoring">Table Bay Tailoring (fictional demo merchant)</option>
+            </select>
+          </label>
+          <button class="btn secondary" onclick="loadMerchantInbox()">Refresh Inbox</button>
+        </div>
+        <div id="merchantInboxWrap"></div>
+      </div>
+
+      <div class="card">
+        <h2>Evaluation Receipt — GOA Tag Overlap vs Plain Keyword Baseline</h2>
+        <div id="evalComparisonWrap"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentState = null;
+
+    function formatZar(cents) {
+      if (cents === null || cents === undefined) return "Price unknown";
+      return "R" + (cents / 100).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function switchTab(which) {
+      document.getElementById("viewCustomer").classList.toggle("hidden", which !== "customer");
+      document.getElementById("viewMerchant").classList.toggle("hidden", which !== "merchant");
+      document.getElementById("tabCustomer").classList.toggle("active", which === "customer");
+      document.getElementById("tabMerchant").classList.toggle("active", which === "merchant");
+      if (which === "merchant") {
+        loadMerchantGaps();
+        loadMerchantInbox();
+      }
+    }
+
+    function presetThandiRaw() {
+      document.getElementById("promptInput").value =
+        "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.";
+      document.getElementById("apparelSize").value = "";
+      document.getElementById("shoeSize").value = "";
+      runInterpret();
+    }
+
+    function presetThandiSized() {
+      document.getElementById("promptInput").value =
+        "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.";
+      document.getElementById("apparelSize").value = "M";
+      document.getElementById("shoeSize").value = "UK6";
+      runInterpret();
+    }
+
+    function presetGreenLinenJacket() {
+      document.getElementById("promptInput").value =
+        "Graduation 12 Dec in Stellenbosch. I want a green linen jacket over an ivory dress, with tan sandals. Budget R3,000.";
+      document.getElementById("apparelSize").value = "S";
+      document.getElementById("shoeSize").value = "UK5";
+      runInterpret();
+    }
+
+    function collectSizes() {
+      const sizes = {};
+      const appSz = document.getElementById("apparelSize").value;
+      const shoeSz = document.getElementById("shoeSize").value;
+      if (appSz) {
+        sizes["DRESS_OR_SUIT"] = appSz;
+        sizes["OUTER_LAYER"] = appSz;
+      }
+      if (shoeSz) {
+        sizes["SHOES"] = shoeSz;
+      }
+      return sizes;
+    }
+
+    async function runInterpret() {
+      const raw_prompt = document.getElementById("promptInput").value;
+      const sizes = collectSizes();
+      const match_method = document.getElementById("matchMethod").value;
+
+      const resp = await fetch("/api/v1/briefs/interpret", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ raw_prompt, sizes, match_method })
+      });
+      const data = await resp.json();
+      currentState = data;
+      renderCustomerState(data);
+    }
+
+    function renderCustomerState(data) {
+      const { brief, composition, candidates_by_part, explanations, llm_receipt, match_method_used } = data;
+      const prov = document.getElementById("provenanceBar");
+      prov.classList.remove("hidden");
+      prov.innerHTML = `
+        <span><strong>Brief ID:</strong> ${brief.brief_id}</span>
+        <span><strong>Interpreter:</strong> ${brief.interpretation_source} ${llm_receipt && llm_receipt.fallback_used ? "(fallback active)" : ""}</span>
+        <span><strong>Matcher:</strong> ${match_method_used}</span>
+        <span><strong>Rules Engine:</strong> goa-verify-1.0.0</span>
+        <span><strong>Composition Status:</strong> ${composition.validation_status}</span>
+      `;
+
+      document.getElementById("compositionSection").classList.remove("hidden");
+      document.getElementById("budgetSummary").textContent =
+        `Verified Total: ${formatZar(composition.total_price_cents)} / Budget: ${formatZar(composition.budget_cents)}`;
+      document.getElementById("uncertaintiesNote").textContent =
+        brief.uncertainties && brief.uncertainties.length
+          ? "Preserved uncertainties: " + brief.uncertainties.join(" · ")
+          : "All required sizes and dates supplied.";
+
+      const grid = document.getElementById("partsGrid");
+      grid.innerHTML = "";
+
+      const selectedByPart = {};
+      composition.selected_parts.forEach(sp => { selectedByPart[sp.part_id] = sp; });
+      const unmetByPart = {};
+      composition.unmet_parts.forEach(u => { unmetByPart[u.part_id] = u; });
+      const pendingByPart = {};
+      (composition.pending_input_parts || []).forEach(p => { pendingByPart[p.part_id] = p; });
+
+      brief.requested_parts.forEach(part => {
+        const sp = selectedByPart[part.part_id];
+        const unmet = unmetByPart[part.part_id];
+        const pending = pendingByPart[part.part_id];
+        const card = document.createElement("div");
+
+        if (sp) {
+          card.className = "part-card";
+          const cands = (candidates_by_part[part.part_id] || []).filter(
+            c => c.verification_result.overall === "PASS" && (!c.rejection_reasons || c.rejection_reasons.length === 0)
+          );
+          const swapOptions = cands.map(c =>
+            `<option value="${c.product_id}" ${c.product_id === sp.product_id ? "selected" : ""}>${c.product_id.replace("prd_", "").replaceAll("_", " ")} (score ${c.semantic_score})</option>`
+          ).join("");
+          card.innerHTML = `
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong>${part.part_type.replaceAll("_", " ")}</strong>
+                <span class="badge available">AVAILABLE</span>
+              </div>
+              <img class="part-img" src="/catalogue/${sp.product_id}.svg" alt="${sp.product_name}" />
+              <div style="font-weight:700;">${sp.product_name}</div>
+              <div style="font-size:0.82rem;color:var(--muted);">Merchant: ${sp.merchant_id} · Size: ${sp.size} · Chosen by: ${sp.selected_by}</div>
+              <div class="price-tag" style="margin-top:0.35rem;">${formatZar(sp.unit_price_cents)}</div>
+              <p style="font-size:0.82rem;margin:0.4rem 0;">${(explanations && explanations[part.part_id]) || ""}</p>
+              <div class="checks-strip">
+                <span class="check-pill">Catalogue ✓</span>
+                <span class="check-pill">Size ${sp.size} ✓</span>
+                <span class="check-pill">In Stock ✓</span>
+                <span class="check-pill">Delivery ✓</span>
+                <span class="check-pill">Budget ✓</span>
+              </div>
+            </div>
+            <div style="margin-top:0.75rem;padding-top:0.5rem;border-top:1px dashed var(--border);">
+              <label style="font-size:0.78rem;color:var(--muted);display:block;">Author Remix — swap verified item:</label>
+              <select style="width:100%;margin-top:0.25rem;" onchange="remixPart('${part.part_id}', this.value)">
+                ${swapOptions}
+              </select>
+            </div>
+          `;
+        } else if (pending) {
+          card.className = "part-card pending-card";
+          card.innerHTML = `
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong>${part.part_type.replaceAll("_", " ")}</strong>
+                <span class="badge pending">ADD YOUR SIZE</span>
+              </div>
+              <p style="font-weight:600;margin-top:0.75rem;">${pending.explanation}</p>
+              <p style="font-size:0.83rem;color:var(--muted);">
+                Missing input (${pending.missing_inputs.join(", ")}) fails closed. GOA never guesses your size and never logs missing customer input as a merchant supply gap.
+              </p>
+            </div>
+          `;
+        } else if (unmet) {
+          card.className = "part-card unmet-card";
+          card.innerHTML = `
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong>${part.part_type.replaceAll("_", " ")}</strong>
+                <span class="badge unmet">NOT ON OFFER YET</span>
+              </div>
+              <p style="font-weight:600;margin-top:0.75rem;">${unmet.explanation}</p>
+              <p style="font-size:0.82rem;color:var(--muted);">
+                Deterministic reason: <code>${unmet.reasons.join(", ")}</code>.<br/>
+                Preserved as a merchant demand gap — never disguised as an available product.
+              </p>
+            </div>
+          `;
+        }
+        grid.appendChild(card);
+      });
+
+      const merchSelect = document.getElementById("enquiryMerchant");
+      merchSelect.innerHTML = "";
+      (composition.merchant_scope || []).forEach(mid => {
+        const opt = document.createElement("option");
+        opt.value = mid;
+        opt.textContent = mid;
+        merchSelect.appendChild(opt);
+      });
+      document.getElementById("enquiryResult").innerHTML = "";
+      document.getElementById("saveNotice").textContent = composition.saved ? "Saved ✓" : "";
+    }
+
+    async function remixPart(partId, newProductId) {
+      if (!currentState) return;
+      const compId = currentState.composition.composition_id;
+      const resp = await fetch(`/api/v1/compositions/${compId}/remix`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ part_id: partId, product_id: newProductId })
+      });
+      if (!resp.ok) {
+        const err = await resp.json();
+        alert("Swap rejected by verification rules: " + JSON.stringify(err.detail));
+        return;
+      }
+      const updated = await resp.json();
+      currentState.composition = updated.composition;
+      currentState.explanations = updated.explanations;
+      renderCustomerState(currentState);
+    }
+
+    async function saveCreation() {
+      if (!currentState) return;
+      const compId = currentState.composition.composition_id;
+      const resp = await fetch(`/api/v1/compositions/${compId}/save`, { method: "POST" });
+      const data = await resp.json();
+      currentState.composition = data.composition;
+      document.getElementById("saveNotice").textContent = data.notice;
+    }
+
+    async function sendEnquiry() {
+      if (!currentState) return;
+      const compId = currentState.composition.composition_id;
+      const merchant_id = document.getElementById("enquiryMerchant").value;
+      const customer_authorized = document.getElementById("authorizeCheckbox").checked;
+      const notes = document.getElementById("enquiryNotes").value || null;
+      const resBox = document.getElementById("enquiryResult");
+
+      const resp = await fetch("/api/v1/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ composition_id: compId, merchant_id, customer_authorized, notes })
+      });
+      const data = await resp.json();
+      if (!resp.ok) {
+        resBox.innerHTML = `<span style="color:#a12626;font-weight:600;">Blocked by verification gate: ${JSON.stringify(data.detail)}</span>`;
+        return;
+      }
+      const enq = data.enquiry;
+      resBox.innerHTML = `
+        <div style="color:var(--emerald);font-weight:700;">✓ ${data.notice}</div>
+        <div>Enquiry ID: <code>${enq.enquiry_id}</code> · Merchant: <code>${enq.merchant_id}</code> · Verified Total: <strong>${formatZar(enq.known_total_cents)}</strong></div>
+        <div>Server Validation Receipt Digest: <code>${enq.validation_receipt.receipt_digest.slice(0, 24)}…</code> (${enq.validation_receipt.items.length} item(s) revalidated)</div>
+      `;
+    }
+
+    async function loadMerchantGaps() {
+      const resp = await fetch("/api/v1/merchants/gaps");
+      const data = await resp.json();
+      const renderTable = (rows) => {
+        if (!rows || !rows.length) return "<p style='color:var(--muted);'>No demand gaps recorded in this scope yet.</p>";
+        return `
+          <table>
+            <thead>
+              <tr>
+                <th>Unmet Requested Item</th>
+                <th>Part Category</th>
+                <th>Brief Count</th>
+                <th>Reasons</th>
+                <th>Grounded Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `
+                <tr>
+                  <td><strong>${r.requested_item_label}</strong></td>
+                  <td><code>${r.part_type}</code></td>
+                  <td><strong>${r.brief_count}</strong>${r.total_briefs_in_scope ? " / " + r.total_briefs_in_scope : ""}</td>
+                  <td><code>${r.reasons.join(", ")}</code></td>
+                  <td>${r.summary}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      };
+      document.getElementById("evalGapTableWrap").innerHTML = renderTable(data.evaluation_gaps_aggregated);
+      document.getElementById("sessionGapTableWrap").innerHTML = renderTable(data.demo_session_gaps_aggregated);
+
+      const g = data.evaluation_comparison.goa_tag_overlap;
+      const b = data.evaluation_comparison.keyword_baseline;
+      document.getElementById("evalComparisonWrap").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Metric (20 Frozen Briefs)</th>
+              <th>GOA (<code>${g.match_method}</code>)</th>
+              <th>Static Store (<code>${b.match_method}</code>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Verified Complete Outfits</td><td>${g.verified_complete_count} / 20 (${(g.valid_complete_composition_rate*100).toFixed(1)}%)</td><td>${b.verified_complete_count} / 20 (${(b.valid_complete_composition_rate*100).toFixed(1)}%)</td></tr>
+            <tr><td>Verified Partial or Complete Outfits</td><td>${g.verified_complete_count + g.verified_partial_count} / 20 (${(g.valid_partial_or_complete_rate*100).toFixed(1)}%)</td><td>${b.verified_complete_count + b.verified_partial_count} / 20 (${(b.valid_partial_or_complete_rate*100).toFixed(1)}%)</td></tr>
+            <tr><td>Catalogue Grounding Rate</td><td><strong>${(g.catalogue_grounding_rate*100).toFixed(1)}%</strong> (${g.grounded_selected_items}/${g.total_selected_items})</td><td><strong>${(b.catalogue_grounding_rate*100).toFixed(1)}%</strong> (${b.grounded_selected_items}/${b.total_selected_items})</td></tr>
+            <tr><td>Mean Steps to Sendable Enquiry</td><td>${g.mean_steps_to_sendable_enquiry}</td><td>${b.mean_steps_to_sendable_enquiry}</td></tr>
+            <tr><td>Supply-Side Demand Gaps Captured</td><td>${g.total_demand_gaps_logged}</td><td>${b.total_demand_gaps_logged}</td></tr>
+            <tr><td>Blind Human Fit Score (1–5)</td><td colspan="2"><code>${g.blind_human_fit_scores_status}</code></td></tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function loadMerchantInbox() {
+      const mid = document.getElementById("inboxMerchantSelect").value;
+      const resp = await fetch(`/api/v1/merchants/${mid}/inbox`);
+      const data = await resp.json();
+      const wrap = document.getElementById("merchantInboxWrap");
+      if (!data.enquiries || !data.enquiries.length) {
+        wrap.innerHTML = `<p style="color:var(--muted);">No demo quote enquiries in <strong>${data.merchant.name}</strong> inbox yet. Authorize one from the Customer Studio tab.</p>`;
+        return;
+      }
+      wrap.innerHTML = data.enquiries.map(e => `
+        <div style="border:1px solid var(--border);border-radius:8px;padding:0.9rem;margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+            <strong>Enquiry <code>${e.enquiry_id}</code> (Event: ${e.event_date})</strong>
+            <span class="badge available">DEMO INBOX · ${formatZar(e.known_total_cents)}</span>
+          </div>
+          <div style="font-size:0.84rem;color:var(--muted);margin-top:0.25rem;">
+            Customer authorized at ${e.authorized_at} · Receipt digest: <code>${e.validation_receipt.receipt_digest.slice(0, 20)}…</code>
+          </div>
+          <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.9rem;">
+            ${e.line_items.map(li => `<li>${li.product_name} — size <strong>${li.size}</strong> × ${li.quantity} @ ${formatZar(li.unit_price_cents)}</li>`).join("")}
+          </ul>
+          <div style="font-size:0.78rem;color:var(--amber);margin-top:0.35rem;">${e.disclaimer}</div>
+        </div>
+      `).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      presetThandiSized();
+    });
+  </script>
+</body>
+</html>
