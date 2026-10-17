@@ -1,0 +1,1745 @@
+{
+  "evaluation_set": "goa-eval-briefs-v1",
+  "briefs_file": "data/eval/briefs_v1.json",
+  "briefs_sha256_lf": "b52ec5e8ec858e39581b49ed7c2802f630721c03ab68eeefed12d89a63cd2baf",
+  "briefs_hash_verified": true,
+  "evaluated_on": "2026-10-18",
+  "generated_at": "2026-10-17T23:08:41.000733+00:00",
+  "catalogue_product_count": 48,
+  "goa_tag_overlap": {
+    "match_method": "TAG_OVERLAP",
+    "brief_count": 20,
+    "verified_complete_count": 4,
+    "verified_partial_count": 12,
+    "empty_count": 4,
+    "valid_complete_composition_rate": 0.2,
+    "valid_partial_or_complete_rate": 0.8,
+    "single_merchant_sendable_count": 10,
+    "total_selected_items": 29,
+    "grounded_selected_items": 29,
+    "catalogue_grounding_rate": 1.0,
+    "sendable_enquiry_brief_count": 16,
+    "mean_steps_to_sendable_enquiry": 3.38,
+    "total_demand_gaps_logged": 18,
+    "aggregated_demand_gaps": [
+      {
+        "part_type": "OUTER_LAYER",
+        "requested_item_label": "green linen jacket",
+        "brief_count": 5,
+        "occurrence_count": 5,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev03",
+          "brf_ev06",
+          "brf_ev11",
+          "brf_ev15",
+          "brf_ev19"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "5 of 20 briefs requested a green linen jacket that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "ACCESSORY",
+        "requested_item_label": "accessory",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev02"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a accessory that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "gold heels",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev07"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a gold heels that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "OUTER_LAYER",
+        "requested_item_label": "green blazer",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev08"
+        ],
+        "reasons": [
+          "DELIVERY_TOO_LATE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green blazer that was not available (DELIVERY_TOO_LATE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev20"
+        ],
+        "reasons": [
+          "OVER_BUDGET"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green dress that was not available (OVER_BUDGET).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green gown",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev07"
+        ],
+        "reasons": [
+          "DELIVERY_TOO_LATE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green gown that was not available (DELIVERY_TOO_LATE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "green heels",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev16"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green heels that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green jumpsuit",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev16"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green jumpsuit that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "green vegan leather boots",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev12"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green vegan leather boots that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "navy dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev11"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a navy dress that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "pink dress or suit",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev14"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a pink dress or suit that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "shoes",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev05"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a shoes that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "ACCESSORY",
+        "requested_item_label": "tan belt",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev15"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a tan belt that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "tan loafers",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev17"
+        ],
+        "reasons": [
+          "SIZE_UNAVAILABLE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a tan loafers that was not available (SIZE_UNAVAILABLE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      }
+    ],
+    "blind_human_fit_scores_status": "PENDING_HUMAN_REVIEW_BY_ROBYN_AND_BUSI",
+    "brief_outcomes": [
+      {
+        "eval_id": "ev01",
+        "brief_id": "brf_ev01",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 4,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 4,
+        "total_price_cents": 0,
+        "budget_cents": 250000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {},
+        "pending_input_reasons": {
+          "prt_ev01_1": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_2": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_3": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_4": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ]
+        },
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev02",
+        "brief_id": "brf_ev02",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 4,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 234700,
+        "budget_cents": 250000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_olive_linen_jumpsuit",
+          "prd_olive_canvas_espadrilles",
+          "prd_sage_crochet_cotton_cardigan"
+        ],
+        "unmet_reasons": {
+          "prt_ev02_4": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev03",
+        "brief_id": "brf_ev03",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 219800,
+        "budget_cents": 300000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_ivory_broderie_midi_dress",
+          "prd_tan_leather_block_heel_sandals"
+        ],
+        "unmet_reasons": {
+          "prt_ev03_1": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev04",
+        "brief_id": "brf_ev04",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 464700,
+        "budget_cents": 500000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_navy_wool_blend_suit",
+          "prd_brown_leather_oxford_shoes",
+          "prd_navy_silk_tie"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev05",
+        "brief_id": "brf_ev05",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 94900,
+        "budget_cents": 120000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_sage_tiered_cotton_maxi_dress"
+        ],
+        "unmet_reasons": {
+          "prt_ev05_2": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev06",
+        "brief_id": "brf_ev06",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 114900,
+        "budget_cents": 350000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_olive_linen_jumpsuit"
+        ],
+        "unmet_reasons": {
+          "prt_ev06_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev07",
+        "brief_id": "brf_ev07",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 600000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev07_1": [
+            "DELIVERY_TOO_LATE"
+          ],
+          "prt_ev07_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev08",
+        "brief_id": "brf_ev08",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 334800,
+        "budget_cents": 450000,
+        "merchant_scope": [
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_ivory_linen_trouser_suit",
+          "prd_emerald_suede_block_heels"
+        ],
+        "unmet_reasons": {
+          "prt_ev08_2": [
+            "DELIVERY_TOO_LATE"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev09",
+        "brief_id": "brf_ev09",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 2,
+        "total_price_cents": 0,
+        "budget_cents": 280000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {},
+        "pending_input_reasons": {
+          "prt_ev09_1": [
+            "EVENT_DATE_REQUIRED"
+          ],
+          "prt_ev09_2": [
+            "EVENT_DATE_REQUIRED"
+          ]
+        },
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev10",
+        "brief_id": "brf_ev10",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 189700,
+        "budget_cents": 200000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_mustard_linen_shirt_dress",
+          "prd_woven_raffia_clutch",
+          "prd_ivory_espadrille_wedges"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev11",
+        "brief_id": "brf_ev11",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 89900,
+        "budget_cents": 320000,
+        "merchant_scope": [
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_white_leather_minimal_sneakers"
+        ],
+        "unmet_reasons": {
+          "prt_ev11_1": [
+            "OUT_OF_STOCK"
+          ],
+          "prt_ev11_3": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev12",
+        "brief_id": "brf_ev12",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 109900,
+        "budget_cents": 260000,
+        "merchant_scope": [
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_olive_cotton_utility_jacket"
+        ],
+        "unmet_reasons": {
+          "prt_ev12_1": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev13",
+        "brief_id": "brf_ev13",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 499700,
+        "budget_cents": 550000,
+        "merchant_scope": [
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_charcoal_slim_suit",
+          "prd_black_leather_derby_shoes",
+          "prd_gold_cufflinks"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev14",
+        "brief_id": "brf_ev14",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 119800,
+        "budget_cents": 250000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_gold_leaf_drop_earrings",
+          "prd_nude_pointed_kitten_heels"
+        ],
+        "unmet_reasons": {
+          "prt_ev14_1": [
+            "OUT_OF_STOCK"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev15",
+        "brief_id": "brf_ev15",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 99900,
+        "budget_cents": 300000,
+        "merchant_scope": [
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_tan_leather_loafers"
+        ],
+        "unmet_reasons": {
+          "prt_ev15_1": [
+            "NO_MATCHING_PRODUCT"
+          ],
+          "prt_ev15_2": [
+            "OUT_OF_STOCK"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev16",
+        "brief_id": "brf_ev16",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 300000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev16_1": [
+            "OUT_OF_STOCK"
+          ],
+          "prt_ev16_2": [
+            "OUT_OF_STOCK"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev17",
+        "brief_id": "brf_ev17",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 239900,
+        "budget_cents": 400000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_sage_linen_two_piece_suit"
+        ],
+        "unmet_reasons": {
+          "prt_ev17_2": [
+            "SIZE_UNAVAILABLE"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev18",
+        "brief_id": "brf_ev18",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 269700,
+        "budget_cents": 300000,
+        "merchant_scope": [
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_cobalt_blue_shift_dress",
+          "prd_black_patent_court_heels",
+          "prd_silver_hoop_earrings"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev19",
+        "brief_id": "brf_ev19",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 219900,
+        "budget_cents": 450000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_ivory_linen_trouser_suit"
+        ],
+        "unmet_reasons": {
+          "prt_ev19_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev20",
+        "brief_id": "brf_ev20",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 64900,
+        "budget_cents": 70000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 3,
+        "selected_product_ids": [
+          "prd_gold_strappy_flat_sandals"
+        ],
+        "unmet_reasons": {
+          "prt_ev20_1": [
+            "OVER_BUDGET",
+            "DELIVERY_TOO_LATE"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      }
+    ]
+  },
+  "keyword_baseline": {
+    "match_method": "KEYWORD_BASELINE",
+    "brief_count": 20,
+    "verified_complete_count": 3,
+    "verified_partial_count": 10,
+    "empty_count": 7,
+    "valid_complete_composition_rate": 0.15,
+    "valid_partial_or_complete_rate": 0.65,
+    "single_merchant_sendable_count": 8,
+    "total_selected_items": 23,
+    "grounded_selected_items": 23,
+    "catalogue_grounding_rate": 1.0,
+    "sendable_enquiry_brief_count": 13,
+    "mean_steps_to_sendable_enquiry": 5.92,
+    "total_demand_gaps_logged": 24,
+    "aggregated_demand_gaps": [
+      {
+        "part_type": "OUTER_LAYER",
+        "requested_item_label": "green linen jacket",
+        "brief_count": 5,
+        "occurrence_count": 5,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev03",
+          "brf_ev06",
+          "brf_ev11",
+          "brf_ev15",
+          "brf_ev19"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "5 of 20 briefs requested a green linen jacket that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "ACCESSORY",
+        "requested_item_label": "cufflinks",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev13"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a cufflinks that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "espadrilles",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev10"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a espadrilles that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "gold heels",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev07"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a gold heels that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "OUTER_LAYER",
+        "requested_item_label": "green blazer",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev08"
+        ],
+        "reasons": [
+          "DELIVERY_TOO_LATE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green blazer that was not available (DELIVERY_TOO_LATE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev20"
+        ],
+        "reasons": [
+          "OVER_BUDGET"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green dress that was not available (OVER_BUDGET).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green gown",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev07"
+        ],
+        "reasons": [
+          "DELIVERY_TOO_LATE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green gown that was not available (DELIVERY_TOO_LATE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "green heels",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev16"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green heels that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "green jumpsuit",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev16"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green jumpsuit that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "green vegan leather boots",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev12"
+        ],
+        "reasons": [
+          "NO_MATCHING_PRODUCT"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a green vegan leather boots that was not available (NO_MATCHING_PRODUCT).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "ivory/white dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev03"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a ivory/white dress that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "loafers",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev15"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a loafers that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "mustard/terracotta dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev10"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a mustard/terracotta dress that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "navy dress",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev11"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a navy dress that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "DRESS_OR_SUIT",
+        "requested_item_label": "pink dress or suit",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev14"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a pink dress or suit that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "ACCESSORY",
+        "requested_item_label": "raffia bag",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev10"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a raffia bag that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "sandals",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev20"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a sandals that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "shoes",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev05"
+        ],
+        "reasons": [
+          "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a shoes that was not available (BUDGET_EXHAUSTED_BY_OTHER_PARTS).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "ACCESSORY",
+        "requested_item_label": "tan belt",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev15"
+        ],
+        "reasons": [
+          "OUT_OF_STOCK"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a tan belt that was not available (OUT_OF_STOCK).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      },
+      {
+        "part_type": "SHOES",
+        "requested_item_label": "tan loafers",
+        "brief_count": 1,
+        "occurrence_count": 1,
+        "total_briefs_in_scope": 20,
+        "brief_ids": [
+          "brf_ev17"
+        ],
+        "reasons": [
+          "SIZE_UNAVAILABLE"
+        ],
+        "source_types": [
+          "SCRIPTED_EVALUATION"
+        ],
+        "summary": "1 of 20 briefs requested a tan loafers that was not available (SIZE_UNAVAILABLE).",
+        "disclaimer": "Derived from stored GOA demo/scripted evaluation briefs. Not live market demand."
+      }
+    ],
+    "blind_human_fit_scores_status": "PENDING_HUMAN_REVIEW_BY_ROBYN_AND_BUSI",
+    "brief_outcomes": [
+      {
+        "eval_id": "ev01",
+        "brief_id": "brf_ev01",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 4,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 4,
+        "total_price_cents": 0,
+        "budget_cents": 250000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {},
+        "pending_input_reasons": {
+          "prt_ev01_1": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_2": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_3": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ],
+          "prt_ev01_4": [
+            "CUSTOMER_SIZE_REQUIRED"
+          ]
+        },
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev02",
+        "brief_id": "brf_ev02",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 4,
+        "selected_parts_count": 4,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 239600,
+        "budget_cents": 250000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 11,
+        "selected_product_ids": [
+          "prd_sage_tiered_cotton_maxi_dress",
+          "prd_olive_canvas_espadrilles",
+          "prd_sage_crochet_cotton_cardigan",
+          "prd_green_silk_pocket_square"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev03",
+        "brief_id": "brf_ev03",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 79900,
+        "budget_cents": 300000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 5,
+        "selected_product_ids": [
+          "prd_tan_leather_block_heel_sandals"
+        ],
+        "unmet_reasons": {
+          "prt_ev03_1": [
+            "NO_MATCHING_PRODUCT"
+          ],
+          "prt_ev03_2": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev04",
+        "brief_id": "brf_ev04",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 464700,
+        "budget_cents": 500000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 7,
+        "selected_product_ids": [
+          "prd_navy_wool_blend_suit",
+          "prd_brown_leather_oxford_shoes",
+          "prd_navy_silk_tie"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev05",
+        "brief_id": "brf_ev05",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 94900,
+        "budget_cents": 120000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_sage_tiered_cotton_maxi_dress"
+        ],
+        "unmet_reasons": {
+          "prt_ev05_2": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev06",
+        "brief_id": "brf_ev06",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 114900,
+        "budget_cents": 350000,
+        "merchant_scope": [
+          "mer_fynbos_atelier"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_olive_linen_jumpsuit"
+        ],
+        "unmet_reasons": {
+          "prt_ev06_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev07",
+        "brief_id": "brf_ev07",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 600000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev07_1": [
+            "DELIVERY_TOO_LATE"
+          ],
+          "prt_ev07_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev08",
+        "brief_id": "brf_ev08",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 274800,
+        "budget_cents": 450000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 7,
+        "selected_product_ids": [
+          "prd_ivory_linen_trouser_suit",
+          "prd_ivory_espadrille_wedges"
+        ],
+        "unmet_reasons": {
+          "prt_ev08_2": [
+            "DELIVERY_TOO_LATE"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev09",
+        "brief_id": "brf_ev09",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 2,
+        "total_price_cents": 0,
+        "budget_cents": 280000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {},
+        "pending_input_reasons": {
+          "prt_ev09_1": [
+            "EVENT_DATE_REQUIRED"
+          ],
+          "prt_ev09_2": [
+            "EVENT_DATE_REQUIRED"
+          ]
+        },
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev10",
+        "brief_id": "brf_ev10",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 3,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 3,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 200000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev10_1": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ],
+          "prt_ev10_2": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ],
+          "prt_ev10_3": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev11",
+        "brief_id": "brf_ev11",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 89900,
+        "budget_cents": 320000,
+        "merchant_scope": [
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 5,
+        "selected_product_ids": [
+          "prd_white_leather_minimal_sneakers"
+        ],
+        "unmet_reasons": {
+          "prt_ev11_1": [
+            "OUT_OF_STOCK"
+          ],
+          "prt_ev11_3": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev12",
+        "brief_id": "brf_ev12",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 109900,
+        "budget_cents": 260000,
+        "merchant_scope": [
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_olive_cotton_utility_jacket"
+        ],
+        "unmet_reasons": {
+          "prt_ev12_1": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev13",
+        "brief_id": "brf_ev13",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 449800,
+        "budget_cents": 550000,
+        "merchant_scope": [
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 7,
+        "selected_product_ids": [
+          "prd_charcoal_slim_suit",
+          "prd_black_leather_derby_shoes"
+        ],
+        "unmet_reasons": {
+          "prt_ev13_3": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev14",
+        "brief_id": "brf_ev14",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 3,
+        "selected_parts_count": 2,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 119800,
+        "budget_cents": 250000,
+        "merchant_scope": [
+          "mer_fynbos_atelier",
+          "mer_karoo_cobble"
+        ],
+        "steps_to_sendable_enquiry": 7,
+        "selected_product_ids": [
+          "prd_gold_leaf_drop_earrings",
+          "prd_nude_pointed_kitten_heels"
+        ],
+        "unmet_reasons": {
+          "prt_ev14_1": [
+            "OUT_OF_STOCK"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev15",
+        "brief_id": "brf_ev15",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 3,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 3,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 300000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev15_1": [
+            "NO_MATCHING_PRODUCT"
+          ],
+          "prt_ev15_2": [
+            "OUT_OF_STOCK"
+          ],
+          "prt_ev15_3": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev16",
+        "brief_id": "brf_ev16",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 300000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev16_1": [
+            "OUT_OF_STOCK"
+          ],
+          "prt_ev16_2": [
+            "OUT_OF_STOCK"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev17",
+        "brief_id": "brf_ev17",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 239900,
+        "budget_cents": 400000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_sage_linen_two_piece_suit"
+        ],
+        "unmet_reasons": {
+          "prt_ev17_2": [
+            "SIZE_UNAVAILABLE"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev18",
+        "brief_id": "brf_ev18",
+        "validation_status": "VERIFIED_COMPLETE",
+        "requested_parts_count": 3,
+        "selected_parts_count": 3,
+        "unmet_parts_count": 0,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 269700,
+        "budget_cents": 300000,
+        "merchant_scope": [
+          "mer_karoo_cobble",
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 8,
+        "selected_product_ids": [
+          "prd_cobalt_blue_shift_dress",
+          "prd_black_patent_court_heels",
+          "prd_silver_hoop_earrings"
+        ],
+        "unmet_reasons": {},
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev19",
+        "brief_id": "brf_ev19",
+        "validation_status": "VERIFIED_PARTIAL",
+        "requested_parts_count": 2,
+        "selected_parts_count": 1,
+        "unmet_parts_count": 1,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 219900,
+        "budget_cents": 450000,
+        "merchant_scope": [
+          "mer_tablebay_tailoring"
+        ],
+        "steps_to_sendable_enquiry": 4,
+        "selected_product_ids": [
+          "prd_ivory_linen_trouser_suit"
+        ],
+        "unmet_reasons": {
+          "prt_ev19_2": [
+            "NO_MATCHING_PRODUCT"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      },
+      {
+        "eval_id": "ev20",
+        "brief_id": "brf_ev20",
+        "validation_status": "EMPTY",
+        "requested_parts_count": 2,
+        "selected_parts_count": 0,
+        "unmet_parts_count": 2,
+        "pending_input_parts_count": 0,
+        "total_price_cents": 0,
+        "budget_cents": 70000,
+        "merchant_scope": [],
+        "steps_to_sendable_enquiry": null,
+        "selected_product_ids": [],
+        "unmet_reasons": {
+          "prt_ev20_1": [
+            "OVER_BUDGET",
+            "DELIVERY_TOO_LATE"
+          ],
+          "prt_ev20_2": [
+            "BUDGET_EXHAUSTED_BY_OTHER_PARTS"
+          ]
+        },
+        "pending_input_reasons": {},
+        "blind_human_fit_score_robyn": null,
+        "blind_human_fit_score_busi": null
+      }
+    ]
+  },
+  "disclaimers": [
+    "All merchants and products are fictional demo data.",
+    "Match method run for GOA is TAG_OVERLAP (structured attribute/tag overlap), not neural embeddings.",
+    "Blind human fit scores (1-5) are pending review by Robyn and Busi and are not fabricated here.",
+    "No revenue, conversion or retention uplift is claimed."
+  ]
+}
