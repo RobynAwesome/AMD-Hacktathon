@@ -1,0 +1,159 @@
+{
+  "frozen_set": "goa-eval-briefs-v1",
+  "frozen_note": "Written and hashed before any matching/ranking code existed. Do not edit; create v2 instead.",
+  "reference_date": "2026-10-18",
+  "briefs": [
+    {"eval_id": "ev01", "raw_prompt": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": "Cape Town", "budget_cents": 250000, "preferred_colours": ["green"], "formality": "SMART_CASUAL",
+     "style_preferences": ["elegant", "outdoor", "breathable"], "sustainability_or_reuse_preferences": ["rewearable"], "sizes": {},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "INFERRED_DEFAULT", "colours": ["green"], "style_tags": ["elegant", "breathable", "rewearable"]},
+       {"part_type": "SHOES", "origin": "INFERRED_DEFAULT", "style_tags": ["comfortable", "outdoor", "rewearable"]},
+       {"part_type": "OUTER_LAYER", "origin": "INFERRED_DEFAULT", "style_tags": ["lightweight", "rewearable"]},
+       {"part_type": "ACCESSORY", "origin": "INFERRED_DEFAULT", "style_tags": ["elegant", "rewearable"]}]},
+
+    {"eval_id": "ev02", "raw_prompt": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500. I'm a size M and shoe UK6.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": "Cape Town", "budget_cents": 250000, "preferred_colours": ["green"], "formality": "SMART_CASUAL",
+     "style_preferences": ["elegant", "outdoor", "breathable"], "sustainability_or_reuse_preferences": ["rewearable"], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK6", "OUTER_LAYER": "M"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "INFERRED_DEFAULT", "colours": ["green"], "style_tags": ["elegant", "breathable", "rewearable"]},
+       {"part_type": "SHOES", "origin": "INFERRED_DEFAULT", "style_tags": ["comfortable", "outdoor", "rewearable"]},
+       {"part_type": "OUTER_LAYER", "origin": "INFERRED_DEFAULT", "style_tags": ["lightweight", "rewearable"]},
+       {"part_type": "ACCESSORY", "origin": "INFERRED_DEFAULT", "style_tags": ["elegant", "rewearable"]}]},
+
+    {"eval_id": "ev03", "raw_prompt": "Graduation 12 Dec in Stellenbosch. I want a green linen jacket over an ivory or white dress, with tan sandals. Size S, shoe UK5. Budget R3,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": "Stellenbosch", "budget_cents": 300000, "preferred_colours": ["green", "ivory", "white", "tan"], "formality": "SMART_CASUAL",
+     "style_preferences": [], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "S", "SHOES": "UK5", "OUTER_LAYER": "S"},
+     "parts": [
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "materials": ["linen"], "garment_keywords": ["jacket"], "required_colours": ["green"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]},
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["ivory", "white"], "garment_keywords": ["dress"], "required_colours": ["ivory", "white"], "required_garment_keywords": ["dress"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["tan"], "garment_keywords": ["sandals"], "required_colours": ["tan"], "required_garment_keywords": ["sandals"]}]},
+
+    {"eval_id": "ev04", "raw_prompt": "Navy suit for my graduation on 12 December, formal, with brown oxfords and a tie. Size L, shoe UK9. Budget R5,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 500000, "preferred_colours": ["navy", "brown"], "formality": "FORMAL",
+     "style_preferences": ["classic"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "L", "SHOES": "UK9"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["navy"], "garment_keywords": ["suit"], "required_colours": ["navy"], "required_garment_keywords": ["suit"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["brown"], "garment_keywords": ["oxfords"], "required_colours": ["brown"], "required_garment_keywords": ["oxfords"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "garment_keywords": ["tie"], "required_garment_keywords": ["tie"]}]},
+
+    {"eval_id": "ev05", "raw_prompt": "Only R1,200 to spend. Something green and casual for an outdoor graduation on 12 December. Size M, shoe UK7.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 120000, "preferred_colours": ["green"], "formality": "CASUAL",
+     "style_preferences": ["outdoor"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK7"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "INFERRED_DEFAULT", "colours": ["green"], "style_tags": ["outdoor", "breathable"]},
+       {"part_type": "SHOES", "origin": "INFERRED_DEFAULT", "style_tags": ["outdoor", "comfortable"]}]},
+
+    {"eval_id": "ev06", "raw_prompt": "Outdoor ceremony in Cape Town on 11 December. Olive jumpsuit with a green linen jacket. Size M, shoe UK6. Budget R3,500.",
+     "occasion": "graduation", "event_date": "2026-12-11", "location": "Cape Town", "budget_cents": 350000, "preferred_colours": ["olive", "green"], "formality": "SMART_CASUAL",
+     "style_preferences": ["outdoor"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK6", "OUTER_LAYER": "M"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["olive"], "garment_keywords": ["jumpsuit"], "required_garment_keywords": ["jumpsuit"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "materials": ["linen"], "garment_keywords": ["jacket"], "required_colours": ["green"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]}]},
+
+    {"eval_id": "ev07", "raw_prompt": "Floor-length emerald gown for the graduation ball on 5 December with gold heels. Size S, shoe UK4. Budget R6,000.",
+     "occasion": "graduation ball", "event_date": "2026-12-05", "location": null, "budget_cents": 600000, "preferred_colours": ["emerald", "gold"], "formality": "FORMAL",
+     "style_preferences": ["floor-length"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "S", "SHOES": "UK4"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["green"], "garment_keywords": ["gown"], "required_colours": ["green"], "required_garment_keywords": ["gown"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["gold"], "garment_keywords": ["heels"], "required_colours": ["gold"], "required_garment_keywords": ["heels"]}]},
+
+    {"eval_id": "ev08", "raw_prompt": "Ivory trouser suit with a green blazer, smart, for 12 December. Size M, shoe UK8. Budget R4,500.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 450000, "preferred_colours": ["ivory", "green"], "formality": "SEMI_FORMAL",
+     "style_preferences": ["tailored"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK8", "OUTER_LAYER": "M"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["ivory"], "garment_keywords": ["suit"], "required_colours": ["ivory"], "required_garment_keywords": ["suit"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "garment_keywords": ["blazer"], "required_colours": ["green"], "required_garment_keywords": ["blazer"]},
+       {"part_type": "SHOES", "origin": "INFERRED_DEFAULT", "style_tags": ["elegant"]}]},
+
+    {"eval_id": "ev09", "raw_prompt": "Plus size XXL sage dress with a light linen jacket for a warm December graduation. Shoe UK8. Budget R2,800.",
+     "occasion": "graduation", "event_date": null, "location": null, "budget_cents": 280000, "preferred_colours": ["sage"], "formality": "SMART_CASUAL",
+     "style_preferences": ["lightweight"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "XXL", "OUTER_LAYER": "XXL", "SHOES": "UK8"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["sage"], "garment_keywords": ["dress"], "required_garment_keywords": ["dress"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "materials": ["linen"], "garment_keywords": ["jacket"], "style_tags": ["lightweight"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]}]},
+
+    {"eval_id": "ev10", "raw_prompt": "Mustard or terracotta midi dress, a raffia bag and espadrilles for 12 December. Size S, shoe UK5. R2,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 200000, "preferred_colours": ["mustard", "terracotta"], "formality": "CASUAL",
+     "style_preferences": ["summer"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "S", "SHOES": "UK5"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["mustard", "terracotta"], "garment_keywords": ["dress"], "style_tags": ["midi"], "required_colours": ["mustard", "terracotta"], "required_garment_keywords": ["dress"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "materials": ["raffia"], "garment_keywords": ["bag"], "required_materials": ["raffia"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "garment_keywords": ["espadrilles"], "required_garment_keywords": ["espadrilles"]}]},
+
+    {"eval_id": "ev11", "raw_prompt": "Navy dress, white sneakers and a green linen jacket for graduation on 12 December. Size L, shoe UK7. Budget R3,200.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 320000, "preferred_colours": ["navy", "white", "green"], "formality": "SMART_CASUAL",
+     "style_preferences": [], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "L", "SHOES": "UK7", "OUTER_LAYER": "L"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["navy"], "garment_keywords": ["dress"], "required_colours": ["navy"], "required_garment_keywords": ["dress"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["white"], "garment_keywords": ["sneakers"], "required_colours": ["white"], "required_garment_keywords": ["sneakers"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "materials": ["linen"], "garment_keywords": ["jacket"], "required_colours": ["green"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]}]},
+
+    {"eval_id": "ev12", "raw_prompt": "Casual graduation picnic on 13 December: green vegan-leather boots and an olive utility jacket. Size M, shoe UK6. R2,600.",
+     "occasion": "graduation picnic", "event_date": "2026-12-13", "location": null, "budget_cents": 260000, "preferred_colours": ["green", "olive"], "formality": "CASUAL",
+     "style_preferences": ["outdoor"], "sustainability_or_reuse_preferences": ["vegan"], "sizes": {"SHOES": "UK6", "OUTER_LAYER": "M"},
+     "parts": [
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["green"], "materials": ["vegan leather"], "garment_keywords": ["boots"], "required_colours": ["green"], "required_materials": ["vegan leather"], "required_garment_keywords": ["boots"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["olive"], "garment_keywords": ["jacket"], "style_tags": ["utility"], "required_colours": ["olive"], "required_garment_keywords": ["jacket"]}]},
+
+    {"eval_id": "ev13", "raw_prompt": "Classic formal look for 12 December: charcoal suit, black derby shoes and cufflinks. Size M, shoe UK10. R5,500.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 550000, "preferred_colours": ["charcoal", "black"], "formality": "FORMAL",
+     "style_preferences": ["classic"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK10"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["charcoal"], "garment_keywords": ["suit"], "required_colours": ["charcoal"], "required_garment_keywords": ["suit"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["black"], "garment_keywords": ["derby"], "required_colours": ["black"], "required_garment_keywords": ["derby"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "garment_keywords": ["cufflinks"], "required_garment_keywords": ["cufflinks"]}]},
+
+    {"eval_id": "ev14", "raw_prompt": "Something blush pink and floaty, semi-formal, with gold earrings and nude heels. 12 December. Size XS, shoe UK3. Budget R2,500.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 250000, "preferred_colours": ["pink", "gold", "nude"], "formality": "SEMI_FORMAL",
+     "style_preferences": ["floaty"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "XS", "SHOES": "UK3"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "INFERRED_DEFAULT", "colours": ["pink"], "style_tags": ["floaty", "elegant"], "required_colours": ["pink"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "colours": ["gold"], "garment_keywords": ["earrings"], "required_colours": ["gold"], "required_garment_keywords": ["earrings"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["nude"], "garment_keywords": ["heels"], "required_colours": ["nude"], "required_garment_keywords": ["heels"]}]},
+
+    {"eval_id": "ev15", "raw_prompt": "I'd love a green linen jacket I can wear again, with a tan belt and loafers, for 12 December. Size M, shoe UK9. R3,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 300000, "preferred_colours": ["green", "tan"], "formality": "SMART_CASUAL",
+     "style_preferences": [], "sustainability_or_reuse_preferences": ["rewearable"], "sizes": {"OUTER_LAYER": "M", "SHOES": "UK9"},
+     "parts": [
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "materials": ["linen"], "garment_keywords": ["jacket"], "style_tags": ["rewearable"], "required_colours": ["green"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "colours": ["tan"], "garment_keywords": ["belt"], "required_garment_keywords": ["belt"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "garment_keywords": ["loafers"], "required_garment_keywords": ["loafers"]}]},
+
+    {"eval_id": "ev16", "raw_prompt": "Statement look for 12 December: emerald jumpsuit and emerald heels. Size S, shoe UK6. R3,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 300000, "preferred_colours": ["emerald"], "formality": "SEMI_FORMAL",
+     "style_preferences": ["statement"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "S", "SHOES": "UK6"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["green"], "garment_keywords": ["jumpsuit"], "required_colours": ["green"], "required_garment_keywords": ["jumpsuit"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["green"], "garment_keywords": ["heels"], "required_colours": ["green"], "required_garment_keywords": ["heels"]}]},
+
+    {"eval_id": "ev17", "raw_prompt": "Sage linen suit and tan loafers in shoe size UK11 for 12 December. Size XL. Budget R4,000.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 400000, "preferred_colours": ["sage", "tan"], "formality": "SMART_CASUAL",
+     "style_preferences": [], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "XL", "SHOES": "UK11"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["sage"], "materials": ["linen"], "garment_keywords": ["suit"], "required_materials": ["linen"], "required_garment_keywords": ["suit"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["tan"], "garment_keywords": ["loafers"], "required_colours": ["tan"], "required_garment_keywords": ["loafers"]}]},
+
+    {"eval_id": "ev18", "raw_prompt": "Graduation on 20 November: cobalt blue shift dress, black court heels and silver earrings. Size M, shoe UK5. R3,000.",
+     "occasion": "graduation", "event_date": "2026-11-20", "location": null, "budget_cents": 300000, "preferred_colours": ["blue", "black", "silver"], "formality": "SEMI_FORMAL",
+     "style_preferences": ["tailored"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "SHOES": "UK5"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["blue"], "garment_keywords": ["dress"], "style_tags": ["shift"], "required_colours": ["blue"], "required_garment_keywords": ["dress"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "colours": ["black"], "garment_keywords": ["heels"], "style_tags": ["court"], "required_colours": ["black"], "required_garment_keywords": ["heels"]},
+       {"part_type": "ACCESSORY", "origin": "EXPLICIT", "colours": ["silver"], "garment_keywords": ["earrings"], "required_colours": ["silver"], "required_garment_keywords": ["earrings"]}]},
+
+    {"eval_id": "ev19", "raw_prompt": "Ivory linen trouser suit with a green linen jacket, elegant but not formal, for 12 December. Size M, shoe UK7. R4,500.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 450000, "preferred_colours": ["ivory", "green"], "formality": "SMART_CASUAL",
+     "style_preferences": ["elegant"], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "M", "OUTER_LAYER": "M", "SHOES": "UK7"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["ivory"], "materials": ["linen"], "garment_keywords": ["suit"], "required_colours": ["ivory"], "required_garment_keywords": ["suit"]},
+       {"part_type": "OUTER_LAYER", "origin": "EXPLICIT", "colours": ["green"], "materials": ["linen"], "garment_keywords": ["jacket"], "required_colours": ["green"], "required_materials": ["linen"], "required_garment_keywords": ["jacket"]}]},
+
+    {"eval_id": "ev20", "raw_prompt": "Tiny budget, R700 total: any green dress and sandals for graduation on 12 December. Size S, shoe UK6.",
+     "occasion": "graduation", "event_date": "2026-12-12", "location": null, "budget_cents": 70000, "preferred_colours": ["green"], "formality": "CASUAL",
+     "style_preferences": [], "sustainability_or_reuse_preferences": [], "sizes": {"DRESS_OR_SUIT": "S", "SHOES": "UK6"},
+     "parts": [
+       {"part_type": "DRESS_OR_SUIT", "origin": "EXPLICIT", "colours": ["green"], "garment_keywords": ["dress"], "required_colours": ["green"], "required_garment_keywords": ["dress"]},
+       {"part_type": "SHOES", "origin": "EXPLICIT", "garment_keywords": ["sandals"], "required_garment_keywords": ["sandals"]}]}
+  ]
+}

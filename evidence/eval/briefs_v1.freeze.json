@@ -1,0 +1,9 @@
+{
+  "frozen_set": "goa-eval-briefs-v1",
+  "file": "data/eval/briefs_v1.json",
+  "sha256_lf_normalised": "b52ec5e8ec858e39581b49ed7c2802f630721c03ab68eeefed12d89a63cd2baf",
+  "brief_count": 20,
+  "frozen_at": "2026-10-18T00:41:54.8736385+02:00",
+  "git_head_before_freeze": "86667c30995b166c3d9225e0c3d584435f984d82",
+  "matching_code_present_at_freeze": false
+}
