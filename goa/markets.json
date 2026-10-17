@@ -1,0 +1,8 @@
+{
+  "note": "Fixed exchange rates for the demo, approximate mid-market values from October 2026. Prices shown in another currency are marked approx.",
+  "markets": [
+    {"code": "ZA", "name": "South Africa", "currency": "ZAR", "fx_to_usd": 0.055, "size_system": "UK", "hemisphere": "south", "default_city": "Cape Town"},
+    {"code": "US", "name": "United States", "currency": "USD", "fx_to_usd": 1.0, "size_system": "US", "hemisphere": "north", "default_city": "New York"},
+    {"code": "GB", "name": "United Kingdom", "currency": "GBP", "fx_to_usd": 1.27, "size_system": "UK", "hemisphere": "north", "default_city": "London"}
+  ]
+}

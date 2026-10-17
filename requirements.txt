@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+httpx
+pydantic>=2
+python-dotenv
+numpy
+pillow
+fastembed
+pytest
