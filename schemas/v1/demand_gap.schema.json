@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "DesiredAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "colours": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Colours",
+          "type": "array"
+        },
+        "formality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Formality"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "free_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Free Text"
+        },
+        "garment_keywords": {
+          "description": "e.g. 'jacket', 'jumpsuit', 'sandals'.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Garment Keywords",
+          "type": "array"
+        },
+        "materials": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Materials",
+          "type": "array"
+        },
+        "style_tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Style Tags",
+          "type": "array"
+        }
+      },
+      "title": "DesiredAttributes",
+      "type": "object"
+    },
+    "Formality": {
+      "enum": [
+        "CASUAL",
+        "SMART_CASUAL",
+        "SEMI_FORMAL",
+        "FORMAL"
+      ],
+      "title": "Formality",
+      "type": "string"
+    },
+    "GapSourceType": {
+      "enum": [
+        "SCRIPTED_EVALUATION",
+        "DEMO_SESSION"
+      ],
+      "title": "GapSourceType",
+      "type": "string"
+    },
+    "PartType": {
+      "enum": [
+        "DRESS_OR_SUIT",
+        "SHOES",
+        "OUTER_LAYER",
+        "ACCESSORY"
+      ],
+      "title": "PartType",
+      "type": "string"
+    },
+    "UnmetReason": {
+      "enum": [
+        "NO_MATCHING_PRODUCT",
+        "SIZE_UNAVAILABLE",
+        "OUT_OF_STOCK",
+        "DELIVERY_TOO_LATE",
+        "PRICE_UNKNOWN",
+        "OVER_BUDGET",
+        "BUDGET_EXHAUSTED_BY_OTHER_PARTS",
+        "CUSTOMER_SIZE_REQUIRED",
+        "EVENT_DATE_REQUIRED",
+        "BUDGET_REQUIRED"
+      ],
+      "title": "UnmetReason",
+      "type": "string"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/demand_gap.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "brief_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Brief Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "desired_attributes": {
+      "$ref": "#/$defs/DesiredAttributes"
+    },
+    "disclaimer": {
+      "const": "Recorded from GOA demo/scripted briefs. Not a measure of live market demand.",
+      "default": "Recorded from GOA demo/scripted briefs. Not a measure of live market demand.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "gap_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Gap Id",
+      "type": "string"
+    },
+    "merchant_scope": {
+      "description": "Merchants whose catalogues were searched when the gap was recorded.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Merchant Scope",
+      "type": "array"
+    },
+    "part_type": {
+      "$ref": "#/$defs/PartType"
+    },
+    "reason": {
+      "$ref": "#/$defs/UnmetReason"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_type": {
+      "$ref": "#/$defs/GapSourceType"
+    }
+  },
+  "required": [
+    "gap_id",
+    "brief_id",
+    "part_type",
+    "desired_attributes",
+    "reason",
+    "merchant_scope",
+    "source_type",
+    "created_at"
+  ],
+  "title": "DemandGap",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

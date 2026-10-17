@@ -1,0 +1,32 @@
+{
+  "brief_id": "brf_example",
+  "desired_attributes": {
+    "colours": [
+      "green"
+    ],
+    "formality": "SMART_CASUAL",
+    "free_text": null,
+    "garment_keywords": [],
+    "materials": [],
+    "style_tags": [
+      "elegant",
+      "breathable"
+    ]
+  },
+  "mandatory_constraints": {
+    "max_price_cents": null,
+    "must_arrive_by": "2026-12-11",
+    "required_colours": [],
+    "required_garment_keywords": [],
+    "required_materials": [],
+    "size": "M"
+  },
+  "optional_preferences": [
+    "rewearable"
+  ],
+  "origin": "INFERRED_DEFAULT",
+  "part_id": "prt_example_dress",
+  "part_type": "DRESS_OR_SUIT",
+  "schema_version": "1.0.0",
+  "status": "AVAILABLE"
+}

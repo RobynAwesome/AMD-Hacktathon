@@ -1,0 +1,65 @@
+{
+  "$defs": {
+    "CatalogueStatus": {
+      "enum": [
+        "ACTIVE",
+        "PAUSED"
+      ],
+      "title": "CatalogueStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/merchant.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "catalogue_status": {
+      "$ref": "#/$defs/CatalogueStatus"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "is_fictional": {
+      "title": "Is Fictional",
+      "type": "boolean"
+    },
+    "location": {
+      "title": "Location",
+      "type": "string"
+    },
+    "merchant_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Merchant Id",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchant_id",
+    "name",
+    "description",
+    "is_fictional",
+    "location",
+    "catalogue_status",
+    "created_at"
+  ],
+  "title": "Merchant",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

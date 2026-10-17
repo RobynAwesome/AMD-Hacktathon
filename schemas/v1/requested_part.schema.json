@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "DesiredAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "colours": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Colours",
+          "type": "array"
+        },
+        "formality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Formality"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "free_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Free Text"
+        },
+        "garment_keywords": {
+          "description": "e.g. 'jacket', 'jumpsuit', 'sandals'.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Garment Keywords",
+          "type": "array"
+        },
+        "materials": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Materials",
+          "type": "array"
+        },
+        "style_tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Style Tags",
+          "type": "array"
+        }
+      },
+      "title": "DesiredAttributes",
+      "type": "object"
+    },
+    "Formality": {
+      "enum": [
+        "CASUAL",
+        "SMART_CASUAL",
+        "SEMI_FORMAL",
+        "FORMAL"
+      ],
+      "title": "Formality",
+      "type": "string"
+    },
+    "MandatoryConstraints": {
+      "additionalProperties": false,
+      "properties": {
+        "max_price_cents": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Price Cents"
+        },
+        "must_arrive_by": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Must Arrive By"
+        },
+        "required_colours": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Colours",
+          "type": "array"
+        },
+        "required_garment_keywords": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Garment Keywords",
+          "type": "array"
+        },
+        "required_materials": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Materials",
+          "type": "array"
+        },
+        "size": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None means unknown; never guessed.",
+          "title": "Size"
+        }
+      },
+      "title": "MandatoryConstraints",
+      "type": "object"
+    },
+    "PartOrigin": {
+      "enum": [
+        "EXPLICIT",
+        "INFERRED_DEFAULT",
+        "CUSTOMER_ADDED"
+      ],
+      "title": "PartOrigin",
+      "type": "string"
+    },
+    "PartStatus": {
+      "enum": [
+        "PENDING_VERIFICATION",
+        "AVAILABLE",
+        "NOT_ON_OFFER_YET"
+      ],
+      "title": "PartStatus",
+      "type": "string"
+    },
+    "PartType": {
+      "enum": [
+        "DRESS_OR_SUIT",
+        "SHOES",
+        "OUTER_LAYER",
+        "ACCESSORY"
+      ],
+      "title": "PartType",
+      "type": "string"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/requested_part.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "brief_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Brief Id",
+      "type": "string"
+    },
+    "desired_attributes": {
+      "$ref": "#/$defs/DesiredAttributes"
+    },
+    "mandatory_constraints": {
+      "$ref": "#/$defs/MandatoryConstraints"
+    },
+    "optional_preferences": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Optional Preferences",
+      "type": "array"
+    },
+    "origin": {
+      "$ref": "#/$defs/PartOrigin",
+      "default": "EXPLICIT"
+    },
+    "part_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Part Id",
+      "type": "string"
+    },
+    "part_type": {
+      "$ref": "#/$defs/PartType"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/PartStatus",
+      "default": "PENDING_VERIFICATION"
+    }
+  },
+  "required": [
+    "part_id",
+    "brief_id",
+    "part_type"
+  ],
+  "title": "RequestedPart",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

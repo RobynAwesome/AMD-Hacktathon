@@ -1,0 +1,373 @@
+{
+  "$defs": {
+    "CheckResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/CheckState"
+        }
+      },
+      "required": [
+        "state",
+        "reason"
+      ],
+      "title": "CheckResult",
+      "type": "object"
+    },
+    "CheckState": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN"
+      ],
+      "title": "CheckState",
+      "type": "string"
+    },
+    "CustomerRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "sizes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/PartType"
+          },
+          "title": "Sizes",
+          "type": "object"
+        }
+      },
+      "title": "CustomerRequirements",
+      "type": "object"
+    },
+    "EnquiryStatus": {
+      "enum": [
+        "SENT_TO_DEMO_INBOX"
+      ],
+      "title": "EnquiryStatus",
+      "type": "string"
+    },
+    "ItemRevalidation": {
+      "additionalProperties": false,
+      "properties": {
+        "belongs_to_addressed_merchant": {
+          "title": "Belongs To Addressed Merchant",
+          "type": "boolean"
+        },
+        "part_id": {
+          "title": "Part Id",
+          "type": "string"
+        },
+        "product_id": {
+          "title": "Product Id",
+          "type": "string"
+        },
+        "variant_id": {
+          "title": "Variant Id",
+          "type": "string"
+        },
+        "verification_result": {
+          "$ref": "#/$defs/VerificationResult"
+        }
+      },
+      "required": [
+        "part_id",
+        "product_id",
+        "variant_id",
+        "belongs_to_addressed_merchant",
+        "verification_result"
+      ],
+      "title": "ItemRevalidation",
+      "type": "object"
+    },
+    "LineItem": {
+      "additionalProperties": false,
+      "properties": {
+        "merchant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Merchant Id",
+          "type": "string"
+        },
+        "part_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Part Id",
+          "type": "string"
+        },
+        "product_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Product Id",
+          "type": "string"
+        },
+        "product_name": {
+          "title": "Product Name",
+          "type": "string"
+        },
+        "quantity": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "size": {
+          "title": "Size",
+          "type": "string"
+        },
+        "unit_price_cents": {
+          "minimum": 1,
+          "title": "Unit Price Cents",
+          "type": "integer"
+        },
+        "variant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Variant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "part_id",
+        "product_id",
+        "variant_id",
+        "merchant_id",
+        "product_name",
+        "size",
+        "unit_price_cents"
+      ],
+      "title": "LineItem",
+      "type": "object"
+    },
+    "PartType": {
+      "enum": [
+        "DRESS_OR_SUIT",
+        "SHOES",
+        "OUTER_LAYER",
+        "ACCESSORY"
+      ],
+      "title": "PartType",
+      "type": "string"
+    },
+    "ValidationReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "all_items_pass": {
+          "title": "All Items Pass",
+          "type": "boolean"
+        },
+        "engine_version": {
+          "title": "Engine Version",
+          "type": "string"
+        },
+        "excluded_parts_other_merchants": {
+          "description": "Selected parts that belong to other merchants and were NOT sent here.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Parts Other Merchants",
+          "type": "array"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/ItemRevalidation"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "revalidated_at": {
+          "format": "date-time",
+          "title": "Revalidated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "revalidated_at",
+        "engine_version",
+        "items",
+        "all_items_pass"
+      ],
+      "title": "ValidationReceipt",
+      "type": "object"
+    },
+    "VerificationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "correct_part_type": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "delivery_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "engine_version": {
+          "title": "Engine Version",
+          "type": "string"
+        },
+        "evaluated_on": {
+          "description": "Reference date used for delivery calculations.",
+          "format": "date",
+          "title": "Evaluated On",
+          "type": "string"
+        },
+        "exists_in_catalogue": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "overall": {
+          "$ref": "#/$defs/CheckState"
+        },
+        "price_known": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "size_available": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "stock_available": {
+          "$ref": "#/$defs/CheckResult"
+        }
+      },
+      "required": [
+        "exists_in_catalogue",
+        "correct_part_type",
+        "size_available",
+        "stock_available",
+        "delivery_feasible",
+        "price_known",
+        "budget_feasible",
+        "overall",
+        "engine_version",
+        "evaluated_on"
+      ],
+      "title": "VerificationResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/quote_enquiry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "composition_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Composition Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "customer_authorized": {
+      "const": true,
+      "title": "Customer Authorized",
+      "type": "boolean"
+    },
+    "customer_requirements": {
+      "$ref": "#/$defs/CustomerRequirements"
+    },
+    "disclaimer": {
+      "const": "DEMO quote enquiry to a fictional merchant. Not a payment, order or confirmed reservation.",
+      "default": "DEMO quote enquiry to a fictional merchant. Not a payment, order or confirmed reservation.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "enquiry_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Enquiry Id",
+      "type": "string"
+    },
+    "event_date": {
+      "format": "date",
+      "title": "Event Date",
+      "type": "string"
+    },
+    "is_demo": {
+      "const": true,
+      "default": true,
+      "title": "Is Demo",
+      "type": "boolean"
+    },
+    "known_total_cents": {
+      "minimum": 1,
+      "title": "Known Total Cents",
+      "type": "integer"
+    },
+    "line_items": {
+      "items": {
+        "$ref": "#/$defs/LineItem"
+      },
+      "minItems": 1,
+      "title": "Line Items",
+      "type": "array"
+    },
+    "merchant_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Merchant Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/EnquiryStatus"
+    },
+    "validation_receipt": {
+      "$ref": "#/$defs/ValidationReceipt"
+    }
+  },
+  "required": [
+    "enquiry_id",
+    "composition_id",
+    "merchant_id",
+    "customer_requirements",
+    "line_items",
+    "event_date",
+    "known_total_cents",
+    "customer_authorized",
+    "status",
+    "created_at",
+    "validation_receipt"
+  ],
+  "title": "QuoteEnquiry",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

@@ -1,0 +1,96 @@
+{
+  "$defs": {
+    "CheckResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/CheckState"
+        }
+      },
+      "required": [
+        "state",
+        "reason"
+      ],
+      "title": "CheckResult",
+      "type": "object"
+    },
+    "CheckState": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN"
+      ],
+      "title": "CheckState",
+      "type": "string"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/verification_result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "budget_feasible": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "correct_part_type": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "delivery_feasible": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "evaluated_on": {
+      "description": "Reference date used for delivery calculations.",
+      "format": "date",
+      "title": "Evaluated On",
+      "type": "string"
+    },
+    "exists_in_catalogue": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "overall": {
+      "$ref": "#/$defs/CheckState"
+    },
+    "price_known": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "size_available": {
+      "$ref": "#/$defs/CheckResult"
+    },
+    "stock_available": {
+      "$ref": "#/$defs/CheckResult"
+    }
+  },
+  "required": [
+    "exists_in_catalogue",
+    "correct_part_type",
+    "size_available",
+    "stock_available",
+    "delivery_feasible",
+    "price_known",
+    "budget_feasible",
+    "overall",
+    "engine_version",
+    "evaluated_on"
+  ],
+  "title": "VerificationResult",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

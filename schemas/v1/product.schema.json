@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "Formality": {
+      "enum": [
+        "CASUAL",
+        "SMART_CASUAL",
+        "SEMI_FORMAL",
+        "FORMAL"
+      ],
+      "title": "Formality",
+      "type": "string"
+    },
+    "PartType": {
+      "enum": [
+        "DRESS_OR_SUIT",
+        "SHOES",
+        "OUTER_LAYER",
+        "ACCESSORY"
+      ],
+      "title": "PartType",
+      "type": "string"
+    },
+    "ProductSourceType": {
+      "enum": [
+        "SYNTHETIC_DEMO"
+      ],
+      "title": "ProductSourceType",
+      "type": "string"
+    },
+    "ProductVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "minLength": 1,
+          "title": "Size",
+          "type": "string"
+        },
+        "stock_quantity": {
+          "minimum": 0,
+          "title": "Stock Quantity",
+          "type": "integer"
+        },
+        "variant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Variant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "variant_id",
+        "size",
+        "stock_quantity"
+      ],
+      "title": "ProductVariant",
+      "type": "object"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/product.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active": {
+      "default": true,
+      "title": "Active",
+      "type": "boolean"
+    },
+    "colour": {
+      "title": "Colour",
+      "type": "string"
+    },
+    "currency": {
+      "default": "ZAR",
+      "title": "Currency",
+      "type": "string"
+    },
+    "delivery_lead_days": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Delivery Lead Days"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "formality": {
+      "$ref": "#/$defs/Formality"
+    },
+    "image_attribution": {
+      "description": "Source attribution for the image.",
+      "title": "Image Attribution",
+      "type": "string"
+    },
+    "image_licence": {
+      "title": "Image Licence",
+      "type": "string"
+    },
+    "image_url": {
+      "title": "Image Url",
+      "type": "string"
+    },
+    "material": {
+      "title": "Material",
+      "type": "string"
+    },
+    "merchant_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Merchant Id",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "part_type": {
+      "$ref": "#/$defs/PartType"
+    },
+    "price_cents": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Price Cents"
+    },
+    "product_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Product Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_type": {
+      "$ref": "#/$defs/ProductSourceType"
+    },
+    "style_tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Style Tags",
+      "type": "array"
+    },
+    "variants": {
+      "items": {
+        "$ref": "#/$defs/ProductVariant"
+      },
+      "title": "Variants",
+      "type": "array"
+    }
+  },
+  "required": [
+    "product_id",
+    "merchant_id",
+    "name",
+    "description",
+    "part_type",
+    "colour",
+    "material",
+    "formality",
+    "image_url",
+    "image_licence",
+    "image_attribution",
+    "source_type"
+  ],
+  "title": "Product",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

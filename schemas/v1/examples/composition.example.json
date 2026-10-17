@@ -1,0 +1,116 @@
+{
+  "brief_id": "brf_example",
+  "budget_cents": 250000,
+  "composition_id": "cmp_example",
+  "created_at": "2026-10-17T17:00:00Z",
+  "merchant_scope": [
+    "mer_example"
+  ],
+  "parent_composition_id": null,
+  "saved": false,
+  "schema_version": "1.0.0",
+  "selected_parts": [
+    {
+      "matched_attributes": [
+        "colour:green"
+      ],
+      "merchant_id": "mer_example",
+      "part_id": "prt_example_dress",
+      "part_type": "DRESS_OR_SUIT",
+      "product_id": "prd_example_dress",
+      "product_name": "Example Midi Wrap Dress",
+      "selected_by": "SYSTEM_SUGGESTION",
+      "semantic_score": 0.82,
+      "size": "M",
+      "unit_price_cents": 129900,
+      "variant_id": "var_example_dress_m",
+      "verification_result": {
+        "budget_feasible": {
+          "evidence": {
+            "budget_cents": 250000,
+            "price_cents": 129900
+          },
+          "reason": "item within budget",
+          "state": "PASS"
+        },
+        "correct_part_type": {
+          "evidence": {
+            "actual": "DRESS_OR_SUIT",
+            "expected": "DRESS_OR_SUIT"
+          },
+          "reason": "part type matches",
+          "state": "PASS"
+        },
+        "delivery_feasible": {
+          "evidence": {
+            "arrival_date": "2026-10-22",
+            "event_date": "2026-12-12",
+            "lead_days": 5
+          },
+          "reason": "arrives before event",
+          "state": "PASS"
+        },
+        "engine_version": "goa-verify-1.0.0",
+        "evaluated_on": "2026-10-17",
+        "exists_in_catalogue": {
+          "evidence": {
+            "product_id": "prd_example_dress",
+            "variant_id": "var_example_dress_m"
+          },
+          "reason": "product and variant found",
+          "state": "PASS"
+        },
+        "overall": "PASS",
+        "price_known": {
+          "evidence": {
+            "currency": "ZAR",
+            "price_cents": 129900
+          },
+          "reason": "valid ZAR integer cents",
+          "state": "PASS"
+        },
+        "schema_version": "1.0.0",
+        "size_available": {
+          "evidence": {
+            "requested_size": "M"
+          },
+          "reason": "size offered",
+          "state": "PASS"
+        },
+        "stock_available": {
+          "evidence": {
+            "stock_quantity": 4
+          },
+          "reason": "positive stock",
+          "state": "PASS"
+        }
+      }
+    }
+  ],
+  "total_price_cents": 129900,
+  "unmet_parts": [
+    {
+      "desired_attributes": {
+        "colours": [
+          "green"
+        ],
+        "formality": null,
+        "free_text": null,
+        "garment_keywords": [
+          "jacket"
+        ],
+        "materials": [
+          "linen"
+        ],
+        "style_tags": []
+      },
+      "explanation": "No eligible green linen jacket in the searched catalogues.",
+      "part_id": "prt_example_jacket",
+      "part_type": "OUTER_LAYER",
+      "reasons": [
+        "NO_MATCHING_PRODUCT"
+      ]
+    }
+  ],
+  "validation_status": "VERIFIED_PARTIAL"
+}

@@ -1,0 +1,10 @@
+{
+  "catalogue_status": "ACTIVE",
+  "created_at": "2026-10-17T17:00:00Z",
+  "description": "A fictional demo merchant.",
+  "is_fictional": true,
+  "location": "Cape Town (fictional business)",
+  "merchant_id": "mer_example",
+  "name": "Example Atelier (fictional)",
+  "schema_version": "1.0.0"
+}

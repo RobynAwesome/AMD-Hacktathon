@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "CheckResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/CheckState"
+        }
+      },
+      "required": [
+        "state",
+        "reason"
+      ],
+      "title": "CheckResult",
+      "type": "object"
+    },
+    "CheckState": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN"
+      ],
+      "title": "CheckState",
+      "type": "string"
+    },
+    "MatchMethod": {
+      "enum": [
+        "KEYWORD_BASELINE",
+        "TAG_OVERLAP",
+        "EMBEDDING"
+      ],
+      "title": "MatchMethod",
+      "type": "string"
+    },
+    "VerificationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "correct_part_type": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "delivery_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "engine_version": {
+          "title": "Engine Version",
+          "type": "string"
+        },
+        "evaluated_on": {
+          "description": "Reference date used for delivery calculations.",
+          "format": "date",
+          "title": "Evaluated On",
+          "type": "string"
+        },
+        "exists_in_catalogue": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "overall": {
+          "$ref": "#/$defs/CheckState"
+        },
+        "price_known": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "size_available": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "stock_available": {
+          "$ref": "#/$defs/CheckResult"
+        }
+      },
+      "required": [
+        "exists_in_catalogue",
+        "correct_part_type",
+        "size_available",
+        "stock_available",
+        "delivery_feasible",
+        "price_known",
+        "budget_feasible",
+        "overall",
+        "engine_version",
+        "evaluated_on"
+      ],
+      "title": "VerificationResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/match_candidate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "match_method": {
+      "$ref": "#/$defs/MatchMethod"
+    },
+    "matched_attributes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Matched Attributes",
+      "type": "array"
+    },
+    "merchant_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Merchant Id"
+    },
+    "part_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Part Id",
+      "type": "string"
+    },
+    "product_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Product Id",
+      "type": "string"
+    },
+    "rejection_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rejection Reasons",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_score": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Semantic Score",
+      "type": "number"
+    },
+    "variant_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Variant Id"
+    },
+    "verification_result": {
+      "$ref": "#/$defs/VerificationResult"
+    }
+  },
+  "required": [
+    "part_id",
+    "product_id",
+    "semantic_score",
+    "match_method",
+    "verification_result"
+  ],
+  "title": "MatchCandidate",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}

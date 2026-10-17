@@ -1,0 +1,61 @@
+{
+  "budget_feasible": {
+    "evidence": {
+      "budget_cents": 250000,
+      "price_cents": 129900
+    },
+    "reason": "item within budget",
+    "state": "PASS"
+  },
+  "correct_part_type": {
+    "evidence": {
+      "actual": "DRESS_OR_SUIT",
+      "expected": "DRESS_OR_SUIT"
+    },
+    "reason": "part type matches",
+    "state": "PASS"
+  },
+  "delivery_feasible": {
+    "evidence": {
+      "arrival_date": "2026-10-22",
+      "event_date": "2026-12-12",
+      "lead_days": 5
+    },
+    "reason": "arrives before event",
+    "state": "PASS"
+  },
+  "engine_version": "goa-verify-1.0.0",
+  "evaluated_on": "2026-10-17",
+  "exists_in_catalogue": {
+    "evidence": {
+      "product_id": "prd_example_dress",
+      "variant_id": "var_example_dress_m"
+    },
+    "reason": "product and variant found",
+    "state": "PASS"
+  },
+  "overall": "PASS",
+  "price_known": {
+    "evidence": {
+      "currency": "ZAR",
+      "price_cents": 129900
+    },
+    "reason": "valid ZAR integer cents",
+    "state": "PASS"
+  },
+  "schema_version": "1.0.0",
+  "size_available": {
+    "evidence": {
+      "requested_size": "M"
+    },
+    "reason": "size offered",
+    "state": "PASS"
+  },
+  "stock_available": {
+    "evidence": {
+      "stock_quantity": 4
+    },
+    "reason": "positive stock",
+    "state": "PASS"
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "$defs": {
+    "CheckResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/CheckState"
+        }
+      },
+      "required": [
+        "state",
+        "reason"
+      ],
+      "title": "CheckResult",
+      "type": "object"
+    },
+    "CheckState": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN"
+      ],
+      "title": "CheckState",
+      "type": "string"
+    },
+    "CompositionStatus": {
+      "enum": [
+        "VERIFIED_COMPLETE",
+        "VERIFIED_PARTIAL",
+        "EMPTY",
+        "INVALID"
+      ],
+      "title": "CompositionStatus",
+      "type": "string"
+    },
+    "DesiredAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "colours": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Colours",
+          "type": "array"
+        },
+        "formality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Formality"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "free_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Free Text"
+        },
+        "garment_keywords": {
+          "description": "e.g. 'jacket', 'jumpsuit', 'sandals'.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Garment Keywords",
+          "type": "array"
+        },
+        "materials": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Materials",
+          "type": "array"
+        },
+        "style_tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Style Tags",
+          "type": "array"
+        }
+      },
+      "title": "DesiredAttributes",
+      "type": "object"
+    },
+    "Formality": {
+      "enum": [
+        "CASUAL",
+        "SMART_CASUAL",
+        "SEMI_FORMAL",
+        "FORMAL"
+      ],
+      "title": "Formality",
+      "type": "string"
+    },
+    "PartType": {
+      "enum": [
+        "DRESS_OR_SUIT",
+        "SHOES",
+        "OUTER_LAYER",
+        "ACCESSORY"
+      ],
+      "title": "PartType",
+      "type": "string"
+    },
+    "SelectedBy": {
+      "enum": [
+        "CUSTOMER",
+        "SYSTEM_SUGGESTION"
+      ],
+      "title": "SelectedBy",
+      "type": "string"
+    },
+    "SelectedPart": {
+      "additionalProperties": false,
+      "properties": {
+        "matched_attributes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Matched Attributes",
+          "type": "array"
+        },
+        "merchant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Merchant Id",
+          "type": "string"
+        },
+        "part_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Part Id",
+          "type": "string"
+        },
+        "part_type": {
+          "$ref": "#/$defs/PartType"
+        },
+        "product_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Product Id",
+          "type": "string"
+        },
+        "product_name": {
+          "title": "Product Name",
+          "type": "string"
+        },
+        "selected_by": {
+          "$ref": "#/$defs/SelectedBy"
+        },
+        "semantic_score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Semantic Score",
+          "type": "number"
+        },
+        "size": {
+          "title": "Size",
+          "type": "string"
+        },
+        "unit_price_cents": {
+          "minimum": 1,
+          "title": "Unit Price Cents",
+          "type": "integer"
+        },
+        "variant_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Variant Id",
+          "type": "string"
+        },
+        "verification_result": {
+          "$ref": "#/$defs/VerificationResult"
+        }
+      },
+      "required": [
+        "part_id",
+        "part_type",
+        "product_id",
+        "variant_id",
+        "merchant_id",
+        "product_name",
+        "size",
+        "unit_price_cents",
+        "selected_by",
+        "semantic_score",
+        "verification_result"
+      ],
+      "title": "SelectedPart",
+      "type": "object"
+    },
+    "UnmetPart": {
+      "additionalProperties": false,
+      "properties": {
+        "desired_attributes": {
+          "$ref": "#/$defs/DesiredAttributes"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "part_id": {
+          "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+          "title": "Part Id",
+          "type": "string"
+        },
+        "part_type": {
+          "$ref": "#/$defs/PartType"
+        },
+        "reasons": {
+          "items": {
+            "$ref": "#/$defs/UnmetReason"
+          },
+          "minItems": 1,
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "part_id",
+        "part_type",
+        "desired_attributes",
+        "reasons",
+        "explanation"
+      ],
+      "title": "UnmetPart",
+      "type": "object"
+    },
+    "UnmetReason": {
+      "enum": [
+        "NO_MATCHING_PRODUCT",
+        "SIZE_UNAVAILABLE",
+        "OUT_OF_STOCK",
+        "DELIVERY_TOO_LATE",
+        "PRICE_UNKNOWN",
+        "OVER_BUDGET",
+        "BUDGET_EXHAUSTED_BY_OTHER_PARTS",
+        "CUSTOMER_SIZE_REQUIRED",
+        "EVENT_DATE_REQUIRED",
+        "BUDGET_REQUIRED"
+      ],
+      "title": "UnmetReason",
+      "type": "string"
+    },
+    "VerificationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "correct_part_type": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "delivery_feasible": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "engine_version": {
+          "title": "Engine Version",
+          "type": "string"
+        },
+        "evaluated_on": {
+          "description": "Reference date used for delivery calculations.",
+          "format": "date",
+          "title": "Evaluated On",
+          "type": "string"
+        },
+        "exists_in_catalogue": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "overall": {
+          "$ref": "#/$defs/CheckState"
+        },
+        "price_known": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "size_available": {
+          "$ref": "#/$defs/CheckResult"
+        },
+        "stock_available": {
+          "$ref": "#/$defs/CheckResult"
+        }
+      },
+      "required": [
+        "exists_in_catalogue",
+        "correct_part_type",
+        "size_available",
+        "stock_available",
+        "delivery_feasible",
+        "price_known",
+        "budget_feasible",
+        "overall",
+        "engine_version",
+        "evaluated_on"
+      ],
+      "title": "VerificationResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://goa.example/schemas/v1.0.0/composition.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "brief_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Brief Id",
+      "type": "string"
+    },
+    "budget_cents": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Budget Cents"
+    },
+    "composition_id": {
+      "pattern": "^[a-z]+_[A-Za-z0-9_-]+$",
+      "title": "Composition Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "merchant_scope": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Merchant Scope",
+      "type": "array"
+    },
+    "parent_composition_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Composition Id"
+    },
+    "saved": {
+      "default": false,
+      "title": "Saved",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_parts": {
+      "items": {
+        "$ref": "#/$defs/SelectedPart"
+      },
+      "title": "Selected Parts",
+      "type": "array"
+    },
+    "total_price_cents": {
+      "minimum": 0,
+      "title": "Total Price Cents",
+      "type": "integer"
+    },
+    "unmet_parts": {
+      "items": {
+        "$ref": "#/$defs/UnmetPart"
+      },
+      "title": "Unmet Parts",
+      "type": "array"
+    },
+    "validation_status": {
+      "$ref": "#/$defs/CompositionStatus"
+    }
+  },
+  "required": [
+    "composition_id",
+    "brief_id",
+    "total_price_cents",
+    "validation_status",
+    "created_at"
+  ],
+  "title": "Composition",
+  "type": "object",
+  "x-goa-schema-version": "1.0.0"
+}
