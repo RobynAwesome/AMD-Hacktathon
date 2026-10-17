@@ -1,0 +1,388 @@
+<title>GOA Architecture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of figures, each with a short claim and caption. Fynbos green as the single accent, AMD red only on AMD-run steps. */
+:root {
+  --bg: #f6f7f4; --surface: #ffffff; --fg: #1d2420; --muted: #5d6a62; --line: #d5dbd4;
+  --accent: #2f6b4f; --amd: #c4282f; --gap: #a8641a;
+  --display: "Fraunces", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121614; --surface: #1a201d; --fg: #e4ebe6; --muted: #9aa8a0; --line: #2e3833;
+  --accent: #6fbf95; --amd: #ff6b6b; --gap: #e0a050; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121614; --surface: #1a201d; --fg: #e4ebe6; --muted: #9aa8a0; --line: #2e3833;
+  --accent: #6fbf95; --amd: #ff6b6b; --gap: #e0a050; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 980px; margin: 0 auto; padding-block: 40px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 48px; }
+header { display: grid; gap: 10px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 650; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); font-size: 17px; }
+section { display: grid; gap: 14px; min-width: 0; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 12px; min-width: 0; }
+.scroll { overflow-x: auto; }
+figcaption { color: var(--muted); font-size: 13.5px; max-width: 75ch; }
+svg { display: block; max-width: 100%; height: auto; font-family: var(--body); }
+svg text { fill: currentColor; font-size: 12px; }
+svg .t-strong { font-weight: 600; font-size: 13px; }
+svg .t-mono { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+svg .box { fill: var(--surface); stroke: currentColor; stroke-width: 1.2; }
+svg .box-amd { fill: var(--surface); stroke: var(--amd); stroke-width: 2; }
+svg .box-acc { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+svg .box-gap { fill: var(--surface); stroke: var(--gap); stroke-width: 2; stroke-dasharray: 5 4; }
+svg .store { fill: var(--bg); stroke: var(--muted); stroke-width: 1; }
+svg .edge { stroke: currentColor; stroke-width: 1.3; fill: none; }
+svg .edge-amd { stroke: var(--amd); stroke-width: 1.6; fill: none; }
+svg .edge-gap { stroke: var(--gap); stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
+svg .zone { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 3 4; }
+svg .amdtxt { fill: var(--amd); }
+svg .gaptxt { fill: var(--gap); }
+svg .acctxt { fill: var(--accent); }
+.mermaid { background: transparent; margin: 0; font-family: var(--body); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td code, p code { font-family: var(--mono); font-size: 12.5px; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.amd { color: var(--amd); } .pill.cpu { color: var(--muted); } .pill.code { color: var(--accent); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 22px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: middle; }
+.l-amd::before { border-color: var(--amd) !important; }
+.l-gap::before { border-color: var(--gap) !important; border-top-style: dashed !important; }
+.l-code::before { border-color: var(--fg) !important; }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">AMD ACT III · Track 3 Reinvent Commerce · build reference</div>
+  <h1>GOA: how a free idea becomes a verified enquiry</h1>
+  <p class="lede">The AI interprets and matches. Code decides what is true. Six figures: the system, the request flow, the data model, where AMD runs, the market switch, and the business loop.</p>
+  <div class="legend"><span class="l-amd">runs on AMD (Token Factory or GPU)</span><span class="l-code">plain Python, deterministic</span><span class="l-gap">unmet demand path</span></div>
+</header>
+
+<!-- 1. Components -->
+<section>
+  <h2>1. System components</h2>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 940 470" role="img" aria-label="Component diagram: a phone browser talks to one FastAPI service; the service calls Gemma on AMD Token Factory for brief, vision and text, runs embeddings on an AMD GPU or CPU, and reads and writes local JSON files.">
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+        <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--amd)"/></marker>
+      </defs>
+      <!-- browser -->
+      <rect class="box" x="20" y="180" width="150" height="110" rx="8"/>
+      <text class="t-strong" x="95" y="210" text-anchor="middle">Phone browser</text>
+      <text class="t-mono" x="95" y="230" text-anchor="middle">index.html, plain JS</text>
+      <text class="t-mono" x="95" y="248" text-anchor="middle">market switch</text>
+      <text class="t-mono" x="95" y="266" text-anchor="middle">saved looks: localStorage</text>
+      <line class="edge" x1="170" y1="235" x2="238" y2="235" marker-end="url(#a)" marker-start="url(#a)"/>
+      <text x="204" y="226" text-anchor="middle">JSON</text>
+
+      <!-- service zone -->
+      <rect class="zone" x="240" y="30" width="420" height="420" rx="10"/>
+      <text class="t-mono" x="256" y="52">FastAPI service, one host (app/main.py)</text>
+      <rect class="box" x="260" y="70"  width="180" height="46" rx="6"/><text class="t-strong" x="350" y="91" text-anchor="middle">brief.py</text><text class="t-mono" x="350" y="107" text-anchor="middle">text to Brief, 1 retry</text>
+      <rect class="box" x="260" y="132" width="180" height="46" rx="6"/><text class="t-strong" x="350" y="153" text-anchor="middle">match.py</text><text class="t-mono" x="350" y="169" text-anchor="middle">cosine top-k per part</text>
+      <rect class="box-acc" x="260" y="194" width="180" height="46" rx="6"/><text class="t-strong" x="350" y="215" text-anchor="middle">rules.py</text><text class="t-mono" x="350" y="231" text-anchor="middle">stock, size, delivery, budget</text>
+      <rect class="box" x="260" y="256" width="180" height="46" rx="6"/><text class="t-strong" x="350" y="277" text-anchor="middle">compose.py</text><text class="t-mono" x="350" y="293" text-anchor="middle">look, swaps, gaps</text>
+      <rect class="box-acc" x="260" y="318" width="180" height="46" rx="6"/><text class="t-strong" x="350" y="339" text-anchor="middle">validator</text><text class="t-mono" x="350" y="355" text-anchor="middle">grounding = 100%</text>
+      <rect class="box" x="460" y="132" width="180" height="46" rx="6"/><text class="t-strong" x="550" y="153" text-anchor="middle">enquiry.py</text><text class="t-mono" x="550" y="169" text-anchor="middle">quote request draft</text>
+      <rect class="box" x="460" y="256" width="180" height="46" rx="6"/><text class="t-strong" x="550" y="277" text-anchor="middle">gaps.py</text><text class="t-mono" x="550" y="293" text-anchor="middle">rank unmet parts</text>
+      <rect class="box" x="460" y="70" width="180" height="46" rx="6"/><text class="t-strong" x="550" y="91" text-anchor="middle">llm.py</text><text class="t-mono" x="550" y="107" text-anchor="middle">OpenAI-compatible client</text>
+      <line class="edge" x1="350" y1="116" x2="350" y2="130" marker-end="url(#a)"/>
+      <line class="edge" x1="350" y1="178" x2="350" y2="192" marker-end="url(#a)"/>
+      <line class="edge" x1="350" y1="240" x2="350" y2="254" marker-end="url(#a)"/>
+      <line class="edge" x1="350" y1="302" x2="350" y2="316" marker-end="url(#a)"/>
+      <line class="edge" x1="440" y1="93" x2="458" y2="93" marker-end="url(#a)"/>
+      <line class="edge-gap" x1="440" y1="279" x2="458" y2="279" marker-end="url(#a)"/>
+      <text class="t-mono" x="256" y="398">eval/run_eval.py and baseline.py</text>
+      <text class="t-mono" x="256" y="416">call the same modules, 20 frozen briefs</text>
+
+      <!-- AMD -->
+      <rect class="box-amd" x="720" y="40" width="200" height="130" rx="8"/>
+      <text class="t-strong amdtxt" x="820" y="66" text-anchor="middle">AMD Token Factory</text>
+      <text x="820" y="86" text-anchor="middle">Gemma 4 31B</text>
+      <text class="t-mono" x="820" y="108" text-anchor="middle">brief JSON</text>
+      <text class="t-mono" x="820" y="125" text-anchor="middle">vision tags (once)</text>
+      <text class="t-mono" x="820" y="142" text-anchor="middle">why it fits, enquiry text</text>
+      <text class="t-mono" x="820" y="159" text-anchor="middle">mood photos, ideas</text>
+      <line class="edge-amd" x1="640" y1="93" x2="718" y2="93" marker-end="url(#aR)"/>
+      <text class="amdtxt" x="679" y="84" text-anchor="middle">HTTPS</text>
+
+      <rect class="box-amd" x="720" y="196" width="200" height="74" rx="8"/>
+      <text class="t-strong amdtxt" x="820" y="222" text-anchor="middle">Embeddings</text>
+      <text class="t-mono" x="820" y="242" text-anchor="middle">AMD GPU if credits live</text>
+      <text class="t-mono" x="820" y="258" text-anchor="middle">else CPU (fastembed)</text>
+      <path class="edge-amd" d="M440,150 C470,150 470,210 718,226" marker-end="url(#aR)"/>
+      <text class="amdtxt" x="600" y="206" text-anchor="middle">embed query</text>
+
+      <!-- stores -->
+      <rect class="store" x="720" y="296" width="200" height="154" rx="6"/>
+      <text class="t-strong" x="736" y="318">Files on disk</text>
+      <text class="t-mono" x="736" y="338">catalogue.json, markets.json</text>
+      <text class="t-mono" x="736" y="355">embeddings.npy (in memory)</text>
+      <text class="t-mono" x="736" y="372">vision_tags.json (cache)</text>
+      <text class="t-mono" x="736" y="389">cache/briefs/*.json</text>
+      <text class="t-mono" x="736" y="406">gaps.jsonl</text>
+      <text class="t-mono" x="736" y="423">enquiries.jsonl</text>
+      <line class="edge" x1="660" y1="372" x2="718" y2="372" marker-end="url(#a)" marker-start="url(#a)"/>
+      <text x="689" y="364" text-anchor="middle">read, append</text>
+    </svg>
+    </div>
+    <figcaption>One FastAPI process holds everything. Only three things leave the box: Gemma calls to Token Factory, embedding work (AMD GPU or CPU), and files on disk. Rules and the validator never call a model.</figcaption>
+  </figure>
+</section>
+
+<!-- 2. Activity -->
+<section>
+  <h2>2. Request flow (activity diagram)</h2>
+  <figure>
+    <div class="scroll">
+<pre class="mermaid">
+flowchart TD
+  A([Person opens GOA, picks market ZA / US / GB]) --> B[Describe the look: text, up to 3 mood photos, or Give me ideas]
+  B --> P{Mood photos?}
+  P -- yes --> PV[Gemma vision tags each photo]:::amd --> C
+  P -- no --> C
+  C{Brief in cache?}
+  C -- yes --> E
+  C -- no --> D[Gemma 4 on Token Factory: text to Brief JSON]:::amd
+  D --> V{Valid schema and date?}
+  V -- no, first time --> R[Send error back, retry once]:::amd --> V2{Valid?}
+  V2 -- no --> X([Show clear error, keep text]):::stop
+  V2 -- yes --> S
+  V -- yes --> S[Save to cache]
+  S --> E{Size and shoe size given?}
+  E -- no --> Q[Ask for size, never invent] --> F
+  E -- yes --> F
+  F[For each part: embed and find top-k by meaning]:::amd --> G[Rules: in stock in size, ships to market before date]:::code
+  G --> H{Any item passes?}
+  H -- no --> N[Part shows Not on offer yet]:::gap --> L[(Append to gaps.jsonl)]:::gap
+  H -- yes --> K[Keep top 3 valid items as swaps]
+  K --> T[Compose look, check total within budget]:::code
+  L --> T
+  T --> W[Grounding validator: every item exists and passes]:::code
+  W --> U[Show look: prices in local currency, why it fits, latency]
+  U --> M{Person action}
+  M -- swap or remix --> K
+  M -- save --> SV[(localStorage)] --> M
+  M -- send enquiry --> EN[Gemma drafts quote request]:::amd --> EQ[(enquiries.jsonl, merchant inbox view)]
+  L -.-> GV[Merchant gap view: ranked unmet parts]:::gap
+  classDef amd stroke:#c4282f,stroke-width:2px
+  classDef code stroke:#2f6b4f,stroke-width:2px
+  classDef gap stroke:#a8641a,stroke-width:2px,stroke-dasharray:5 4
+  classDef stop stroke:#888,stroke-width:1px
+</pre>
+    </div>
+    <figcaption>Red steps call a model on AMD. Green steps are plain Python and decide what can be shown. A part that fails every rule is never hidden: it becomes "not on offer yet" and feeds the gap view.</figcaption>
+  </figure>
+</section>
+
+<!-- 3. Class -->
+<section>
+  <h2>3. Data model (UML class diagram)</h2>
+  <figure>
+    <div class="scroll">
+<pre class="mermaid">
+classDiagram
+  direction LR
+  class Market {
+    code: ZA|US|GB
+    currency
+    fx_to_usd
+    size_system
+    hemisphere
+    default_city
+  }
+  class Merchant {
+    id
+    name
+    city, country
+    currency
+    email @example.com
+    ships_to: market to days
+  }
+  class CatalogueItem {
+    id
+    slot: Slot
+    category, description
+    colours, materials
+    formality: Formality
+    occasions
+    price, currency
+    stock: size to units
+    image, image_credit
+    vision_tags
+  }
+  class Brief {
+    occasion
+    event_date
+    location, market
+    setting, weather
+    size, shoe_size  (never invented)
+    colours, formality
+    style_notes, constraints
+    check_date(today)
+  }
+  class Budget {
+    amount
+    currency
+    soft
+  }
+  class Part {
+    slot: Slot
+    description
+    colours, materials
+  }
+  class Look {
+    parts: Available or NotOnOffer
+    total_local
+    within_budget
+  }
+  class Enquiry {
+    merchant_id
+    item_ids, sizes
+    event_date
+    quote_request_text
+  }
+  class Gap {
+    part
+    market
+    reason
+  }
+  Merchant "1" --> "*" CatalogueItem : sells
+  Merchant "*" --> "*" Market : ships to
+  Brief "1" *-- "0..1" Budget : total for look
+  Brief "1" *-- "1..6" Part : max 1 garment
+  Brief "*" --> "1" Market : priced in
+  Look "1" o-- "*" CatalogueItem : verified items
+  Look "1" --> "*" Gap : unmatched parts
+  Enquiry "*" --> "1" Merchant : sent to
+  Enquiry "1" --> "1" Look : built from
+</pre>
+    </div>
+    <figcaption>Brief, Part, Budget, Market, Merchant and CatalogueItem exist now in <code>goa/schemas.py</code>. Look, Enquiry and Gap come in milestones 3 and 4. Stock keys are checked per slot: XS to XL, EU 35 to 46 for shoes, ONE for accessories.</figcaption>
+  </figure>
+</section>
+
+<!-- 4. AMD -->
+<section>
+  <h2>4. Where AMD and the models run</h2>
+  <figure>
+    <div class="scroll">
+    <table>
+      <thead><tr><th>Step</th><th>Runs on</th><th>Model</th><th>When</th><th>Guard</th></tr></thead>
+      <tbody>
+        <tr><td>Brief from text</td><td><span class="pill amd">AMD Token Factory</span></td><td>Gemma 4 31B</td><td>per request, cached</td><td>pydantic schema, 1 retry with the error, date check</td></tr>
+        <tr><td>Mood photo tags</td><td><span class="pill amd">AMD Token Factory</span></td><td>Gemma 4 31B vision</td><td>per upload</td><td>tags feed the brief text only</td></tr>
+        <tr><td>Catalogue photo tags</td><td><span class="pill amd">AMD Token Factory</span></td><td>Gemma 4 31B vision</td><td>once, offline</td><td>cached in vision_tags.json</td></tr>
+        <tr><td>Give me ideas</td><td><span class="pill amd">AMD Token Factory</span></td><td>Gemma 4 31B</td><td>on tap</td><td>ideas are free; rules decide what shows</td></tr>
+        <tr><td>Matching</td><td><span class="pill amd">AMD GPU</span> or <span class="pill cpu">CPU</span></td><td>bge-small (fastembed)</td><td>catalogue once, query per part</td><td>top-k only, rules run after</td></tr>
+        <tr><td>Rules and validator</td><td><span class="pill code">plain Python</span></td><td>none</td><td>every response</td><td>grounding target 100%</td></tr>
+        <tr><td>Why it fits, enquiry text</td><td><span class="pill amd">AMD Token Factory</span></td><td>Gemma 4 31B</td><td>per look, per enquiry</td><td>prices and dates inserted by code, not the model</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <figcaption>Every Gemma call goes through Token Factory's OpenAI-compatible API. Config comes from <code>TOKEN_FACTORY_BASE_URL</code>, <code>TOKEN_FACTORY_API_KEY</code> and <code>GEMMA_MODEL</code>. Google AI Studio Gemma is a development stand-in only. Each result records the endpoint, and eval and demo runs must use Token Factory. Using Gemma also enters GOA for the Google prize.</figcaption>
+  </figure>
+</section>
+
+<!-- 5. Market switch -->
+<section>
+  <h2>5. One brief, two markets</h2>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 940 300" role="img" aria-label="The same brief run in South Africa and the United States: currency, season, delivery and gaps differ, so the look changes.">
+      <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+      <rect class="box" x="20" y="110" width="200" height="80" rx="8"/>
+      <text class="t-strong" x="120" y="138" text-anchor="middle">Same brief text</text>
+      <text class="t-mono" x="120" y="158" text-anchor="middle">green, elegant, 12 Dec</text>
+      <text class="t-mono" x="120" y="175" text-anchor="middle">budget about 2,500 local</text>
+      <path class="edge" d="M220,140 C260,140 260,70 300,70" marker-end="url(#b)"/>
+      <path class="edge" d="M220,160 C260,160 260,230 300,230" marker-end="url(#b)"/>
+      <text x="262" y="100" text-anchor="middle">ZA</text><text x="262" y="210" text-anchor="middle">US</text>
+
+      <rect class="box-acc" x="300" y="20" width="620" height="110" rx="8"/>
+      <text class="t-strong acctxt" x="320" y="46">South Africa, Cape Town</text>
+      <text x="320" y="70">ZAR prices · UK sizes · summer, warm outdoors</text>
+      <text x="320" y="92">Fynbos Atelier ships in 4 days: dress, sandals, light wrap</text>
+      <text class="gaptxt" x="320" y="114">Gap: green linen jacket, nobody stocks one</text>
+
+      <rect class="box-acc" x="300" y="170" width="620" height="110" rx="8"/>
+      <text class="t-strong acctxt" x="320" y="196">United States, New York</text>
+      <text x="320" y="220">USD prices (approx from fixed rate) · US sizes · winter, cold</text>
+      <text x="320" y="242">Outer layer added · one ZA item drops: 12 days, misses the date</text>
+      <text class="gaptxt" x="320" y="264">Gap: warm green coat that ships in time</text>
+    </svg>
+    </div>
+    <figcaption>The market sets currency, size system, hemisphere and delivery days. The brief prompt gets the market and today's date, and the rules filter by <code>ships_to</code> for that market. Exchange rates are fixed and stated in the README.</figcaption>
+  </figure>
+</section>
+
+<!-- 6. Business value -->
+<section>
+  <h2>6. Business value loop</h2>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 940 330" role="img" aria-label="Business loop: a customer's free idea becomes a verified look and an enquiry for merchants, while unmet parts become a demand signal that tells merchants what to stock next.">
+      <defs>
+        <marker id="c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+        <marker id="cG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--gap)"/></marker>
+      </defs>
+      <rect class="box" x="20" y="40" width="170" height="74" rx="8"/>
+      <text class="t-strong" x="105" y="68" text-anchor="middle">Customer idea</text>
+      <text class="t-mono" x="105" y="88" text-anchor="middle">create without buying</text>
+
+      <rect class="box-amd" x="250" y="40" width="170" height="74" rx="8"/>
+      <text class="t-strong" x="335" y="68" text-anchor="middle">Brief and parts</text>
+      <text class="t-mono" x="335" y="88" text-anchor="middle">Gemma on AMD</text>
+
+      <rect class="box-acc" x="480" y="40" width="170" height="74" rx="8"/>
+      <text class="t-strong" x="565" y="68" text-anchor="middle">Verified look</text>
+      <text class="t-mono" x="565" y="88" text-anchor="middle">rules: honest numbers</text>
+
+      <rect class="box" x="710" y="40" width="200" height="74" rx="8"/>
+      <text class="t-strong" x="810" y="68" text-anchor="middle">Enquiry with quote</text>
+      <text class="t-mono" x="810" y="88" text-anchor="middle">merchant gets a ready lead</text>
+
+      <line class="edge" x1="190" y1="77" x2="248" y2="77" marker-end="url(#c)"/>
+      <line class="edge" x1="420" y1="77" x2="478" y2="77" marker-end="url(#c)"/>
+      <line class="edge" x1="650" y1="77" x2="708" y2="77" marker-end="url(#c)"/>
+      <text x="219" y="68" text-anchor="middle">describe</text>
+      <text x="449" y="68" text-anchor="middle">match</text>
+      <text x="679" y="68" text-anchor="middle">act</text>
+
+      <rect class="box-gap" x="480" y="200" width="170" height="74" rx="8"/>
+      <text class="t-strong gaptxt" x="565" y="228" text-anchor="middle">Not on offer yet</text>
+      <text class="t-mono" x="565" y="248" text-anchor="middle">logged, shown honestly</text>
+      <path class="edge-gap" d="M565,114 L565,198" marker-end="url(#cG)"/>
+      <text class="gaptxt" x="575" y="160">no item passes</text>
+
+      <rect class="box-gap" x="710" y="200" width="200" height="74" rx="8"/>
+      <text class="t-strong gaptxt" x="810" y="228" text-anchor="middle">Merchant gap view</text>
+      <text class="t-mono" x="810" y="248" text-anchor="middle">7 of 20 wanted green linen</text>
+      <line class="edge-gap" x1="650" y1="237" x2="708" y2="237" marker-end="url(#cG)"/>
+
+      <path class="edge-gap" d="M810,274 C810,315 335,315 335,116" marker-end="url(#cG)"/>
+      <text class="gaptxt" x="560" y="306" text-anchor="middle">merchant stocks it, next brief matches</text>
+
+      <rect class="box" x="20" y="200" width="400" height="74" rx="8"/>
+      <text class="t-strong" x="40" y="226">What we measure (20 frozen briefs vs keyword search)</text>
+      <text class="t-mono" x="40" y="246">valid composition rate · grounding 100% · steps to enquiry</text>
+      <text class="t-mono" x="40" y="263">gaps captured · blind fit 1 to 5 · no revenue claims</text>
+    </svg>
+    </div>
+    <figcaption>Two kinds of value from one flow. The customer gets a priced, checked look and one action. The merchant gets a qualified lead, plus demand data for things they do not stock yet. The dashed loop is what lifts GOA above a shopping assistant.</figcaption>
+  </figure>
+</section>
+</div>

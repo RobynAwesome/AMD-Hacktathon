@@ -1,0 +1,1580 @@
+{
+  "merchants": [
+    {
+      "id": "m_fynbos",
+      "name": "Fynbos Atelier",
+      "city": "Cape Town",
+      "country": "ZA",
+      "currency": "ZAR",
+      "email": "fynbos.orders@example.com",
+      "ships_to": {
+        "ZA": 4,
+        "GB": 9,
+        "US": 12
+      }
+    },
+    {
+      "id": "m_hudson",
+      "name": "Hudson & Pine",
+      "city": "New York",
+      "country": "US",
+      "currency": "USD",
+      "email": "hudsonpine.hello@example.com",
+      "ships_to": {
+        "US": 3,
+        "GB": 7,
+        "ZA": 11
+      }
+    },
+    {
+      "id": "m_thorn",
+      "name": "Thornbury Lane",
+      "city": "London",
+      "country": "GB",
+      "currency": "GBP",
+      "email": "thornbury.studio@example.com",
+      "ships_to": {
+        "GB": 2,
+        "US": 6,
+        "ZA": 8
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "fyn-001",
+      "merchant_id": "m_fynbos",
+      "name": "Sage linen wrap midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Linen-blend wrap dress with flutter sleeves, breathable for warm days.",
+      "colours": [
+        "sage green"
+      ],
+      "materials": [
+        "linen",
+        "viscose"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 1350.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 2,
+        "L": 4,
+        "XL": 0
+      },
+      "image": "images/fyn-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-002",
+      "merchant_id": "m_fynbos",
+      "name": "Emerald satin slip maxi",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Bias-cut satin slip dress, fluid and elegant.",
+      "colours": [
+        "emerald green"
+      ],
+      "materials": [
+        "satin"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 1890.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 0,
+        "S": 3,
+        "M": 0,
+        "L": 1,
+        "XL": 3
+      },
+      "image": "images/fyn-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-003",
+      "merchant_id": "m_fynbos",
+      "name": "Olive wide-leg jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Belted cotton jumpsuit with wide legs and a V neck.",
+      "colours": [
+        "olive"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 1250.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 0,
+        "S": 3,
+        "M": 1,
+        "L": 0,
+        "XL": 0
+      },
+      "image": "images/fyn-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-004",
+      "merchant_id": "m_fynbos",
+      "name": "Ivory cotton shirt dress",
+      "slot": "garment",
+      "category": "shirt dress",
+      "description": "Crisp poplin shirt dress with a tie waist, easy to rewear.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 990.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 2,
+        "S": 2,
+        "M": 0,
+        "L": 1,
+        "XL": 0
+      },
+      "image": "images/fyn-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-005",
+      "merchant_id": "m_fynbos",
+      "name": "Stone linen two-piece suit",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Unstructured linen blazer and trousers, relaxed tailoring.",
+      "colours": [
+        "stone"
+      ],
+      "materials": [
+        "linen"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "interview"
+      ],
+      "price": 2450.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 3,
+        "S": 2,
+        "M": 0,
+        "L": 3,
+        "XL": 0
+      },
+      "image": "images/fyn-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-006",
+      "merchant_id": "m_fynbos",
+      "name": "Protea print tea dress",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Floral print tea dress with puff sleeves.",
+      "colours": [
+        "pink",
+        "green"
+      ],
+      "materials": [
+        "viscose"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 850.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 4,
+        "M": 4,
+        "L": 3,
+        "XL": 0
+      },
+      "image": "images/fyn-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-007",
+      "merchant_id": "m_fynbos",
+      "name": "Tan block-heel sandals",
+      "slot": "shoes",
+      "category": "block heels",
+      "description": "Leather sandals with a low block heel, steady on grass.",
+      "colours": [
+        "tan"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 750.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 3,
+        "37": 3,
+        "38": 2,
+        "39": 0,
+        "40": 1,
+        "41": 0,
+        "42": 3,
+        "43": 1,
+        "44": 1,
+        "45": 2
+      },
+      "image": "images/fyn-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-008",
+      "merchant_id": "m_fynbos",
+      "name": "Gold pointed flats",
+      "slot": "shoes",
+      "category": "flats",
+      "description": "Metallic leather flats, all-day comfort.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 620.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 1,
+        "37": 3,
+        "38": 0,
+        "39": 3,
+        "40": 1,
+        "41": 3,
+        "42": 4,
+        "43": 1,
+        "44": 0,
+        "45": 3
+      },
+      "image": "images/fyn-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-009",
+      "merchant_id": "m_fynbos",
+      "name": "Natural wedge espadrilles",
+      "slot": "shoes",
+      "category": "espadrilles",
+      "description": "Jute wedge espadrilles with ankle ties.",
+      "colours": [
+        "natural",
+        "beige"
+      ],
+      "materials": [
+        "jute",
+        "canvas"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 540.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 3,
+        "37": 4,
+        "38": 1,
+        "39": 1,
+        "40": 0,
+        "41": 3,
+        "42": 4,
+        "43": 0,
+        "44": 3,
+        "45": 0
+      },
+      "image": "images/fyn-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-010",
+      "merchant_id": "m_fynbos",
+      "name": "Brown suede loafers",
+      "slot": "shoes",
+      "category": "loafers",
+      "description": "Soft suede loafers, unlined.",
+      "colours": [
+        "brown"
+      ],
+      "materials": [
+        "suede"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 980.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 3,
+        "37": 1,
+        "38": 2,
+        "39": 4,
+        "40": 3,
+        "41": 2,
+        "42": 1,
+        "43": 2,
+        "44": 3,
+        "45": 2
+      },
+      "image": "images/fyn-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-011",
+      "merchant_id": "m_fynbos",
+      "name": "Cream crochet kimono",
+      "slot": "outer_layer",
+      "category": "kimono",
+      "description": "Light open-knit cover-up for evening breeze.",
+      "colours": [
+        "cream"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 690.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 1,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/fyn-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-012",
+      "merchant_id": "m_fynbos",
+      "name": "Black cropped blazer",
+      "slot": "outer_layer",
+      "category": "blazer",
+      "description": "Cropped single-button blazer.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "polyester",
+        "viscose"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation",
+        "formal dinner"
+      ],
+      "price": 1150.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 3,
+        "L": 1,
+        "XL": 3
+      },
+      "image": "images/fyn-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-013",
+      "merchant_id": "m_fynbos",
+      "name": "Gold silk shawl",
+      "slot": "outer_layer",
+      "category": "wrap",
+      "description": "Lightweight silk shawl for warm nights.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 580.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 2,
+        "S": 1,
+        "M": 4,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/fyn-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-014",
+      "merchant_id": "m_fynbos",
+      "name": "Woven straw clutch",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Hand-woven clutch with a leather strap.",
+      "colours": [
+        "natural"
+      ],
+      "materials": [
+        "straw",
+        "leather"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 420.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/fyn-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-015",
+      "merchant_id": "m_fynbos",
+      "name": "Brass leaf earrings",
+      "slot": "accessory",
+      "category": "earrings",
+      "description": "Handmade brass drop earrings.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "brass"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 320.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 0
+      },
+      "image": "images/fyn-015.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "fyn-016",
+      "merchant_id": "m_fynbos",
+      "name": "Wide-brim sun hat",
+      "slot": "accessory",
+      "category": "hat",
+      "description": "Packable wide-brim hat for outdoor ceremonies.",
+      "colours": [
+        "natural"
+      ],
+      "materials": [
+        "straw"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 380.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 0
+      },
+      "image": "images/fyn-016.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-001",
+      "merchant_id": "m_hudson",
+      "name": "Navy crepe sheath",
+      "slot": "garment",
+      "category": "sheath dress",
+      "description": "Tailored crepe sheath dress, knee length.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "crepe"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "graduation",
+        "formal dinner"
+      ],
+      "price": 148.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 3,
+        "S": 2,
+        "M": 1,
+        "L": 1,
+        "XL": 1
+      },
+      "image": "images/hud-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-002",
+      "merchant_id": "m_hudson",
+      "name": "Forest green knit midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Ribbed knit midi with long sleeves, warm for winter events.",
+      "colours": [
+        "forest green"
+      ],
+      "materials": [
+        "wool blend"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 128.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 2,
+        "S": 2,
+        "M": 0,
+        "L": 4,
+        "XL": 0
+      },
+      "image": "images/hud-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-003",
+      "merchant_id": "m_hudson",
+      "name": "Charcoal wool suit",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Slim two-piece suit in Italian wool.",
+      "colours": [
+        "charcoal"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 395.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 3,
+        "S": 3,
+        "M": 1,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/hud-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-004",
+      "merchant_id": "m_hudson",
+      "name": "Black velvet maxi",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Long-sleeve velvet maxi dress.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "velvet"
+      ],
+      "formality": "black_tie",
+      "occasions": [
+        "formal dinner",
+        "wedding guest"
+      ],
+      "price": 210.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 1,
+        "S": 3,
+        "M": 2,
+        "L": 3,
+        "XL": 2
+      },
+      "image": "images/hud-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-005",
+      "merchant_id": "m_hudson",
+      "name": "Burgundy crepe jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Halter jumpsuit with a fluid leg.",
+      "colours": [
+        "burgundy"
+      ],
+      "materials": [
+        "crepe"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 165.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 0,
+        "S": 0,
+        "M": 1,
+        "L": 2,
+        "XL": 4
+      },
+      "image": "images/hud-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-006",
+      "merchant_id": "m_hudson",
+      "name": "Mint pleated midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Pleated chiffon midi with a tie neck.",
+      "colours": [
+        "mint green"
+      ],
+      "materials": [
+        "chiffon"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 138.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 4,
+        "S": 0,
+        "M": 0,
+        "L": 4,
+        "XL": 4
+      },
+      "image": "images/hud-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-007",
+      "merchant_id": "m_hudson",
+      "name": "Black leather pumps",
+      "slot": "shoes",
+      "category": "pumps",
+      "description": "Classic 75mm pumps.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 140.0,
+      "currency": "USD",
+      "stock": {
+        "36": 1,
+        "37": 4,
+        "38": 3,
+        "39": 4,
+        "40": 2,
+        "41": 1,
+        "42": 4,
+        "43": 2,
+        "44": 4,
+        "45": 1
+      },
+      "image": "images/hud-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-008",
+      "merchant_id": "m_hudson",
+      "name": "Cognac heeled ankle boots",
+      "slot": "shoes",
+      "category": "ankle boots",
+      "description": "Leather ankle boots with a stacked heel.",
+      "colours": [
+        "cognac"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 175.0,
+      "currency": "USD",
+      "stock": {
+        "36": 0,
+        "37": 2,
+        "38": 1,
+        "39": 1,
+        "40": 3,
+        "41": 0,
+        "42": 2,
+        "43": 0,
+        "44": 1,
+        "45": 1
+      },
+      "image": "images/hud-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-009",
+      "merchant_id": "m_hudson",
+      "name": "Dark brown oxfords",
+      "slot": "shoes",
+      "category": "oxfords",
+      "description": "Goodyear-welted leather oxfords.",
+      "colours": [
+        "dark brown"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 220.0,
+      "currency": "USD",
+      "stock": {
+        "36": 1,
+        "37": 4,
+        "38": 1,
+        "39": 2,
+        "40": 2,
+        "41": 2,
+        "42": 0,
+        "43": 1,
+        "44": 2,
+        "45": 2
+      },
+      "image": "images/hud-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-010",
+      "merchant_id": "m_hudson",
+      "name": "Nude block heels",
+      "slot": "shoes",
+      "category": "block heels",
+      "description": "Suede block heels with an ankle strap.",
+      "colours": [
+        "nude"
+      ],
+      "materials": [
+        "suede"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 120.0,
+      "currency": "USD",
+      "stock": {
+        "36": 3,
+        "37": 1,
+        "38": 1,
+        "39": 2,
+        "40": 3,
+        "41": 1,
+        "42": 4,
+        "43": 2,
+        "44": 1,
+        "45": 4
+      },
+      "image": "images/hud-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-011",
+      "merchant_id": "m_hudson",
+      "name": "Camel wool coat",
+      "slot": "outer_layer",
+      "category": "coat",
+      "description": "Long double-breasted wool coat.",
+      "colours": [
+        "camel"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "graduation",
+        "interview",
+        "formal dinner",
+        "wedding guest"
+      ],
+      "price": 320.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 2,
+        "S": 1,
+        "M": 1,
+        "L": 0,
+        "XL": 1
+      },
+      "image": "images/hud-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-012",
+      "merchant_id": "m_hudson",
+      "name": "Classic beige trench",
+      "slot": "outer_layer",
+      "category": "trench",
+      "description": "Water-resistant cotton trench.",
+      "colours": [
+        "beige"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 245.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 4,
+        "L": 1,
+        "XL": 0
+      },
+      "image": "images/hud-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-013",
+      "merchant_id": "m_hudson",
+      "name": "Grey cashmere cardigan",
+      "slot": "outer_layer",
+      "category": "cardigan",
+      "description": "Fine-gauge cashmere cardigan.",
+      "colours": [
+        "grey"
+      ],
+      "materials": [
+        "cashmere"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 185.0,
+      "currency": "USD",
+      "stock": {
+        "XS": 2,
+        "S": 3,
+        "M": 1,
+        "L": 1,
+        "XL": 1
+      },
+      "image": "images/hud-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-014",
+      "merchant_id": "m_hudson",
+      "name": "Black leather tote",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Structured tote, fits a laptop.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview"
+      ],
+      "price": 160.0,
+      "currency": "USD",
+      "stock": {
+        "ONE": 0
+      },
+      "image": "images/hud-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-015",
+      "merchant_id": "m_hudson",
+      "name": "Plaid wool scarf",
+      "slot": "accessory",
+      "category": "scarf",
+      "description": "Oversized brushed wool scarf.",
+      "colours": [
+        "red",
+        "green"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 55.0,
+      "currency": "USD",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/hud-015.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "hud-016",
+      "merchant_id": "m_hudson",
+      "name": "Silk knit tie",
+      "slot": "accessory",
+      "category": "tie",
+      "description": "Square-end knit tie.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 65.0,
+      "currency": "USD",
+      "stock": {
+        "ONE": 2
+      },
+      "image": "images/hud-016.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-001",
+      "merchant_id": "m_thorn",
+      "name": "Bottle green tweed shift",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Wool tweed shift dress with a round neck.",
+      "colours": [
+        "bottle green"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 145.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 3,
+        "S": 1,
+        "M": 3,
+        "L": 3,
+        "XL": 1
+      },
+      "image": "images/thr-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-002",
+      "merchant_id": "m_thorn",
+      "name": "Champagne sequin gown",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Floor-length sequin gown.",
+      "colours": [
+        "champagne"
+      ],
+      "materials": [
+        "polyester"
+      ],
+      "formality": "black_tie",
+      "occasions": [
+        "formal dinner",
+        "wedding guest"
+      ],
+      "price": 260.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 1,
+        "S": 4,
+        "M": 3,
+        "L": 3,
+        "XL": 4
+      },
+      "image": "images/thr-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-003",
+      "merchant_id": "m_thorn",
+      "name": "Navy pinstripe suit",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Three-piece pinstripe suit.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "wedding guest",
+        "graduation",
+        "formal dinner"
+      ],
+      "price": 340.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 4,
+        "S": 4,
+        "M": 0,
+        "L": 2,
+        "XL": 4
+      },
+      "image": "images/thr-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-004",
+      "merchant_id": "m_thorn",
+      "name": "Lilac tea dress",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Floral georgette tea dress.",
+      "colours": [
+        "lilac"
+      ],
+      "materials": [
+        "georgette"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 98.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 3,
+        "S": 2,
+        "M": 2,
+        "L": 2,
+        "XL": 2
+      },
+      "image": "images/thr-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-005",
+      "merchant_id": "m_thorn",
+      "name": "Ivory blouse and skirt set",
+      "slot": "garment",
+      "category": "co-ord set",
+      "description": "Silk blouse with a matching midi skirt.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 185.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 0,
+        "S": 2,
+        "M": 4,
+        "L": 2,
+        "XL": 0
+      },
+      "image": "images/thr-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-006",
+      "merchant_id": "m_thorn",
+      "name": "Black tailored jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Sleeveless tailored jumpsuit.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "crepe"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "formal dinner",
+        "interview"
+      ],
+      "price": 135.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 1,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/thr-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-007",
+      "merchant_id": "m_thorn",
+      "name": "Oxblood brogues",
+      "slot": "shoes",
+      "category": "brogues",
+      "description": "Polished leather brogues.",
+      "colours": [
+        "oxblood"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 125.0,
+      "currency": "GBP",
+      "stock": {
+        "36": 0,
+        "37": 1,
+        "38": 3,
+        "39": 0,
+        "40": 0,
+        "41": 0,
+        "42": 3,
+        "43": 1,
+        "44": 3,
+        "45": 0
+      },
+      "image": "images/thr-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-008",
+      "merchant_id": "m_thorn",
+      "name": "Silver slingbacks",
+      "slot": "shoes",
+      "category": "slingbacks",
+      "description": "Kitten-heel metallic slingbacks.",
+      "colours": [
+        "silver"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 95.0,
+      "currency": "GBP",
+      "stock": {
+        "36": 1,
+        "37": 3,
+        "38": 0,
+        "39": 0,
+        "40": 1,
+        "41": 3,
+        "42": 2,
+        "43": 1,
+        "44": 4,
+        "45": 1
+      },
+      "image": "images/thr-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-009",
+      "merchant_id": "m_thorn",
+      "name": "Black chelsea boots",
+      "slot": "shoes",
+      "category": "chelsea boots",
+      "description": "Waterproof leather chelsea boots.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 150.0,
+      "currency": "GBP",
+      "stock": {
+        "36": 1,
+        "37": 3,
+        "38": 1,
+        "39": 2,
+        "40": 0,
+        "41": 0,
+        "42": 2,
+        "43": 2,
+        "44": 2,
+        "45": 2
+      },
+      "image": "images/thr-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-010",
+      "merchant_id": "m_thorn",
+      "name": "Navy ballet flats",
+      "slot": "shoes",
+      "category": "flats",
+      "description": "Soft leather ballet flats.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 75.0,
+      "currency": "GBP",
+      "stock": {
+        "36": 1,
+        "37": 0,
+        "38": 1,
+        "39": 0,
+        "40": 4,
+        "41": 1,
+        "42": 4,
+        "43": 1,
+        "44": 2,
+        "45": 4
+      },
+      "image": "images/thr-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-011",
+      "merchant_id": "m_thorn",
+      "name": "Charcoal peacoat",
+      "slot": "outer_layer",
+      "category": "coat",
+      "description": "Heavy wool peacoat.",
+      "colours": [
+        "charcoal"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 210.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 1,
+        "S": 3,
+        "M": 0,
+        "L": 1,
+        "XL": 3
+      },
+      "image": "images/thr-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-012",
+      "merchant_id": "m_thorn",
+      "name": "Ivory linen blazer",
+      "slot": "outer_layer",
+      "category": "blazer",
+      "description": "Relaxed linen blazer.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "linen"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 140.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 4,
+        "L": 3,
+        "XL": 0
+      },
+      "image": "images/thr-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-013",
+      "merchant_id": "m_thorn",
+      "name": "Black wool cape",
+      "slot": "outer_layer",
+      "category": "cape",
+      "description": "Evening cape with a satin lining.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "black_tie",
+      "occasions": [
+        "formal dinner",
+        "wedding guest"
+      ],
+      "price": 230.0,
+      "currency": "GBP",
+      "stock": {
+        "XS": 3,
+        "S": 1,
+        "M": 4,
+        "L": 0,
+        "XL": 4
+      },
+      "image": "images/thr-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-014",
+      "merchant_id": "m_thorn",
+      "name": "Green leather crossbody",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Small crossbody bag in bottle green.",
+      "colours": [
+        "bottle green"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 110.0,
+      "currency": "GBP",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/thr-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-015",
+      "merchant_id": "m_thorn",
+      "name": "Feather fascinator",
+      "slot": "accessory",
+      "category": "fascinator",
+      "description": "Headpiece with feathers and netting.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "feather"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "wedding guest"
+      ],
+      "price": 60.0,
+      "currency": "GBP",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/thr-015.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "thr-016",
+      "merchant_id": "m_thorn",
+      "name": "Pearl drop earrings",
+      "slot": "accessory",
+      "category": "earrings",
+      "description": "Freshwater pearl drops.",
+      "colours": [
+        "white"
+      ],
+      "materials": [
+        "pearl",
+        "silver"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner",
+        "interview"
+      ],
+      "price": 70.0,
+      "currency": "GBP",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/thr-016.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    }
+  ]
+}
