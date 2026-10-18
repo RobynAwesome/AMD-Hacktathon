@@ -9,6 +9,7 @@ import base64
 import json
 import os
 import threading
+import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import date
@@ -78,6 +79,7 @@ def _sample_brief(text: str, market: str) -> Brief | None:
     """Offline demo only (GOA_ALLOW_SAMPLE=1): a hand-written brief, clearly labelled on screen."""
     if os.environ.get("GOA_ALLOW_SAMPLE") != "1" or not SAMPLE_BRIEFS.exists():
         return None
+    time.sleep(float(os.environ.get("GOA_SAMPLE_DELAY", 0)))  # rehearsal only: imitate the live wait
     for s in json.loads(SAMPLE_BRIEFS.read_text()):
         if s["text"].strip().lower() == text.strip().lower():
             return Brief.model_validate({**s["brief"], "market": market})

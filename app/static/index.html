@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GOA</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%2324306b%27/%3E%3Crect x=%273%27 y=%277%27 width=%2710%27 height=%272%27 fill=%27%23c98a1b%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -82,6 +83,17 @@ h2 { font: 600 22px var(--display); margin: 0 } h3 { margin: 0 }
 .layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); align-items: start }
 @media (max-width: 860px) { .layout { grid-template-columns: 1fr } }
 @media (max-width: 420px) { .part { grid-template-columns: 92px 1fr } .part img { width: 92px } }
+.shape { display: grid; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line) }
+.chip.on, .toggle[aria-pressed="true"] { background: var(--indigo); color: var(--bg); border-color: var(--indigo) }
+.chip input { width: 9em; padding: 2px 6px; font-size: 13px }
+.glance { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px }
+.glance button { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 4px; cursor: pointer; display: grid; gap: 2px; font-size: 11px; text-align: left }
+.glance button[aria-pressed="true"] { border: 2px solid var(--ochre) }
+.glance img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 5px }
+.receipt { display: grid; gap: 4px; font: 13px/1.5 var(--mono) }
+.receipt div { opacity: 1 }
+.receipt .amd { color: var(--amd) }
+@media (prefers-reduced-motion: no-preference) { .receipt .step { animation: fade .35s ease-out both } }
 @media (prefers-reduced-motion: no-preference) { .fade { animation: fade .35s ease-out } @keyframes fade { from { opacity: .4; transform: translateY(4px) } } }
 </style>
 </head>
@@ -136,7 +148,8 @@ h2 { font: 600 22px var(--display); margin: 0 } h3 { margin: 0 }
 
 <script>
 const $ = s => document.querySelector(s);
-const state = { config: null, scope: "global", lookId: null, look: null, brief: null, photos: [], tab: "look" };
+const state = { config: null, scope: "global", lookId: null, look: null, brief: null, photos: [], tab: "look",
+  briefId: null, liked: [], overrides: {}, prefs: { no_heels: false, rewearable: false, local_first: false } };
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const money = (v, ccy) => { try { return new Intl.NumberFormat(undefined, { style: "currency", currency: ccy, maximumFractionDigits: 0 }).format(v) } catch { return `${ccy} ${Math.round(v)}` } };
 const day = iso => new Date(iso + "T00:00:00").toLocaleDateString(undefined, { day: "numeric", month: "short" });
@@ -171,8 +184,8 @@ function setScope(s) {
   state.scope = s;
   document.querySelectorAll("#scope button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.scope === s)));
 }
-$("#scope").addEventListener("click", e => { if (e.target.dataset.scope) setScope(e.target.dataset.scope) });
-$("#market").addEventListener("change", () => { try { localStorage.setItem("goa-market", $("#market").value) } catch {} });
+$("#scope").addEventListener("click", e => { if (e.target.dataset.scope) { setScope(e.target.dataset.scope); if (state.briefId && state.tab === "look") recompose() } });
+$("#market").addEventListener("change", () => { try { localStorage.setItem("goa-market", $("#market").value) } catch {}; if (state.briefId && state.tab === "look") recompose() });
 
 function selectTab(t) {
   state.tab = t;
@@ -199,17 +212,111 @@ function renderCalls(calls) {
   }).join("");
 }
 
+const debounce = (fn, ms = 300) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms) } };
+const RULED = { out_of_stock_in_size: "not in your size", too_slow: "arrive too late", has_heels: "have heels" };
+
+function shapeShell() {
+  return `<section class="shape">
+    <div class="calls"><span class="amd" id="wait">Gemma on AMD is reading your brief · 0 s</span></div>
+    <div><div class="slot">What GOA heard · tap to correct</div><div class="chips" id="chips"><span class="facts">Reading…</span></div></div>
+    <div class="row"><label>Clothing size<input id="s-size" placeholder="e.g. M or UK 10" value="${esc($("#size").value)}"></label>
+      <label>Shoe size<input id="s-shoe" placeholder="e.g. 38 or UK 5" value="${esc($("#shoe").value)}"></label></div>
+    <div class="chips" id="toggles">
+      <button type="button" class="chip toggle" data-pref="no_heels" aria-pressed="false">No heels</button>
+      <button type="button" class="chip toggle" data-pref="rewearable" aria-pressed="false">Rewearable</button>
+      <button type="button" class="chip toggle" data-pref="local_first" aria-pressed="false">Local designers first</button></div>
+    <div><div class="slot">First glance · not yet checked for size, stock or delivery</div>
+      <div class="glance" id="glance"></div><div class="facts">Tap any piece for more like it.</div></div>
+    <div class="receipt" id="receipt"></div>
+    <div class="facts">Changes here apply instantly, with no extra AI calls.</div>
+  </section><div id="lookArea"></div>`;
+}
+
+function wireShape() {
+  const sync = debounce(() => { $("#size").value = $("#s-size").value; $("#shoe").value = $("#s-shoe").value; if (state.briefId) recompose() }, 500);
+  $("#s-size").oninput = sync; $("#s-shoe").oninput = sync;
+  document.querySelectorAll("#toggles .toggle").forEach(b => b.onclick = () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on)); state.prefs[b.dataset.pref] = on;
+    if (state.briefId) recompose();
+  });
+}
+
+function renderPreread(d) {
+  $("#chips").innerHTML = d.chips.length ? d.chips.map((c, i) => `<button type="button" class="chip" data-i="${i}">${esc(c.label)}</button>`).join("")
+    : `<span class="facts">Nothing obvious to pick out; Gemma will read the whole brief.</span>`;
+  document.querySelectorAll("#chips .chip").forEach(b => b.onclick = () => editChip(b, d.chips[+b.dataset.i]));
+  $("#glance").innerHTML = d.first_glance.map(g => `<button type="button" data-id="${esc(g.id)}" aria-pressed="false"><img src="/${esc(g.image)}" alt=""><span>${esc(g.name)}</span><span class="facts">${esc(g.city)}</span></button>`).join("");
+  document.querySelectorAll("#glance button").forEach(b => b.onclick = () => {
+    const id = b.dataset.id, on = !state.liked.includes(id);
+    state.liked = on ? [...state.liked, id] : state.liked.filter(x => x !== id);
+    b.setAttribute("aria-pressed", String(on)); if (state.briefId) recompose();
+  });
+  if (!state.look) $("#receipt").innerHTML = `<div>Searching ${d.hubs.length} hubs: ${d.hubs.map(h => `${esc(h.city)} ${h.items}`).join(" · ")}</div>`;
+  if (d.needs_size && !$("#s-size").value) $("#s-size").focus();
+}
+
+function editChip(btn, chip) {
+  if (!["occasion", "event_date", "location", "budget"].includes(chip.key)) return;  // colours and setting are shown, not overridden
+  const current = chip.key === "budget" ? chip.value.amount : chip.value;
+  btn.innerHTML = `<input type="${chip.key === "event_date" ? "date" : chip.key === "budget" ? "number" : "text"}" value="${esc(current)}">`;
+  const input = btn.querySelector("input"); input.focus();
+  const done = () => {
+    const v = input.value.trim(); if (!v) return;
+    state.overrides[chip.key] = chip.key === "budget" ? { amount: +v, currency: chip.value.currency } : v;
+    chip.label = chip.key === "budget" ? `${chip.value.currency} ${(+v).toLocaleString()}` : v;
+    if (chip.key === "budget") chip.value = { ...chip.value, amount: +v }; else chip.value = v;
+    btn.classList.add("on"); btn.textContent = chip.label;
+    if (state.briefId) recompose();
+  };
+  input.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done() } };
+  input.onblur = done; input.onclick = e => e.stopPropagation();
+}
+
+function renderReceipt(r, look, animate) {
+  const scope = { local: "near you", region: "your region", global: "all hubs" }[look.scope];
+  const hubs = Object.entries(r.hubs).sort((a, b) => b[1] - a[1]);
+  const ruled = Object.entries(r.ruled_out).filter(([, n]) => n);
+  const filled = look.parts.filter(p => p.status === "available").length;
+  const gaps = look.parts.length - filled;
+  const lines = [
+    `Searched ${r.searched} pieces in ${scope}`,
+    `Checked ${r.checked} that match what you asked for, from ${hubs.length} hubs: ${hubs.map(([c, n]) => `${esc(c)} ${n}`).join(" · ")}`,
+    ruled.length ? `Ruled out ${ruled.reduce((a, [, n]) => a + n, 0)}: ${ruled.map(([k, n]) => `${n} ${RULED[k] || k}`).join(", ")}` : "Nothing ruled out by the rules",
+    `Found ${filled} of ${look.parts.length} parts${gaps ? ` · ${gaps} not on offer yet, logged for merchants` : ""}`,
+  ];
+  $("#receipt").innerHTML = lines.map((l, i) => `<div class="step" style="animation-delay:${animate ? i * 0.45 : 0}s">${l}</div>`).join("");
+}
+
+async function recompose(first = false) {
+  const d = await api("/api/compose", { brief_id: state.briefId, market: $("#market").value, scope: state.scope,
+    size: $("#s-size") ? $("#s-size").value || null : $("#size").value || null,
+    shoe_size: $("#s-shoe") ? $("#s-shoe").value || null : $("#shoe").value || null,
+    prefs: { ...state.prefs, liked: state.liked }, overrides: state.overrides });
+  Object.assign(state, { lookId: d.look_id, look: d.look, brief: d.brief, abroadLocal: false, whySrc: null });
+  renderReceipt(d.look.receipt, d.look, first); renderLook(); renderUsage();
+}
+
 async function build(e) {
   e && e.preventDefault();
-  $("#go").disabled = true; $("#go").textContent = "Gemma on AMD is reading your brief…";
   selectTab("look");
+  Object.assign(state, { briefId: null, look: null, liked: [], overrides: {}, prefs: { no_heels: false, rewearable: false, local_first: false } });
+  $("#view").innerHTML = shapeShell(); wireShape();
+  $("#go").disabled = true;
+  const t0 = Date.now(), text = $("#text").value, market = $("#market").value;
+  const tick = setInterval(() => { const w = $("#wait"); if (w) w.textContent = `Gemma on AMD is reading your brief · ${Math.round((Date.now() - t0) / 1000)} s` }, 500);
+  api("/api/preread", { text, market }).then(renderPreread).catch(() => {});
   try {
-    const data = await api("/api/look", { text: $("#text").value, market: $("#market").value, scope: state.scope,
-      size: $("#size").value || null, shoe_size: $("#shoe").value || null, images: state.photos });
-    Object.assign(state, { lookId: data.look_id, look: data.look, brief: data.brief, sample: data.sample });
-    renderCalls(data.calls); renderLook(); renderUsage();
-  } catch (err) { $("#view").innerHTML = `<div class="notice err">${esc(err.message)}</div>` }
-  finally { $("#go").disabled = false; $("#go").textContent = "Build my look" }
+    const b = await api("/api/brief", { text, market, images: state.photos });
+    Object.assign(state, { briefId: b.brief_id, sample: b.sample });
+    clearInterval(tick);
+    const c = b.calls.find(x => x.step === "brief") || {};
+    $("#wait").textContent = b.sample ? "Sample brief (no model call)"
+      : c.cached ? "Brief read earlier by Gemma on AMD · from cache" : `Brief read by ${c.model} on AMD Token Factory in ${((c.latency_ms || 0) / 1000).toFixed(1)} s`;
+    renderCalls(b.calls);
+    await recompose(true);
+  } catch (err) { clearInterval(tick); $("#lookArea").innerHTML = `<div class="notice err">${esc(err.message)}</div>` }
+  finally { clearInterval(tick); $("#go").disabled = false }
 }
 $("#form").addEventListener("submit", build);
 
@@ -239,6 +346,8 @@ function renderLook() {
     <span class="facts">${L.scope === "global" ? "Searched worldwide" : L.scope === "region" ? "Searched my region" : "Searched near me"} · shipping included, once per merchant</span></div>`;
   L.notes.forEach(n => h += `<div class="notice">${esc(n)}</div>`);
   h += hubStrip(L);
+  h += state.whySrc ? `<div class="facts">${esc(state.whySrc)}</div>`
+    : `<div><button type="button" class="btn ghost" id="why">Why these pieces?</button> <span class="facts">one short Gemma call</span></div>`;
   h += `<div class="parts">`;
   L.parts.forEach((p, i) => {
     const want = `<div class="slot">${SLOT[p.part.slot]}</div><div class="want">“${esc(p.part.description)}”</div>`;
@@ -262,10 +371,19 @@ function renderLook() {
     <div class="row"><label>Your name<input id="ename" placeholder="Thandi"></label><label>Note to the merchant<input id="enote" placeholder="Optional"></label></div>
     <div class="row"><button type="button" class="btn" id="send">Send quote request</button><button type="button" class="btn ghost" id="save">Save this look</button></div>
     <div id="sent"></div></div>`;
-  $("#view").innerHTML = h;
+  ($("#lookArea") || $("#view")).innerHTML = h;
   document.querySelectorAll(".swaps button").forEach(b => b.onclick = () => doSwap(+b.dataset.part, +b.dataset.opt));
   document.querySelectorAll("[data-abroad]").forEach(b => b.onclick = () => useAbroad(+b.dataset.abroad));
   $("#send").onclick = sendEnquiry;
+  if ($("#why")) $("#why").onclick = async () => {
+    $("#why").disabled = true; $("#why").textContent = "Asking Gemma on AMD…";
+    try {
+      const w = await api(`/api/why/${state.lookId}`, {});
+      state.look.parts.forEach(p => p.options.forEach(o => { if (w.why[o.item_id]) o.why = w.why[o.item_id] }));
+      state.whySrc = w.provider === "token_factory" ? `Reasons written by ${w.model} on AMD Token Factory${w.latency_ms ? ` in ${(w.latency_ms / 1000).toFixed(1)} s` : " (cached)"}` : "Reasons: plain summary (no model call)";
+      renderLook();
+    } catch (e) { $("#why").textContent = "Could not load reasons"; }
+  };
   $("#save").onclick = () => { try { const s = JSON.parse(localStorage.getItem("goa-saved") || "[]"); s.unshift({ at: Date.now(), text: $("#text").value, look: state.look }); localStorage.setItem("goa-saved", JSON.stringify(s.slice(0, 10))); $("#save").textContent = "Saved on this device" } catch { $("#save").textContent = "Could not save here" } };
 }
 
@@ -324,21 +442,23 @@ async function renderInbox() {
 async function runMirror(codes) {
   $("#view").dataset.mirror = "1";
   const ms = Object.fromEntries(state.config.markets.map(m => [m.code, m]));
-  $("#view").innerHTML = `<h2>One brief, ${codes.length} shoppers</h2><p class="want">“${esc($("#text").value)}”</p><div class="mirror">${codes.map(c => `<div class="panel" id="mir-${c}"><h3>${esc(ms[c]?.default_city || c)}</h3><div class="facts">Building…</div></div>`).join("")}</div>`;
-  const all = [];
-  await Promise.all(codes.map(async c => {
-    try {
-      const d = await api("/api/look", { text: $("#text").value, market: c, scope: "global", mirror: true, size: $("#size").value || "M", shoe_size: $("#shoe").value || "38" });
-      all.push(...d.calls);
-      const L = d.look;
+  $("#view").innerHTML = `<h2>One brief, ${codes.length} shoppers</h2><p class="want">“${esc($("#text").value)}”</p>
+    <div class="calls"><span class="amd" id="mwait">Gemma on AMD reads the brief once; code builds each shopper's look</span></div>
+    <div class="mirror">${codes.map(c => `<div class="panel" id="mir-${c}"><h3>${esc(ms[c]?.default_city || c)}</h3><div class="facts">Waiting for the brief…</div></div>`).join("")}</div>`;
+  try {
+    const d = await api("/api/mirror", { text: $("#text").value, markets: codes, size: $("#size").value || "M", shoe_size: $("#shoe").value || "38" });
+    renderCalls(d.calls);
+    $("#mwait").textContent = d.sample ? "Sample brief (no model call), then code for each shopper" : "One Gemma call on AMD, then code for each shopper";
+    d.shoppers.forEach(s => {
+      const L = s.look, c = s.market;
       $("#mir-" + c).innerHTML = `<h3>${esc(ms[c].default_city)}</h3>
         <div class="summary"><span class="total" style="font-size:22px">${money(L.total_local, L.currency)}</span><span class="pill ${L.budget_status}">${STATUS[L.budget_status]}</span></div>
-        <div class="facts">${esc(d.brief.weather || "")}</div>
+        <div class="facts">${esc(s.brief.weather || "")} · checked ${L.receipt.checked}, ruled out ${Object.values(L.receipt.ruled_out).reduce((a, n) => a + n, 0)}</div>
         ${L.parts.map((p, i) => p.status === "available" ? (o => `<div class="mini"><img src="/${esc(o.image)}" alt=""><div><b>${esc(o.name)}</b><br><span class="facts">${esc(o.city)} · ${money(o.landed_local, L.currency)} · arrives ${day(o.arrives)}</span></div></div>`)(p.options[L.chosen[i]])
           : `<div class="gap" style="padding:8px"><span class="slot">${SLOT[p.part.slot]}</span>Not on offer yet</div>`).join("")}`;
-    } catch (e) { $("#mir-" + c).innerHTML = `<div class="notice err">${esc(e.message)}</div>` }
-  }));
-  renderCalls(all);
+    });
+    renderUsage();
+  } catch (e) { $("#view").insertAdjacentHTML("beforeend", `<div class="notice err">${esc(e.message)}</div>`) }
 }
 
 $("#ideas-btn").onclick = async () => {
