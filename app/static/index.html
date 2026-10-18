@@ -122,7 +122,7 @@ textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); li
 .taps .tag { min-width: 72px }
 .tap { min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: 600 14px var(--body); cursor: pointer }
 .tap[aria-pressed="true"] { background: var(--hero); border-color: var(--hero); color: #fff }
-.shape .shots { display: flex; gap: 8px; align-items: center } .shape .shots img { width: 52px; height: 52px; object-fit: cover; border-radius: 12px; border: 2px solid var(--pop) }
+.shape .shots { display: flex; flex-wrap: wrap; gap: 8px; align-items: center } .shape .shots img { width: 52px; height: 52px; object-fit: cover; border-radius: 12px; border: 2px solid var(--pop) }
 .calls { font: 12px/1.6 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 14px }
 .calls .amd::before, .amdmark::before { content: "● "; color: var(--amd) }
 .dark .calls .amd::before, .dark .amdmark::before { color: var(--amd-on-ink) }
@@ -132,17 +132,28 @@ textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); li
 .empty h2 { margin: 0; font: 900 32px/0.95 var(--display); font-stretch: 112%; text-transform: uppercase }
 
 /* Shaping panel while Gemma reads */
-.shape { background: var(--ink); color: #fff; border-radius: 24px; padding: 20px; display: grid; gap: 16px }
-.shape .wait { font: 900 26px/1 var(--display); font-stretch: 112%; text-transform: uppercase; color: var(--pop) }
-.shape label.f { color: var(--on-ink) }
-.shape input { background: var(--ink2); border-color: var(--ink-line); color: #fff }
-.shape .chip { background: var(--ink2); border-color: var(--ink-line); color: #fff }
+.shape { background: var(--ink); color: #fff; border-radius: 24px; padding: 22px; display: grid; gap: 0; font-family: var(--body) }
+.shape > * + * { border-top: 1px solid var(--ink-line); padding-top: 18px; margin-top: 18px }
+.shape-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px }
+.shape .wait { font: 800 26px/1.05 var(--display); font-stretch: 112%; text-transform: uppercase; color: var(--pop) }
+.shape .status { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 4px 12px; border-radius: 999px; background: var(--ink2); font: 500 13px var(--body); color: var(--on-ink) }
+.shape .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--amd-on-ink); flex: none }
+.shape .sec { display: grid; gap: 10px }
+.shape .lbl { font: 600 14px var(--body); color: #fff } .shape .lbl small { font: 400 13px var(--body); color: var(--on-ink); margin-left: 6px }
+.shape .hint { font: 400 13px var(--body); color: var(--on-ink) }
+.shape label.f { font: 600 13px var(--body); color: var(--on-ink) }
+.shape input { background: var(--ink2); border-color: var(--ink-line); color: #fff; font-family: var(--body) }
+.shape .chip { background: var(--ink2); border-color: var(--ink-line); color: #fff; font-family: var(--body) }
 .shape .chip.on, .shape .chip[aria-pressed="true"] { background: var(--pop); color: var(--ink); border-color: var(--pop) }
-.glance { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px }
-.glance button { border: 2px solid transparent; background: var(--ink2); border-radius: 14px; padding: 6px; cursor: pointer; display: grid; gap: 4px; font-size: 12px; text-align: left; color: #fff }
+.glance { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px }
+.glance button { border: 2px solid transparent; background: var(--ink2); border-radius: 14px; padding: 6px 6px 8px; cursor: pointer; display: grid; gap: 4px; align-content: start; font: 600 13px/1.25 var(--body); text-align: left; color: #fff }
+.glance button span { display: block; overflow: hidden; padding: 0 2px }
+.glance button span:nth-of-type(1) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 2.5em; margin-top: 2px }
+.glance button span:nth-of-type(2) { font-weight: 400; font-size: 12px; color: var(--on-ink); white-space: nowrap; text-overflow: ellipsis }
 .glance button[aria-pressed="true"] { border-color: var(--pop) }
 .glance img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 9px; background: var(--soft) }
-.receipt { display: grid; gap: 4px; font: 13px/1.55 var(--mono); color: var(--on-ink) }
+.receipt { display: grid; gap: 8px; font: 400 14px/1.5 var(--body); color: var(--on-ink) }
+.receipt .step { display: flex; gap: 10px } .receipt .step::before { content: "✓"; color: var(--pop); font-weight: 700; flex: none }
 
 /* The look */
 .summary { background: var(--hero); color: #fff; border-radius: 24px; padding: 20px; display: grid; gap: 12px; --focus: var(--pop) }
@@ -155,8 +166,8 @@ textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); li
 .hub { padding: 4px 12px; border-radius: 999px; background: var(--ink); font: 500 12px var(--mono); color: #fff }
 .parts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)) }
 .part { background: var(--card); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: grid; align-content: start; min-width: 0 }
-.part .pic { position: relative; background: var(--soft); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; overflow: hidden }
-.part .pic img { width: 100%; height: 100%; object-fit: cover }
+.part .pic { position: relative; background: #EEEBF3; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden }
+.part .pic img { width: 100%; height: 100%; object-fit: contain }
 .part .pic .slot { position: absolute; left: 12px; top: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.85) }
 .part .pic .ok { position: absolute; right: 12px; top: 10px; padding: 4px 12px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700 }
 .part .body { padding: 16px; display: grid; gap: 8px }
@@ -171,7 +182,7 @@ textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); li
 .why { font-size: 14px; line-height: 1.5 }
 .swaps { display: flex; gap: 8px; flex-wrap: wrap }
 .swaps button { width: 92px; padding: 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--base); cursor: pointer; display: grid; gap: 4px; font-size: 12px; text-align: left; color: var(--ink) }
-.swaps img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 9px; background: var(--soft) }
+.swaps img { width: 100%; aspect-ratio: 3/4; object-fit: contain; border-radius: 9px; background: #EEEBF3 }
 .gap { border: 3px dashed var(--hero); border-radius: 24px; background: var(--card); padding: 18px; display: grid; gap: 8px; align-content: start }
 .gap .head { display: flex; justify-content: space-between; align-items: center; gap: 8px }
 .gap .slot { color: var(--hero) }
@@ -430,20 +441,21 @@ const RULED = { out_of_stock_in_size: "not in your size", too_slow: "arrive too 
 
 function shapeShell() {
   return `<section class="shape dark" aria-label="Shape your look while Gemma reads">
-    <div class="calls"><span class="amd" id="wait">Gemma on AMD is reading your brief · 0 s</span></div>
-    <div class="wait">Reading your brief</div>
-    ${state.photos.length ? `<div class="shots"><span class="dim" style="font-size:14px">Looking at your ${state.photos.length === 1 ? "photo" : state.photos.length + " photos"}</span>${state.photos.map((p, i) => `<img src="${p}" alt="Your photo ${i + 1}">`).join("")}</div>` : ""}
-    <div><div class="tag">[what GOA heard] tap to correct</div><div class="chips" id="chips" style="margin-top:8px"><span class="dim">Reading…</span></div></div>
-    <div class="row"><label class="f">Clothing size<input id="s-size" placeholder="e.g. M or UK 10" value="${esc($("#size").value)}"></label>
-      <label class="f">Shoe size<input id="s-shoe" placeholder="e.g. 38 or UK 5" value="${esc($("#shoe").value)}"></label></div>
-    <div class="chips" id="toggles">
-      <button type="button" class="chip toggle" data-pref="no_heels" aria-pressed="false">No heels</button>
-      <button type="button" class="chip toggle" data-pref="rewearable" aria-pressed="false">Rewearable</button>
-      <button type="button" class="chip toggle" data-pref="local_first" aria-pressed="false">Local designers first</button></div>
-    <div><div class="tag">[first glance] not yet checked for size, stock or delivery</div>
-      <div class="glance" id="glance" style="margin-top:8px"></div><div class="dim" style="font-size:13px;margin-top:6px">Tap any piece for more like it.</div></div>
-    <div class="receipt" id="receipt"></div>
-    <div class="dim" style="font-size:13px">Changes here apply instantly, with no extra AI calls.</div>
+    <div class="shape-head"><div class="wait">Reading your brief</div><span class="status" id="wait">Gemma on AMD · 0 s</span></div>
+    ${state.photos.length ? `<div class="sec"><div class="lbl">Your photos<small>Gemma is looking at ${state.photos.length === 1 ? "it" : "them"} too</small></div><div class="shots">${state.photos.map((p, i) => `<img src="${p}" alt="Your photo ${i + 1}">`).join("")}</div></div>` : ""}
+    <div class="sec"><div class="lbl">What we heard<small>tap to correct</small></div><div class="chips" id="chips"><span class="hint">Reading…</span></div></div>
+    <div class="sec"><div class="lbl">Fit and preferences</div>
+      <div class="row"><label class="f">Clothing size<input id="s-size" placeholder="e.g. M or UK 10" value="${esc($("#size").value)}"></label>
+        <label class="f">Shoe size<input id="s-shoe" placeholder="e.g. 38 or UK 5" value="${esc($("#shoe").value)}"></label></div>
+      <div class="chips" id="toggles">
+        <button type="button" class="chip toggle" data-pref="no_heels" aria-pressed="false">No heels</button>
+        <button type="button" class="chip toggle" data-pref="rewearable" aria-pressed="false">Rewearable</button>
+        <button type="button" class="chip toggle" data-pref="local_first" aria-pressed="false">Local designers first</button></div></div>
+    <div class="sec"><div class="lbl">First look<small>tap any piece for more like it</small></div>
+      <div class="glance" id="glance"></div>
+      <div class="hint">Not yet checked for size, stock or delivery.</div></div>
+    <div class="sec"><div class="lbl">What GOA checked</div><div class="receipt" id="receipt"></div>
+      <div class="hint">Changes here apply instantly, with no extra AI calls.</div></div>
   </section><div id="lookArea" style="display:grid;gap:14px"></div>`;
 }
 
@@ -460,9 +472,9 @@ function wireShape() {
 function renderPreread(d) {
   if (!$("#chips")) return;
   $("#chips").innerHTML = d.chips.length ? d.chips.map((c, i) => `<button type="button" class="chip" data-i="${i}">${esc(c.label)}</button>`).join("")
-    : `<span class="dim">Nothing obvious to pick out; Gemma will read the whole brief.</span>`;
+    : `<span class="hint">Nothing obvious to pick out; Gemma will read the whole brief.</span>`;
   document.querySelectorAll("#chips .chip").forEach(b => b.onclick = () => editChip(b, d.chips[+b.dataset.i]));
-  $("#glance").innerHTML = d.first_glance.map(g => `<button type="button" data-id="${esc(g.id)}" aria-pressed="false"><img src="/${esc(g.image)}" alt=""><span>${esc(g.name)}</span><span class="dim">${esc(g.city)}</span></button>`).join("");
+  $("#glance").innerHTML = d.first_glance.map(g => `<button type="button" data-id="${esc(g.id)}" aria-pressed="false" title="${esc(g.name)}, ${esc(g.city)}"><img src="/${esc(g.image)}" alt=""><span>${esc(g.name)}</span><span>${esc(g.city)}</span></button>`).join("");
   document.querySelectorAll("#glance button").forEach(b => b.onclick = () => {
     const id = b.dataset.id, on = !state.liked.includes(id);
     state.liked = on ? [...state.liked, id] : state.liked.filter(x => x !== id);
@@ -524,15 +536,15 @@ async function build(e) {
   if (window.innerWidth < 900) $("#view").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   $("#go").disabled = true;
   const t0 = Date.now(), text = $("#text").value, market = $("#market").value;
-  const tick = setInterval(() => { const w = $("#wait"); if (w) w.textContent = `Gemma on AMD is reading your brief · ${Math.round((Date.now() - t0) / 1000)} s` }, 1000);
+  const tick = setInterval(() => { const w = $("#wait"); if (w) w.textContent = `Gemma on AMD · ${Math.round((Date.now() - t0) / 1000)} s` }, 1000);
   api("/api/preread", { text, market }).then(renderPreread).catch(() => {});
   try {
     const b = await api("/api/brief", { text, market, images: state.photos.length ? [await collage(state.photos)] : [] });
     Object.assign(state, { briefId: b.brief_id, sample: b.sample });
     clearInterval(tick);
     const c = b.calls.find(x => x.step === "brief") || {};
-    $("#wait").textContent = b.sample ? "Sample brief (no model call)"
-      : c.cached ? "Brief read earlier by Gemma on AMD · from cache" : `Brief read by ${c.model} on AMD Token Factory in ${((c.latency_ms || 0) / 1000).toFixed(1)} s`;
+    $("#wait").textContent = b.sample ? "Sample brief · no model call"
+      : c.cached ? "Gemma on AMD · from cache" : `Gemma on AMD · read in ${((c.latency_ms || 0) / 1000).toFixed(1)} s`;
     const w = document.querySelector(".shape .wait"); if (w) w.textContent = "Shape it, live";
     renderCalls(b.calls);
     await recompose(true);
