@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: goa
+    runtime: python
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: GOA_MODE
+        value: submission
+      - key: TOKEN_FACTORY_API_KEY
+        sync: false
