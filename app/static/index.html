@@ -62,7 +62,7 @@ body.has-look .bigword, body.maker .bigword { display: none }
 
 /* Ticker of unmet wishes, fed by /api/gaps */
 .ticker { background: var(--ink); color: #fff; overflow: hidden; padding: 14px 0 }
-.ticker[hidden] { display: none }
+.ticker[hidden], body:not(.maker) .ticker { display: none }
 .track { display: flex; width: max-content; gap: 36px; font: 800 22px var(--display); font-stretch: 112%; text-transform: uppercase; white-space: nowrap }
 .track .star, .track .lead { color: var(--pop) }
 @media (prefers-reduced-motion: no-preference) {
@@ -235,7 +235,7 @@ footer.foot .wrapper { padding-top: 20px; padding-bottom: 24px; display: flex; f
     <div class="hero-copy">
       <div class="words shop-copy">
         <h1>Dream the fit.<br><em>Wear the real thing.</em></h1>
-        <p>Say it however it lives in your head. GOA builds the look from real makers, in your size, there before your day. What nobody makes yet, the makers hear about.</p>
+        <p>Say it however it lives in your head. GOA builds the whole look from real shops, in your size, there before your day. One brief, every piece checked.</p>
       </div>
       <div class="words maker-copy">
         <span class="tag" style="color:var(--pop)">[demand gaps]</span>
@@ -291,8 +291,8 @@ footer.foot .wrapper { padding-top: 20px; padding-bottom: 24px; display: flex; f
     <div id="view" aria-live="polite" tabindex="-1">
       <div class="empty">
         <span class="tag">[how it works]</span>
-        <h2>Read. Match.<br>Check. Ask or log.</h2>
-        <p style="margin:0;color:var(--muted)">Gemma splits your brief into parts. Each part is matched by meaning across every maker in your search, then checked in code for stock, size, delivery and budget. Fail one check and it is never shown. Anything nobody makes yet goes to the makers.</p>
+        <h2>Describe it.<br>Get the real thing.</h2>
+        <p style="margin:0;color:var(--muted)">Gemma splits your brief into parts. Each part is matched by meaning across every maker in your search, then checked in code for stock, size, delivery and budget. Fail one check and it is never shown.</p>
       </div>
     </div>
   </div>
@@ -314,7 +314,7 @@ const money = (v, ccy) => { try { return new Intl.NumberFormat(undefined, { styl
 const day = iso => new Date(iso + "T00:00:00").toLocaleDateString(undefined, { day: "numeric", month: "short" });
 const SLOT = { garment: "dress or suit", shoes: "shoes", outer_layer: "outer layer", accessory: "accessory" };
 const STATUS = { within: "Within budget", near: "Near budget", over: "Over budget", no_budget: "No budget set" };
-const REASON = { no_match: "No maker in your search stocks this yet.", out_of_stock_in_size: "Matches exist, but not in your size.", too_slow: "Matches exist, but none arrive before your date." };
+const REASON = { no_match: "Nothing in your search matches this yet. Try Worldwide, or change the brief.", out_of_stock_in_size: "Matches exist, but not in your size.", too_slow: "Matches exist, but none arrive before your date." };
 const SHOP_TABS = ["look", "mirror"], MAKER_TABS = ["gaps", "inbox"];
 
 async function api(path, body) {
@@ -472,7 +472,7 @@ function renderReceipt(r, look, animate) {
     `Searched ${r.searched} pieces in ${scope}`,
     `Checked ${r.checked} that match what you asked for, from ${hubs.length} hubs: ${hubs.map(([c, n]) => `${esc(c)} ${n}`).join(" · ")}`,
     ruled.length ? `Ruled out ${ruled.reduce((a, [, n]) => a + n, 0)}: ${ruled.map(([k, n]) => `${n} ${RULED[k] || k}`).join(", ")}` : "Nothing ruled out by the rules",
-    `Found ${filled} of ${look.parts.length} parts${gaps ? ` · ${gaps} not on offer yet, logged for makers` : ""}`,
+    `Found ${filled} of ${look.parts.length} parts${gaps ? ` · ${gaps} not on offer yet` : ""}`,
   ];
   $("#receipt").innerHTML = lines.map((l, i) => `<div class="step" style="animation-delay:${animate ? i * 0.45 : 0}s">${l}</div>`).join("");
 }
@@ -549,7 +549,7 @@ function renderLook() {
     if (p.status !== "available") {
       h += `<article class="gap fade"><div class="head"><span class="slot">[${esc(slot)}]</span><span class="badge">Not on offer yet</span></div>
         <div class="wish">“${esc(p.part.description)}”</div>
-        <div class="want" style="font-style:normal">${REASON[p.reason] || ""} Logged, so makers can see the demand.</div></article>`;
+        <div class="want" style="font-style:normal">${REASON[p.reason] || ""}</div></article>`;
       return;
     }
     const o = p.options[L.chosen[i]];
@@ -575,10 +575,10 @@ function renderLook() {
     h += `</section>`;
   }
   h += `<section class="enquiry dark" aria-label="Send one enquiry"><h3>Send one enquiry</h3>
-    <div class="row"><label class="f">Your name<input id="ename" placeholder="Thandi" autocomplete="name"></label><label class="f">Note to the maker (optional)<input id="enote" placeholder="Anything they should know"></label></div>
+    <div class="row"><label class="f">Your name<input id="ename" placeholder="Thandi" autocomplete="name"></label><label class="f">Note to the shop (optional)<input id="enote" placeholder="Anything they should know"></label></div>
     <button type="button" class="btn big pop" id="send">Send quote request <span aria-hidden="true">→</span></button>
     <button type="button" class="btn ghost" id="save">Save this look</button>
-    <div class="dim" style="font-size:13px">Goes to each maker with their items, your size and date. Demo inbox: nothing is emailed.</div>
+    <div class="dim" style="font-size:13px">No payment now. Shops reply with a confirmed price. Demo: nothing is emailed.</div>
     <div id="sent" style="display:grid;gap:10px" aria-live="polite"></div></section>`;
   ($("#lookArea") || $("#view")).innerHTML = h;
   document.querySelectorAll(".swaps button").forEach(b => b.onclick = () => doSwap(+b.dataset.part, +b.dataset.opt));
@@ -625,10 +625,11 @@ async function sendEnquiry() {
   $("#send").disabled = true;
   try {
     const d = await api("/api/enquiry", { look_id: state.lookId, name: $("#ename").value, note: $("#enote").value });
-    $("#sent").innerHTML = d.enquiries.map(q => `<div class="sent"><b>Sent to ${esc(q.merchant)}</b><span class="dim" style="font-size:13px">${esc(q.to)} · demo inbox, not emailed</span>
-      <div class="lines">${q.items.map(i => `<div><span>${esc(i.name)} · ${esc(i.size)}</span><span>${money(i.price, i.currency)}</span></div>`).join("")}
-        <div class="dim"><span>Shipping · ${q.delivery_days} days${q.event_date ? ` · needed by ${day(q.event_date)}` : ""}</span><span>${money(q.shipping, q.currency)}</span></div></div>
-      <pre class="msg">${esc(q.message)}</pre><span class="calls"><span class="${q.message_source === "token_factory" ? "amd" : ""}">Message written by ${q.message_source === "token_factory" ? "Gemma on AMD Token Factory" : esc(q.message_source)}</span></span></div>`).join("");
+    const shops = [...new Set(d.enquiries.map(q => q.merchant))];
+    const amd = d.enquiries.some(q => q.message_source === "token_factory");
+    $("#sent").innerHTML = `<div class="sent" role="status"><b>Request sent to ${shops.length > 1 ? shops.slice(0, -1).map(esc).join(", ") + " and " + esc(shops[shops.length - 1]) : esc(shops[0])}</b>
+      <span>They will reply with a confirmed price${state.brief && state.brief.event_date ? ` before ${day(state.brief.event_date)}` : ""}.</span>
+      ${amd ? `<span class="calls"><span class="amd">Message written by Gemma on AMD Token Factory</span></span>` : ""}</div>`;
     loadTicker();
   } catch (e) { alertInline(e.message) }
   finally { $("#send").disabled = false }
