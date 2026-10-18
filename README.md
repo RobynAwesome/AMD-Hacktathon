@@ -14,7 +14,7 @@ AMD Developer Hackathon ACT III, Track 3: Reinvent Commerce. Scope: `concept-not
 
 ## Merchants (fictional)
 
-Imbali House (Johannesburg, Black-owned, shweshwe tailoring and Ndebele-inspired beadwork), Adire Atelier (Lagos, adire indigo and Ankara), Fynbos Atelier (Cape Town), Hudson & Pine (New York), Thornbury Lane (London), Via Seta (Milan), Lotus Thread (Shenzhen). 105 items. Images are placeholders until licensed photos are added.
+Imbali House (Johannesburg, Black-owned: sculptural tailoring, Karoo mohair, silk printed from paintings by Johannesburg artists), Ridge & Rand (Durban leather: sneakers, loafers, bags), Fynbos Atelier (Cape Town linen, merino and illustrated prints), Ọ̀ṢỌ́ Studio (contemporary Lagos tailoring), Hudson & Pine (New York), Thornbury Lane (London), Via Seta (Milan), Lotus Thread (Shenzhen). 110 items. The African labels are modern design houses, not themed costume. Images are placeholders until licensed photos are added.
 
 ## Run
 
@@ -38,6 +38,38 @@ Offline demo without a key: `GOA_ALLOW_SAMPLE=1 uvicorn app.main:app`. The Thand
 | embeddings | bge-small via fastembed on CPU (Token Factory has no embeddings endpoint) | no |
 
 Any step can be routed to another provider (`goa/providers.json`: OpenAI-compatible endpoints or Claude via the Anthropic SDK) with `GOA_PROVIDER_<STEP>`. `GOA_MODE=submission` refuses to start if a locked step leaves Token Factory. The Token Factory client retries 429 with backoff, since the team key is limited to 30 requests a minute.
+
+## Evaluation
+
+20 briefs written and frozen before tuning (`eval/briefs.json`, SHA-256 in `eval/briefs.freeze.json`), compared with plain keyword search over the same catalogue.
+
+```
+python eval/run_eval.py --offline   # reference parses, no model calls
+python eval/run_eval.py             # live: shows the Token Factory calls needed, then --yes to run
+```
+
+Offline results (matching and rules only, hand-written parses): see `eval/results_offline.md`.
+
+| Measure | GOA | Keyword search |
+| --- | --- | --- |
+| Valid composition rate | 55% | 25% |
+| Grounding | 100% | 77% |
+| Briefs reaching a sendable enquiry | 90% | 60% |
+| Median steps to a sendable enquiry | 3 | 9 |
+| Unmet parts captured as demand | 9 | 0 |
+
+Blind fit ratings: `eval/blind/` (systems hidden, order shuffled). The live run replaces these numbers once it has been run.
+
+## Protecting the shared AMD quota
+
+The team shares one Token Factory key (30 requests a minute, 8 concurrent, a daily spend cap).
+
+- Every model reply is cached on disk; reruns cost nothing. `GOA_CACHE_ONLY=1` never calls the model.
+- Our limiter stays at 15 requests a minute and 4 in flight, leaving room for teammates.
+- `max_tokens` is capped per step (brief 1200, explain 600, enquiry 400, ideas 400, vision 300).
+- Spend guard: under 25% of the daily cap left, only brief and enquiry call the model; under 10%, cache only. Shown in the page footer.
+- `python scripts/usage.py` prints quota, usage and our recent calls. `cache/calls.jsonl` logs token counts, never prompt text.
+- Big jobs (eval, vision tags) print the calls they need and wait for `--yes`.
 
 ## Catalogue
 

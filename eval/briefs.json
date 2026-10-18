@@ -1,0 +1,1184 @@
+{
+  "version": "goa-eval-v1",
+  "frozen_on": "2026-10-18",
+  "today_for_rules": "2026-10-18",
+  "note": "Written before tuning. text is what the shopper types; reference_brief is a hand-written parse used only in offline runs, labelled as such.",
+  "briefs": [
+    {
+      "id": "b01",
+      "text": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.",
+      "market": "ZA",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "Thandi, from the concept note. Green linen jacket is a known gap.",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-12",
+        "location": "Cape Town",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 2500,
+          "currency": "ZAR",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "green"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "elegant but not formal",
+          "rewearable"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "green dress, elegant but not formal",
+            "colours": [
+              "green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "low heels that work on grass",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "outer_layer",
+            "description": "light green linen jacket",
+            "colours": [
+              "green"
+            ],
+            "materials": [
+              "linen"
+            ]
+          },
+          {
+            "slot": "accessory",
+            "description": "statement jewellery",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b02",
+      "text": "Graduation in Johannesburg on 5 December. Sharp tailoring by a South African designer, black or charcoal, budget R6,000.",
+      "market": "ZA",
+      "scope": "local",
+      "size": "L",
+      "shoe_size": "40",
+      "note": "",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-05",
+        "location": "Johannesburg",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 6000,
+          "currency": "ZAR",
+          "soft": false
+        },
+        "size": "L",
+        "shoe_size": "40",
+        "colours": [
+          "black",
+          "charcoal"
+        ],
+        "formality": "formal",
+        "style_notes": [
+          "sharp tailoring",
+          "local designer"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "sharp black tailored dress or suit",
+            "colours": [
+              "black",
+              "charcoal"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "black leather shoes",
+            "colours": [
+              "black"
+            ],
+            "materials": [
+              "leather"
+            ]
+          },
+          {
+            "slot": "accessory",
+            "description": "minimal metal jewellery",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b03",
+      "text": "Wedding guest in Durban, 28 November, beach venue, hot. Something flowing and colourful, no heels. Around R3,000.",
+      "market": "ZA",
+      "scope": "global",
+      "size": "S",
+      "shoe_size": "37",
+      "note": "",
+      "reference_brief": {
+        "occasion": "wedding guest",
+        "event_date": "2026-11-28",
+        "location": "Durban",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 3000,
+          "currency": "ZAR",
+          "soft": true
+        },
+        "size": "S",
+        "shoe_size": "37",
+        "colours": [
+          "coral",
+          "yellow",
+          "orange"
+        ],
+        "formality": "cocktail",
+        "style_notes": [
+          "flowing",
+          "no heels"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "flowing colourful maxi dress",
+            "colours": [
+              "coral",
+              "yellow",
+              "orange"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "flat sandals, no heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "light clutch",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b04",
+      "text": "Job interview in Cape Town next week, 26 October, consulting firm. Navy or grey, polished, under R4,000.",
+      "market": "ZA",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "39",
+      "note": "",
+      "reference_brief": {
+        "occasion": "interview",
+        "event_date": "2026-10-26",
+        "location": "Cape Town",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 4000,
+          "currency": "ZAR",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "39",
+        "colours": [
+          "navy",
+          "grey"
+        ],
+        "formality": "formal",
+        "style_notes": [
+          "polished"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "navy or grey suit",
+            "colours": [
+              "navy",
+              "grey"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "polished leather shoes",
+            "colours": [],
+            "materials": [
+              "leather"
+            ]
+          },
+          {
+            "slot": "accessory",
+            "description": "structured work bag",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b05",
+      "text": "Formal dinner in Johannesburg on 14 November, winter-ready even though it's summer, I run cold. Emerald silk, a warm wrap. R7,000.",
+      "market": "ZA",
+      "scope": "region",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "",
+      "reference_brief": {
+        "occasion": "formal dinner",
+        "event_date": "2026-11-14",
+        "location": "Johannesburg",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 7000,
+          "currency": "ZAR",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "emerald green"
+        ],
+        "formality": "cocktail",
+        "style_notes": [
+          "runs cold"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "emerald silk dress",
+            "colours": [
+              "emerald green"
+            ],
+            "materials": [
+              "silk"
+            ]
+          },
+          {
+            "slot": "outer_layer",
+            "description": "warm wrap or coat",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "earrings",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b06",
+      "text": "Graduation in Pretoria, 9 December, plus size, I wear XXL. Bright and joyful, budget R3,500.",
+      "market": "ZA",
+      "scope": "global",
+      "size": "XXL",
+      "shoe_size": "41",
+      "note": "XXL is not stocked: expect a size gap.",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-09",
+        "location": "Pretoria",
+        "market": "ZA",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 3500,
+          "currency": "ZAR",
+          "soft": false
+        },
+        "size": "XXL",
+        "shoe_size": "41",
+        "colours": [
+          "yellow",
+          "orange"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "bright",
+          "joyful"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "bright joyful dress",
+            "colours": [
+              "yellow",
+              "orange"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "comfortable shoes",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "statement earrings",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b07",
+      "text": "Wedding guest in Lagos on 20 December, evening, very elegant, emerald or gold. Budget 300,000 naira.",
+      "market": "NG",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "39",
+      "note": "",
+      "reference_brief": {
+        "occasion": "wedding guest",
+        "event_date": "2026-12-20",
+        "location": "Lagos",
+        "market": "NG",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 300000,
+          "currency": "NGN",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "39",
+        "colours": [
+          "emerald green",
+          "gold"
+        ],
+        "formality": "cocktail",
+        "style_notes": [
+          "very elegant",
+          "evening"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "elegant emerald or gold evening dress",
+            "colours": [
+              "emerald green",
+              "gold"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "evening heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "gold jewellery",
+            "colours": [
+              "gold"
+            ],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b08",
+      "text": "Interview at a bank in Lagos, 3 November. Minimal, cream or white, oversized but sharp. 250,000 naira.",
+      "market": "NG",
+      "scope": "region",
+      "size": "L",
+      "shoe_size": "42",
+      "note": "",
+      "reference_brief": {
+        "occasion": "interview",
+        "event_date": "2026-11-03",
+        "location": "Lagos",
+        "market": "NG",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 250000,
+          "currency": "NGN",
+          "soft": false
+        },
+        "size": "L",
+        "shoe_size": "42",
+        "colours": [
+          "cream",
+          "white"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "minimal",
+          "oversized but sharp"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "minimal cream or white oversized shirt dress or suit",
+            "colours": [
+              "cream",
+              "white"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "clean leather shoes",
+            "colours": [],
+            "materials": [
+              "leather"
+            ]
+          },
+          {
+            "slot": "accessory",
+            "description": "leather bag",
+            "colours": [],
+            "materials": [
+              "leather"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b09",
+      "text": "Graduation in Abuja, 15 December, I want green and something from a Nigerian designer, plus a green jacket. 200,000 naira.",
+      "market": "NG",
+      "scope": "global",
+      "size": "S",
+      "shoe_size": "38",
+      "note": "Green outer layer is a known gap.",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-15",
+        "location": "Abuja",
+        "market": "NG",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 200000,
+          "currency": "NGN",
+          "soft": false
+        },
+        "size": "S",
+        "shoe_size": "38",
+        "colours": [
+          "green"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "Nigerian designer"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "green dress",
+            "colours": [
+              "green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "outer_layer",
+            "description": "green jacket",
+            "colours": [
+              "green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "comfortable heels",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b10",
+      "text": "Graduation in New York on 20 December, it'll be freezing. Forest green, warm, under $400.",
+      "market": "US",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-20",
+        "location": "New York",
+        "market": "US",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 400,
+          "currency": "USD",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "forest green"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "warm"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "warm forest green dress",
+            "colours": [
+              "forest green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "outer_layer",
+            "description": "warm coat",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "boots or warm shoes",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "scarf",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b11",
+      "text": "Wedding guest in Brooklyn on 1 November, cocktail attire, burgundy or black, $350 total.",
+      "market": "US",
+      "scope": "global",
+      "size": "S",
+      "shoe_size": "37",
+      "note": "",
+      "reference_brief": {
+        "occasion": "wedding guest",
+        "event_date": "2026-11-01",
+        "location": "New York",
+        "market": "US",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 350,
+          "currency": "USD",
+          "soft": false
+        },
+        "size": "S",
+        "shoe_size": "37",
+        "colours": [
+          "burgundy",
+          "black"
+        ],
+        "formality": "cocktail",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "burgundy or black cocktail dress or jumpsuit",
+            "colours": [
+              "burgundy",
+              "black"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "small evening bag",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b12",
+      "text": "Interview in Manhattan tomorrow, 19 October. Charcoal suit, black shoes. $600.",
+      "market": "US",
+      "scope": "global",
+      "size": "L",
+      "shoe_size": "43",
+      "note": "Tomorrow: almost nothing arrives in time, expect delivery gaps.",
+      "reference_brief": {
+        "occasion": "interview",
+        "event_date": "2026-10-19",
+        "location": "New York",
+        "market": "US",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 600,
+          "currency": "USD",
+          "soft": false
+        },
+        "size": "L",
+        "shoe_size": "43",
+        "colours": [
+          "charcoal",
+          "black"
+        ],
+        "formality": "formal",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "charcoal suit",
+            "colours": [
+              "charcoal"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "black leather shoes",
+            "colours": [
+              "black"
+            ],
+            "materials": [
+              "leather"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b13",
+      "text": "Graduation in London, 10 December, cold and probably raining. Bottle green, classic, a good coat. Budget £450.",
+      "market": "GB",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-10",
+        "location": "London",
+        "market": "GB",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 450,
+          "currency": "GBP",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "bottle green"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "classic"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "bottle green classic dress",
+            "colours": [
+              "bottle green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "outer_layer",
+            "description": "good warm coat",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "waterproof boots",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "small leather bag",
+            "colours": [],
+            "materials": [
+              "leather"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b14",
+      "text": "Wedding guest in the Cotswolds on 7 November, lilac or pastel, a fascinator. £300.",
+      "market": "GB",
+      "scope": "region",
+      "size": "S",
+      "shoe_size": "37",
+      "note": "",
+      "reference_brief": {
+        "occasion": "wedding guest",
+        "event_date": "2026-11-07",
+        "location": "Cotswolds",
+        "market": "GB",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 300,
+          "currency": "GBP",
+          "soft": false
+        },
+        "size": "S",
+        "shoe_size": "37",
+        "colours": [
+          "lilac",
+          "pink"
+        ],
+        "formality": "cocktail",
+        "style_notes": [
+          "pastel"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "lilac or pastel dress",
+            "colours": [
+              "lilac",
+              "pink"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "heels or flats",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "fascinator",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b15",
+      "text": "Black tie dinner in London, 28 November. Black silk gown and a cape, money is less important, £1,200.",
+      "market": "GB",
+      "scope": "global",
+      "size": "M",
+      "shoe_size": "39",
+      "note": "",
+      "reference_brief": {
+        "occasion": "formal dinner",
+        "event_date": "2026-11-28",
+        "location": "London",
+        "market": "GB",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 1200,
+          "currency": "GBP",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "39",
+        "colours": [
+          "black"
+        ],
+        "formality": "black_tie",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "black silk gown",
+            "colours": [
+              "black"
+            ],
+            "materials": [
+              "silk"
+            ]
+          },
+          {
+            "slot": "outer_layer",
+            "description": "evening cape",
+            "colours": [
+              "black"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "evening heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "pearl or gold earrings",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b16",
+      "text": "Graduation in Milan on 18 December, cream linen suit, tan loafers, €700.",
+      "market": "EU",
+      "scope": "local",
+      "size": "M",
+      "shoe_size": "40",
+      "note": "",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-18",
+        "location": "Milan",
+        "market": "EU",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 700,
+          "currency": "EUR",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "40",
+        "colours": [
+          "cream"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "cream linen suit",
+            "colours": [
+              "cream"
+            ],
+            "materials": [
+              "linen"
+            ]
+          },
+          {
+            "slot": "shoes",
+            "description": "tan loafers",
+            "colours": [
+              "tan"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "leather bag",
+            "colours": [],
+            "materials": [
+              "leather"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b17",
+      "text": "Wedding guest in Lake Como, 12 November, green silk, gold heels, €500. I want green shoes if possible.",
+      "market": "EU",
+      "scope": "global",
+      "size": "S",
+      "shoe_size": "37",
+      "note": "Green shoes are a known gap.",
+      "reference_brief": {
+        "occasion": "wedding guest",
+        "event_date": "2026-11-12",
+        "location": "Lake Como",
+        "market": "EU",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 500,
+          "currency": "EUR",
+          "soft": false
+        },
+        "size": "S",
+        "shoe_size": "37",
+        "colours": [
+          "green"
+        ],
+        "formality": "cocktail",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "green silk dress",
+            "colours": [
+              "green"
+            ],
+            "materials": [
+              "silk"
+            ]
+          },
+          {
+            "slot": "shoes",
+            "description": "green shoes",
+            "colours": [
+              "green"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "gold earrings",
+            "colours": [
+              "gold"
+            ],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b18",
+      "text": "Graduation in Shenzhen on 25 December, budget 1,500 yuan, white or champagne, modern.",
+      "market": "CN",
+      "scope": "local",
+      "size": "S",
+      "shoe_size": "37",
+      "note": "",
+      "reference_brief": {
+        "occasion": "graduation",
+        "event_date": "2026-12-25",
+        "location": "Shenzhen",
+        "market": "CN",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 1500,
+          "currency": "CNY",
+          "soft": false
+        },
+        "size": "S",
+        "shoe_size": "37",
+        "colours": [
+          "white",
+          "champagne"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [
+          "modern"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "white or champagne modern dress",
+            "colours": [
+              "white",
+              "champagne"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "comfortable shoes",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "hair accessory",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b19",
+      "text": "Interview in Shanghai on 4 November, black co-ord, patent heels, 1,200 yuan.",
+      "market": "CN",
+      "scope": "region",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "",
+      "reference_brief": {
+        "occasion": "interview",
+        "event_date": "2026-11-04",
+        "location": "Shanghai",
+        "market": "CN",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 1200,
+          "currency": "CNY",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "black"
+        ],
+        "formality": "smart_casual",
+        "style_notes": [],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "black co-ord set",
+            "colours": [
+              "black"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "black patent heels",
+            "colours": [
+              "black"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "structured mini bag",
+            "colours": [
+              "black"
+            ],
+            "materials": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "b20",
+      "text": "Formal dinner in Beijing, 30 November, I want a jade silk dress and a warm grey coat, 3,000 yuan, and something by an African designer if it can arrive.",
+      "market": "CN",
+      "scope": "global",
+      "size": "M",
+      "shoe_size": "38",
+      "note": "",
+      "reference_brief": {
+        "occasion": "formal dinner",
+        "event_date": "2026-11-30",
+        "location": "Beijing",
+        "market": "CN",
+        "setting": null,
+        "weather": null,
+        "budget": {
+          "amount": 3000,
+          "currency": "CNY",
+          "soft": false
+        },
+        "size": "M",
+        "shoe_size": "38",
+        "colours": [
+          "jade green",
+          "grey"
+        ],
+        "formality": "cocktail",
+        "style_notes": [
+          "African designer welcome"
+        ],
+        "constraints": [],
+        "parts": [
+          {
+            "slot": "garment",
+            "description": "jade silk dress",
+            "colours": [
+              "jade green"
+            ],
+            "materials": [
+              "silk"
+            ]
+          },
+          {
+            "slot": "outer_layer",
+            "description": "warm grey coat",
+            "colours": [
+              "grey"
+            ],
+            "materials": []
+          },
+          {
+            "slot": "shoes",
+            "description": "heels",
+            "colours": [],
+            "materials": []
+          },
+          {
+            "slot": "accessory",
+            "description": "statement earrings",
+            "colours": [],
+            "materials": []
+          }
+        ]
+      }
+    }
+  ]
+}

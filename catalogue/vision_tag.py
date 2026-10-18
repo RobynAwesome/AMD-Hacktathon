@@ -12,7 +12,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-from goa import llm  # noqa: E402
+from goa import llm, usage  # noqa: E402
 from goa.brief import _extract_json  # noqa: E402
 
 PROMPT = (
@@ -31,10 +31,20 @@ def tag(path: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--include-placeholders", action="store_true")
+    ap.add_argument("--yes", action="store_true", help="allow the Token Factory calls")
     args = ap.parse_args()
     data = json.loads((HERE / "catalogue.json").read_text())
     cache_path = HERE / "vision_tags.json"
     cache = json.loads(cache_path.read_text()) if cache_path.exists() else {}
+    todo = [i for i in data["items"] if i["id"] not in cache
+            and (args.include_placeholders or not i["image_credit"].startswith("placeholder"))]
+    llm.refresh_usage()
+    frac = usage.USAGE.fraction_remaining()
+    print(f"{len(todo)} photo(s) need one Gemma vision call each. Quota left: "
+          f"{'unknown' if frac is None else f'{frac:.0%}'}. Guard: {usage.guard_level()}.")
+    if todo and not args.yes:
+        print("Add --yes to spend these calls.")
+        return 1
     done = skipped = 0
     for item in data["items"]:
         if item["id"] in cache:
