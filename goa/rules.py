@@ -110,3 +110,11 @@ def check_item(cat: Catalogue, item: CatalogueItem, market: str, size: str | Non
     if not arrives_in_time(days, event_date, today):
         return "too_slow"
     return None
+
+
+def season(hemisphere: str, when: date) -> str:
+    north = {12: "winter", 1: "winter", 2: "winter", 3: "spring", 4: "spring", 5: "spring",
+             6: "summer", 7: "summer", 8: "summer", 9: "autumn", 10: "autumn", 11: "autumn"}[when.month]
+    if hemisphere == "north":
+        return north
+    return {"winter": "summer", "summer": "winter", "spring": "autumn", "autumn": "spring"}[north]

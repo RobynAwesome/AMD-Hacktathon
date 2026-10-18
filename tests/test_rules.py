@@ -60,3 +60,9 @@ def test_budget_status_edges():
     assert rules.budget_status(110, 100) == "near"
     assert rules.budget_status(110.01, 100) == "over"
     assert rules.budget_status(5, None) == "no_budget"
+
+
+def test_season_flips_by_hemisphere():
+    assert rules.season("north", date(2026, 12, 12)) == "winter"
+    assert rules.season("south", date(2026, 12, 12)) == "summer"
+    assert rules.season("south", date(2026, 7, 1)) == "winter"

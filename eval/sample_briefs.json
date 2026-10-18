@@ -1,0 +1,18 @@
+[
+  {
+    "text": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.",
+    "note": "Hand-written brief for offline demos (GOA_ALLOW_SAMPLE=1). Shown on screen as a sample, never as model output.",
+    "brief": {
+      "occasion": "graduation", "event_date": "2026-12-12", "location": "Cape Town", "setting": "outdoor",
+      "weather": "warm, summer in Cape Town", "budget": {"amount": 2500, "currency": "ZAR", "soft": false},
+      "size": null, "shoe_size": null, "colours": ["green"], "formality": "smart_casual",
+      "style_notes": ["elegant but not formal", "rewearable"], "constraints": [],
+      "parts": [
+        {"slot": "garment", "description": "green dress, elegant but not formal, rewearable", "colours": ["green"], "materials": []},
+        {"slot": "shoes", "description": "comfortable low heels that work on grass", "colours": [], "materials": []},
+        {"slot": "outer_layer", "description": "light green linen jacket for the evening", "colours": ["green"], "materials": ["linen"]},
+        {"slot": "accessory", "description": "a statement piece of jewellery", "colours": [], "materials": []}
+      ]
+    }
+  }
+]
