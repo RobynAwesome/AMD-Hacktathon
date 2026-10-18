@@ -107,17 +107,21 @@ class Usage:
             if isinstance(v, dict):
                 flat.update(v)
         num = lambda *keys: next((float(flat[k]) for k in keys if isinstance(flat.get(k), (int, float))), None)  # noqa: E731
-        total = num("total_quota", "quota", "total", "limit", "daily_limit")
-        used = num("used", "used_amount", "spent")
-        remaining = num("remaining", "remaining_amount", "balance")
+        total = num("daily_cost_limit_usd", "total_quota", "quota", "total", "limit", "daily_limit")
+        used = num("daily_cost_used_usd", "used", "used_amount", "spent")
+        remaining = num("daily_cost_remaining_usd", "remaining", "remaining_amount", "balance")
         if remaining is None and total is not None and used is not None:
             remaining = total - used
         if total is not None and remaining is not None:
             self.limit, self.remaining = total, remaining
-        self.reset = str(flat.get("reset_at") or flat.get("reset_time") or flat.get("reset") or self.reset or "")
+        reset = flat.get("daily_reset_at") or flat.get("reset_at") or flat.get("reset_time") or flat.get("reset")
+        tz = flat.get("daily_reset_timezone")
+        self.reset = f"{reset} {tz}".strip() if reset and tz else str(reset or self.reset or "")
         rpm = flat.get("rpm_limit") or flat.get("rpm")
         if rpm:
             self.rpm = str(rpm)
+            # Stay at least 5 requests a minute under the key's real limit, and never above our default.
+            LIMITER.per_minute = max(1, min(LIMITER.per_minute, int(float(rpm)) - 5))
         self.raw = {k: v for k, v in flat.items() if not isinstance(v, (list, dict))}
         self.checked_at = time.time()
 

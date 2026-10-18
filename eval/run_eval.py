@@ -42,7 +42,8 @@ SIZE_IN_TEXT = re.compile(r"\b(size|xxs|xs|xl|xxl|uk \d+|us \d+|eu \d+)\b", re.I
 def check_freeze() -> dict:
     data = json.loads((EVAL / "briefs.json").read_text())
     want = json.loads((EVAL / "briefs.freeze.json").read_text())["sha256"]
-    got = hashlib.sha256((EVAL / "briefs.json").read_bytes()).hexdigest()
+    # Line endings normalised, so a Windows checkout (CRLF) hashes the same as the frozen file.
+    got = hashlib.sha256((EVAL / "briefs.json").read_bytes().replace(b"\r\n", b"\n")).hexdigest()
     if got != want:
         sys.exit(f"eval/briefs.json changed after it was frozen (sha256 {got[:12]} != {want[:12]}). Refusing to run.")
     return data

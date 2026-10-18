@@ -9,7 +9,7 @@
       "key_env_alias": "RADEON_API_KEY",
       "model_env": "GEMMA_MODEL",
       "model": "Gemma-4-31B-IT",
-      "note": "AMD Token Factory shared endpoint. 30 RPM and 8 concurrent per team key. No embeddings endpoint."
+      "note": "AMD Token Factory shared endpoint. rpm_limit 20 per team key (from /v1/usage), 8 concurrent. No embeddings endpoint."
     },
     "ai_studio": {
       "kind": "openai_compat",

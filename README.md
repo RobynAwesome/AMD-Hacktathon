@@ -62,7 +62,7 @@ Blind fit ratings: `eval/blind/` (systems hidden, order shuffled). The live run 
 
 ## Protecting the shared AMD quota
 
-The team shares one Token Factory key (30 requests a minute, 8 concurrent, a daily spend cap).
+The team shares one Token Factory key (20 requests a minute per /v1/usage, 8 concurrent, a daily spend cap in USD).
 
 - Every model reply is cached on disk; reruns cost nothing. `GOA_CACHE_ONLY=1` never calls the model.
 - Our limiter stays at 15 requests a minute and 4 in flight, leaving room for teammates.

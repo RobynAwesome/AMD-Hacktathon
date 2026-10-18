@@ -26,6 +26,9 @@ def main() -> int:
     except llm.LLMConfigError as e:
         print(e, file=sys.stderr)
         return 2
+    except llm.LLMTimeout as e:
+        print(e, file=sys.stderr)
+        return 3
     except BriefError as e:
         print(e, file=sys.stderr)
         return 1

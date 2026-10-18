@@ -33,3 +33,11 @@ def test_known_gaps_are_captured():
     b = data["b01"]
     g = R.run_goa(cat, Brief.model_validate(b["reference_brief"]), b, today)
     assert any(x["slot"] == "outer_layer" for x in g["gaps"])
+
+
+def test_freeze_survives_windows_line_endings(tmp_path, monkeypatch):
+    raw = (R.EVAL / "briefs.json").read_bytes()
+    (tmp_path / "briefs.json").write_bytes(raw.replace(b"\n", b"\r\n"))
+    (tmp_path / "briefs.freeze.json").write_bytes((R.EVAL / "briefs.freeze.json").read_bytes())
+    monkeypatch.setattr(R, "EVAL", tmp_path)
+    assert len(R.check_freeze()["briefs"]) == 20

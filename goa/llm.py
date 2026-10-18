@@ -129,10 +129,32 @@ def _require(r: Route) -> None:
         raise LLMConfigError(f"Submission mode: step {r.step} must use {r.locked_to} ({LOCKS[r.step]['why']}).")
 
 
+class LLMTimeout(RuntimeError):
+    pass
+
+
+def _timeout() -> float:
+    try:
+        return float(os.environ.get("GOA_TIMEOUT", 180))
+    except ValueError:
+        return 180.0
+
+
 def _post_with_backoff(url: str, body: dict, headers: dict, timeout: float, tries: int = 4):
-    """Retry only 429 (shared team key: 30 RPM, 8 concurrent) and 502/503, honouring Retry-After."""
+    """Retry 429 (shared team key) and 502/503, honouring Retry-After. A timeout or dropped connection
+    is retried once, then raised as LLMTimeout with a plain message."""
+    timeouts = 0
     for attempt in range(tries):
-        resp = httpx.post(url, json=body, headers=headers, timeout=timeout)
+        try:
+            resp = httpx.post(url, json=body, headers=headers, timeout=timeout)
+        except (httpx.TimeoutException, httpx.ConnectError, httpx.RemoteProtocolError) as e:
+            timeouts += 1
+            if timeouts >= 2:
+                raise LLMTimeout(f"{body.get('model')} did not answer within {timeout:.0f} s, twice "
+                                 f"({type(e).__name__}). The shared endpoint may be busy; try again, "
+                                 "or raise GOA_TIMEOUT.") from e
+            time.sleep(2 + random.random())
+            continue
         if resp.status_code not in (429, 502, 503) or attempt == tries - 1:
             return resp
         wait = float(resp.headers.get("retry-after", 0) or 0) or (2 ** attempt + random.random())
@@ -218,10 +240,13 @@ def _cache_key(r: Route, messages: list[dict], json_mode: bool, images: list[Ima
 
 
 def chat(step: str, messages: list[dict], json_mode: bool = True, images: list[Image] | None = None,
-         timeout: float = 90.0, use_cache: bool = True) -> LLMReply:
+         timeout: float | None = None, use_cache: bool = True) -> LLMReply:
     """One model call, through the cache, the usage guard and the rate limiter, in that order."""
     r = route(step)
     images = images or []
+    timeout = timeout or _timeout()
+    if os.environ.get("GOA_JSON_MODE") == "0":
+        json_mode = False  # rely on the prompt and our parser if the endpoint is slow in JSON mode
     path = CACHE_DIR / f"{_cache_key(r, messages, json_mode, images)}.json"
     if use_cache and path.exists():
         hit = json.loads(path.read_text())

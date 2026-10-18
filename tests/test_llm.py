@@ -177,3 +177,41 @@ def test_rate_limiter_never_exceeds_per_minute():
         lim.release()
     for i, s in enumerate(starts):
         assert sum(1 for x in starts if s <= x < s + 60) <= 15
+
+
+def test_token_factory_usage_fields():
+    """Field names exactly as Token Factory's GET /v1/usage returned them on the first live run."""
+    from goa import usage
+
+    u = usage.Usage()
+    before = usage.LIMITER.per_minute
+    u.update_from_usage({"daily_cost_limit_usd": 5.0, "daily_cost_used_usd": 1.0, "daily_cost_remaining_usd": 4.0,
+                         "daily_reset_at": "2026-10-19T00:00:00+08:00", "daily_reset_timezone": "Asia/Shanghai",
+                         "rpm_limit": 20, "today": {"requests": 3}})
+    assert u.fraction_remaining() == pytest.approx(0.8)
+    assert "Asia/Shanghai" in u.reset and u.rpm == "20"
+    assert usage.LIMITER.per_minute <= 15
+    usage.LIMITER.per_minute = before
+
+
+def test_timeout_is_retried_once_then_clear(monkeypatch):
+    monkeypatch.setenv("TOKEN_FACTORY_API_KEY", "k")
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+    tries = []
+
+    def slow(url, json, headers, timeout):
+        tries.append(1)
+        raise llm.httpx.ReadTimeout("slow")
+
+    monkeypatch.setattr(llm.httpx, "post", slow)
+    with pytest.raises(llm.LLMTimeout, match="did not answer"):
+        llm.chat("brief", [{"role": "user", "content": "x"}], use_cache=False)
+    assert len(tries) == 2
+
+
+def test_json_mode_can_be_switched_off(monkeypatch):
+    calls = []
+    _fake_tf(monkeypatch, calls)
+    monkeypatch.setenv("GOA_JSON_MODE", "0")
+    llm.chat("ideas", [{"role": "user", "content": "x"}], use_cache=False)
+    assert "response_format" not in calls[0]

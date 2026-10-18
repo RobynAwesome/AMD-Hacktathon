@@ -1,0 +1,4 @@
+eval/*.json text eol=lf
+*.py text eol=lf
+*.png binary
+*.npy binary
