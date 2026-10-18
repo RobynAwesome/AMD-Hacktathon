@@ -4,6 +4,7 @@ Routing, from env vars (or .env):
   GOA_PROVIDER              default provider for every step (default: token_factory)
   GOA_PROVIDER_<STEP>       provider for one step, e.g. GOA_PROVIDER_IDEAS=anthropic
   GOA_MODEL_<STEP>          model for one step
+  Token Factory key: TOKEN_FACTORY_API_KEY (or RADEON_API_KEY), base URL defaults to the shared endpoint.
   GOA_MODE                  dev (default) warns when a prize-locked step is routed away from its
                             provider; submission refuses to run
 Providers and prize locks live in goa/providers.json.
@@ -14,6 +15,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import random
 import sys
 import time
 from dataclasses import dataclass
@@ -83,7 +85,8 @@ def route(step: str) -> Route:
     model = _env(f"GOA_MODEL_{step.upper()}") or _env(p.get("model_env", "")) or p["model"]
     base_url = (_env(p.get("base_url_env", "")) or p.get("base_url", "")).rstrip("/")
     lock = LOCKS.get(step, {}).get("provider")
-    return Route(step, name, p["kind"], model, base_url, _env(p.get("key_env", "")), lock)
+    key = _env(p.get("key_env", "")) or _env(p.get("key_env_alias", ""))
+    return Route(step, name, p["kind"], model, base_url, key, lock)
 
 
 def lock_problems() -> list[str]:
@@ -115,6 +118,17 @@ def _require(r: Route) -> None:
         raise LLMConfigError(f"Submission mode: step {r.step} must use {r.locked_to} ({LOCKS[r.step]['why']}).")
 
 
+def _post_with_backoff(url: str, body: dict, headers: dict, timeout: float, tries: int = 4):
+    """Retry only 429 (shared team key: 30 RPM, 8 concurrent) and 502/503, honouring Retry-After."""
+    for attempt in range(tries):
+        resp = httpx.post(url, json=body, headers=headers, timeout=timeout)
+        if resp.status_code not in (429, 502, 503) or attempt == tries - 1:
+            return resp
+        wait = float(resp.headers.get("retry-after", 0) or 0) or (2 ** attempt + random.random())
+        time.sleep(min(wait, 60))
+    return resp
+
+
 def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list[Image], timeout: float) -> str:
     msgs = [dict(m) for m in messages]
     if images:
@@ -128,11 +142,11 @@ def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list
     if json_mode:
         body["response_format"] = {"type": "json_object"}
     headers = {"Authorization": f"Bearer {r.key}"} if r.key else {}
-    resp = httpx.post(f"{r.base_url}/chat/completions", json=body, headers=headers, timeout=timeout)
+    resp = _post_with_backoff(f"{r.base_url}/chat/completions", body, headers, timeout)
     if resp.status_code == 400 and json_mode:
         # Some endpoints reject response_format; the prompt still asks for JSON.
         body.pop("response_format")
-        resp = httpx.post(f"{r.base_url}/chat/completions", json=body, headers=headers, timeout=timeout)
+        resp = _post_with_backoff(f"{r.base_url}/chat/completions", body, headers, timeout)
     resp.raise_for_status()
     return resp.json()["choices"][0]["message"]["content"] or ""
 

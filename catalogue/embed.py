@@ -7,12 +7,15 @@ Run: python catalogue/embed.py
 
 import json
 import sys
-import zlib
 from pathlib import Path
 
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+
+from goa.embedding import hashed_bow  # noqa: E402
+
 MODEL = "BAAI/bge-small-en-v1.5"
 
 
@@ -27,14 +30,6 @@ def item_text(item: dict) -> str:
     if item.get("vision_tags"):
         parts.append("looks like: " + json.dumps(item["vision_tags"]))
     return ". ".join(parts)
-
-
-def hashed_bow(texts: list[str], dim: int = 512) -> np.ndarray:
-    out = np.zeros((len(texts), dim), dtype=np.float32)
-    for i, t in enumerate(texts):
-        for w in t.lower().replace(",", " ").replace(".", " ").split():
-            out[i, zlib.crc32(w.encode()) % dim] += 1.0  # stable across runs
-    return out
 
 
 def embed(texts: list[str]) -> tuple[np.ndarray, str]:

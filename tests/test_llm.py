@@ -9,7 +9,7 @@ from goa import llm
 
 @pytest.fixture(autouse=True)
 def clean_env(monkeypatch):
-    for k in ["GOA_PROVIDER", "GOA_MODE", "TOKEN_FACTORY_BASE_URL", "TOKEN_FACTORY_API_KEY", "GEMMA_MODEL"]:
+    for k in ["GOA_PROVIDER", "GOA_MODE", "TOKEN_FACTORY_BASE_URL", "TOKEN_FACTORY_API_KEY", "RADEON_API_KEY", "GEMMA_MODEL"]:
         monkeypatch.delenv(k, raising=False)
     for s in llm.STEPS:
         monkeypatch.delenv(f"GOA_PROVIDER_{s.upper()}", raising=False)
@@ -44,7 +44,7 @@ def test_dev_mode_warns(monkeypatch, capsys):
 
 
 def test_missing_key_is_clear():
-    with pytest.raises(llm.LLMConfigError, match="base URL"):
+    with pytest.raises(llm.LLMConfigError, match="TOKEN_FACTORY_API_KEY"):
         llm.chat("brief", [{"role": "user", "content": "hi"}])
 
 
