@@ -2,5 +2,7 @@
   "file": "eval/briefs.json",
   "sha256": "c974ef17d239e209575dd0869c3d087b04b361f8d21a194cc89e9a1ceaf83936",
   "frozen_on": "2026-10-18",
-  "count": 20
+  "count": 20,
+  "sha256_canonical": "cbff26d42e709eea652a66cd688ee4460a876745df04f02555218c09f76238d0",
+  "note": "sha256 is of the file bytes with carriage returns removed; sha256_canonical is of the JSON content (sorted keys, no whitespace), so any checkout that keeps the same briefs passes."
 }

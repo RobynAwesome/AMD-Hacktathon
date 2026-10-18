@@ -41,3 +41,25 @@ def test_freeze_survives_windows_line_endings(tmp_path, monkeypatch):
     (tmp_path / "briefs.freeze.json").write_bytes((R.EVAL / "briefs.freeze.json").read_bytes())
     monkeypatch.setattr(R, "EVAL", tmp_path)
     assert len(R.check_freeze()["briefs"]) == 20
+
+
+def test_freeze_survives_bom_and_doubled_carriage_returns(tmp_path, monkeypatch):
+    raw = (R.EVAL / "briefs.json").read_bytes()
+    (tmp_path / "briefs.json").write_bytes(b"\xef\xbb\xbf" + raw.replace(b"\n", b"\r\r\n"))
+    (tmp_path / "briefs.freeze.json").write_bytes((R.EVAL / "briefs.freeze.json").read_bytes())
+    monkeypatch.setattr(R, "EVAL", tmp_path)
+    assert len(R.check_freeze()["briefs"]) == 20
+
+
+def test_freeze_survives_reformatting_but_not_edits(tmp_path, monkeypatch):
+    data = json.loads((R.EVAL / "briefs.json").read_text(encoding="utf-8"))
+    (tmp_path / "briefs.freeze.json").write_bytes((R.EVAL / "briefs.freeze.json").read_bytes())
+    monkeypatch.setattr(R, "EVAL", tmp_path)
+    (tmp_path / "briefs.json").write_text(json.dumps(data, indent=4), encoding="utf-8")
+    assert len(R.check_freeze()["briefs"]) == 20
+    data["briefs"][0]["text"] += " edited"
+    (tmp_path / "briefs.json").write_text(json.dumps(data, indent=2), encoding="utf-8")
+    import pytest
+
+    with pytest.raises(SystemExit):
+        R.check_freeze()

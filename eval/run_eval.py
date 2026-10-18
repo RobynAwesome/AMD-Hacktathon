@@ -39,14 +39,22 @@ EVAL = ROOT / "eval"
 SIZE_IN_TEXT = re.compile(r"\b(size|xxs|xs|xl|xxl|uk \d+|us \d+|eu \d+)\b", re.I)
 
 
+def _canonical_sha(data) -> str:
+    """Hash of the JSON content itself, independent of whitespace, line endings and key order."""
+    return hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
+
+
 def check_freeze() -> dict:
-    data = json.loads((EVAL / "briefs.json").read_text())
-    want = json.loads((EVAL / "briefs.freeze.json").read_text())["sha256"]
-    # Line endings normalised, so a Windows checkout (CRLF) hashes the same as the frozen file.
-    got = hashlib.sha256((EVAL / "briefs.json").read_bytes().replace(b"\r\n", b"\n")).hexdigest()
-    if got != want:
-        sys.exit(f"eval/briefs.json changed after it was frozen (sha256 {got[:12]} != {want[:12]}). Refusing to run.")
-    return data
+    raw = (EVAL / "briefs.json").read_bytes()
+    freeze = json.loads((EVAL / "briefs.freeze.json").read_text(encoding="utf-8"))
+    data = json.loads(raw.decode("utf-8-sig"))
+    # Checkouts on Windows can add carriage returns or a byte-order mark; neither changes the briefs.
+    got = hashlib.sha256(raw.removeprefix(b"\xef\xbb\xbf").replace(b"\r", b"")).hexdigest()
+    if got == freeze["sha256"]:
+        return data
+    if freeze.get("sha256_canonical") and _canonical_sha(data) == freeze["sha256_canonical"]:
+        return data
+    sys.exit(f"eval/briefs.json changed after it was frozen (sha256 {got[:12]} != {freeze['sha256'][:12]}). Refusing to run.")
 
 
 def run_goa(cat, brief: Brief, b: dict, today: date) -> dict:
