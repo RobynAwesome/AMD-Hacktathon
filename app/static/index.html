@@ -77,7 +77,7 @@ body.has-look .bigword, body.maker .bigword { display: none }
 
 /* Layout */
 main.page { padding-top: 28px; padding-bottom: 40px }
-.layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); align-items: start }
+.layout { display: grid; gap: 20px; grid-template-columns: minmax(340px, 400px) minmax(0, 1fr); align-items: start }
 body.maker .layout { grid-template-columns: minmax(0, 1fr) } body.maker #form { display: none }
 @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr) } }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 18px; display: grid; gap: 14px; min-width: 0 }
@@ -106,7 +106,23 @@ textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); li
 .chip { min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--base); color: var(--ink); cursor: pointer; font: 500 14px/1.35 var(--body); text-align: left }
 .chip.on, .chip[aria-pressed="true"] { background: var(--hero); color: #fff; border-color: var(--hero) }
 .chip input { width: 9em; min-height: 32px; padding: 2px 8px; font-size: 14px }
-.thumbs { display: flex; gap: 8px } .thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 12px }
+.drop { position: relative; border: 2px dashed var(--soft); border-radius: 20px; background: var(--tint); padding: 16px; display: grid; gap: 10px; cursor: pointer; transition: border-color .15s, background .15s }
+.drop:hover, .drop.over { border-color: var(--hero); background: #E4DAFF }
+.drop:focus-within { outline: 3px solid var(--focus); outline-offset: 2px }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; min-height: 0; width: 100% }
+.drop .lead { display: flex; align-items: center; gap: 12px }
+.drop .ico { width: 44px; height: 44px; flex: none; border-radius: 14px; background: var(--hero); color: #fff; display: flex; align-items: center; justify-content: center }
+.drop b { font: 800 16px var(--display); font-stretch: 112%; text-transform: uppercase }
+.thumbs { display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 1 }
+.thumb { position: relative; width: 76px; height: 76px }
+.thumb img { width: 76px; height: 76px; object-fit: cover; border-radius: 14px; display: block }
+.thumb button { position: absolute; top: -8px; right: -8px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; background: var(--ink); color: #fff; font-size: 16px; line-height: 1; cursor: pointer }
+.taps { display: grid; gap: 8px }
+.taps .group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
+.taps .tag { min-width: 72px }
+.tap { min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: 600 14px var(--body); cursor: pointer }
+.tap[aria-pressed="true"] { background: var(--hero); border-color: var(--hero); color: #fff }
+.shape .shots { display: flex; gap: 8px; align-items: center } .shape .shots img { width: 52px; height: 52px; object-fit: cover; border-radius: 12px; border: 2px solid var(--pop) }
 .calls { font: 12px/1.6 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 14px }
 .calls .amd::before, .amdmark::before { content: "● "; color: var(--amd) }
 .dark .calls .amd::before, .dark .amdmark::before { color: var(--amd-on-ink) }
@@ -278,12 +294,23 @@ footer.foot .wrapper { padding-top: 20px; padding-bottom: 24px; display: flex; f
           <button type="button" data-scope="global" aria-pressed="true">Worldwide</button>
         </div>
       </div>
+      <div class="drop" id="drop">
+        <div class="lead"><span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 17l-5-5-9 8"/></svg></span>
+          <span style="display:grid;gap:2px"><b>Show us what you mean</b><span style="font-size:14px;color:var(--muted)">Up to 3 photos: a look you love, a colour, a fabric. Tap, drop, paste or use your camera.</span></span></div>
+        <label class="sr" for="photos">Add photos</label><input id="photos" type="file" accept="image/*" multiple>
+        <div class="thumbs" id="thumbs"></div>
+        <span class="calls" id="photo-note" hidden><span class="amd">Gemma 4 on AMD reads your photos with your words</span></span>
+      </div>
+      <div class="taps" id="taps" aria-label="Tap to add to your brief">
+        <span class="tag">[tap to add]</span>
+        <div class="group"><span class="tag">colour</span><button type="button" class="tap" data-add="emerald">Emerald</button><button type="button" class="tap" data-add="sage green">Sage</button><button type="button" class="tap" data-add="lilac">Lilac</button><button type="button" class="tap" data-add="gold accents">Gold</button><button type="button" class="tap" data-add="all black">Black</button></div>
+        <div class="group"><span class="tag">feel</span><button type="button" class="tap" data-add="elegant">Elegant</button><button type="button" class="tap" data-add="relaxed">Relaxed</button><button type="button" class="tap" data-add="bold and modern">Bold</button><button type="button" class="tap" data-add="minimal">Minimal</button></div>
+        <div class="group"><span class="tag">needs</span><button type="button" class="tap" data-add="flat shoes">Flat shoes</button><button type="button" class="tap" data-add="something I can wear again">Wear again</button><button type="button" class="tap" data-add="outdoor, warm weather">Outdoor</button><button type="button" class="tap" data-add="made by a local designer">Local designer</button></div>
+      </div>
       <div class="chips">
         <button type="button" class="pillbtn" id="ideas-btn">✦ Give me ideas</button>
-        <label class="pillbtn dash filebtn">+ Mood photos (up to 3)<input id="photos" type="file" accept="image/*" multiple></label>
       </div>
       <div class="chips" id="ideas" aria-live="polite"></div>
-      <div class="thumbs" id="thumbs"></div>
       <button class="btn big" id="go" type="submit">Build my look <span class="arr" aria-hidden="true">→</span></button>
       <div class="calls" id="calls" aria-live="polite"><span class="amd">Brief read by Gemma 4 on AMD Token Factory · about a minute, instant after</span></div>
     </form>
@@ -405,6 +432,7 @@ function shapeShell() {
   return `<section class="shape dark" aria-label="Shape your look while Gemma reads">
     <div class="calls"><span class="amd" id="wait">Gemma on AMD is reading your brief · 0 s</span></div>
     <div class="wait">Reading your brief</div>
+    ${state.photos.length ? `<div class="shots"><span class="dim" style="font-size:14px">Looking at your ${state.photos.length === 1 ? "photo" : state.photos.length + " photos"}</span>${state.photos.map((p, i) => `<img src="${p}" alt="Your photo ${i + 1}">`).join("")}</div>` : ""}
     <div><div class="tag">[what GOA heard] tap to correct</div><div class="chips" id="chips" style="margin-top:8px"><span class="dim">Reading…</span></div></div>
     <div class="row"><label class="f">Clothing size<input id="s-size" placeholder="e.g. M or UK 10" value="${esc($("#size").value)}"></label>
       <label class="f">Shoe size<input id="s-shoe" placeholder="e.g. 38 or UK 5" value="${esc($("#shoe").value)}"></label></div>
@@ -499,7 +527,7 @@ async function build(e) {
   const tick = setInterval(() => { const w = $("#wait"); if (w) w.textContent = `Gemma on AMD is reading your brief · ${Math.round((Date.now() - t0) / 1000)} s` }, 1000);
   api("/api/preread", { text, market }).then(renderPreread).catch(() => {});
   try {
-    const b = await api("/api/brief", { text, market, images: state.photos });
+    const b = await api("/api/brief", { text, market, images: state.photos.length ? [await collage(state.photos)] : [] });
     Object.assign(state, { briefId: b.brief_id, sample: b.sample });
     clearInterval(tick);
     const c = b.calls.find(x => x.step === "brief") || {};
@@ -706,16 +734,54 @@ $("#ideas-btn").onclick = async () => {
   finally { $("#ideas-btn").disabled = false }
 };
 
-$("#photos").addEventListener("change", async e => {
-  const files = [...e.target.files].slice(0, 3);
-  state.photos = await Promise.all(files.map(f => new Promise(res => {
-    const img = new Image(); img.onload = () => {
+function shrink(f) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
       const scale = Math.min(1, 768 / Math.max(img.width, img.height));
       const c = document.createElement("canvas"); c.width = img.width * scale; c.height = img.height * scale;
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL("image/jpeg", 0.85));
-    }; img.src = URL.createObjectURL(f);
-  })));
-  $("#thumbs").innerHTML = state.photos.map((p, i) => `<img src="${p}" alt="Mood photo ${i + 1}">`).join("");
+    };
+    img.onerror = rej; img.src = URL.createObjectURL(f);
+  });
+}
+/* Up to 3 photos become one image side by side: one vision call, and the most reliable shape for Gemma. */
+function collage(urls) {
+  if (urls.length === 1) return Promise.resolve(urls[0]);
+  return Promise.all(urls.map(u => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.src = u }))).then(imgs => {
+    const h = 512, ws = imgs.map(i => Math.round(i.width * h / i.height)), gap = 8;
+    let W = ws.reduce((a, w) => a + w, 0) + gap * (imgs.length - 1), scale = Math.min(1, 1024 / W);
+    const c = document.createElement("canvas"); c.width = Math.round(W * scale); c.height = Math.round(h * scale);
+    const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+    let x = 0; imgs.forEach((i, k) => { g.drawImage(i, x * scale, 0, ws[k] * scale, h * scale); x += ws[k] + gap });
+    return c.toDataURL("image/jpeg", 0.85);
+  });
+}
+async function addPhotos(files) {
+  const imgs = [...files].filter(f => f.type.startsWith("image/")).slice(0, 3 - state.photos.length);
+  if (!imgs.length) return;
+  const added = await Promise.all(imgs.map(f => shrink(f).catch(() => null)));
+  state.photos = [...state.photos, ...added.filter(Boolean)].slice(0, 3);
+  renderThumbs();
+}
+function renderThumbs() {
+  $("#thumbs").innerHTML = state.photos.map((p, i) => `<span class="thumb"><img src="${p}" alt="Your photo ${i + 1}"><button type="button" data-rm="${i}" aria-label="Remove photo ${i + 1}">×</button></span>`).join("");
+  $("#photo-note").hidden = !state.photos.length;
+  document.querySelectorAll("#thumbs [data-rm]").forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); state.photos.splice(+b.dataset.rm, 1); renderThumbs() });
+}
+$("#photos").addEventListener("change", e => { addPhotos(e.target.files); e.target.value = "" });
+const drop = $("#drop");
+["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over") }));
+["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over") }));
+drop.addEventListener("drop", e => addPhotos(e.dataTransfer.files));
+document.addEventListener("paste", e => { const files = [...(e.clipboardData?.files || [])]; if (files.some(f => f.type.startsWith("image/"))) { e.preventDefault(); addPhotos(files) } });
+
+/* Tap to add: each chip adds or removes a phrase in the brief, so people can shape it without typing. */
+document.querySelectorAll("#taps .tap").forEach(b => b.onclick = () => {
+  const t = $("#text"), phrase = b.dataset.add, on = b.getAttribute("aria-pressed") !== "true";
+  if (on) t.value = t.value.replace(/\s*$/, "") + (/[.!?]$/.test(t.value.trim()) || !t.value.trim() ? " " : ". ") + phrase[0].toUpperCase() + phrase.slice(1) + ".";
+  else t.value = t.value.replace(new RegExp("\\s*" + phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\.?", "i"), "").trim();
+  b.setAttribute("aria-pressed", String(on));
 });
 
 async function renderUsage() {

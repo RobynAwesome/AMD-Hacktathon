@@ -115,10 +115,21 @@ def ideas(occasion: str, market: str, notes: str = "") -> Narration:
 
 def mood_notes(images: list[llm.Image]) -> Narration:
     """Describe up to 3 mood photos as style notes that get added to the brief text."""
-    system = ("Describe the outfit style in these mood photos for a shopping brief: colours, fabrics, silhouettes, "
-              "formality. Return JSON: {\"notes\": \"one or two sentences\"}")
-    reply = _call("vision", system, "Mood photos attached.", images=images[:3])
-    return Narration(_extract_json(reply.text).get("notes", ""), reply.provider, reply.latency_ms, reply.model)
+    # One user message with the image, no system role: Gemma's chat template handles images most reliably this way,
+    # the same shape catalogue/vision_tag.py uses. The page combines up to 3 photos into one image before sending.
+    prompt = ("Describe the outfit style in this photo for a shopping brief: colours, fabrics, silhouettes, formality. "
+              "Reply with JSON only: {\"notes\": \"one or two sentences\"}")
+    msgs = [{"role": "user", "content": prompt}]
+    try:
+        reply = llm.chat("vision", msgs, json_mode=True, images=images[:3])
+    except Exception:
+        reply = llm.chat("vision", msgs, json_mode=False, images=images[:1])  # one retry: plain text, first image only
+    try:
+        notes = _extract_json(reply.text).get("notes", "")
+    except Exception:
+        notes = ""
+    notes = notes or reply.text.strip()[:400]
+    return Narration(notes, reply.provider, reply.latency_ms, reply.model)
 
 
 def as_dict(n: Narration) -> dict:
