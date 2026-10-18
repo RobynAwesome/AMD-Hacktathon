@@ -20,10 +20,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from goa import compose as C
-from goa import gaps, llm, narrate, rules, usage
+from goa import gaps, llm, narrate, preread, rules, usage
 from goa.brief import BriefError, parse_brief
 from goa.catalogue import CATALOGUE_DIR, ROOT, load
-from goa.schemas import Brief
+from goa.schemas import Brief, Budget
 
 HERE = Path(__file__).resolve().parent
 SAMPLE_BRIEFS = ROOT / "eval" / "sample_briefs.json"
@@ -111,49 +111,164 @@ def config() -> dict:
     }
 
 
-@app.post("/api/look")
-def make_look(req: LookRequest) -> dict:
-    cat = load()
-    if req.market not in cat.markets:
-        raise HTTPException(400, f"Unknown market {req.market}.")
+class PrefsIn(BaseModel):
+    no_heels: bool = False
+    local_first: bool = False
+    rewearable: bool = False
+    liked: list[str] = []
+
+
+class BriefRequest(BaseModel):
+    text: str
+    market: str = "ZA"
+    images: list[str] = []
+
+
+class ComposeRequest(BaseModel):
+    brief_id: str
+    market: str = "ZA"
+    scope: str = "global"
+    size: str | None = None
+    shoe_size: str | None = None
+    prefs: PrefsIn = PrefsIn()
+    overrides: dict = {}  # chip corrections: occasion, event_date, location, budget {amount, currency}
+
+
+class MirrorRequest(BaseModel):
+    text: str
+    markets: list[str]
+    size: str | None = "M"
+    shoe_size: str | None = "38"
+
+
+BRIEFS: dict[str, dict] = {}  # brief_id to {"brief": Brief, "sample": bool}; in memory
+
+
+def _read_brief(text: str, market: str, images: list[str]) -> tuple[Brief, list[dict], bool]:
+    """The one slow step: Gemma reads the brief (and mood photos). Everything after it is code."""
     calls = []
-    text = req.text
-    if req.images:
+    if images:
         try:
-            mood = narrate.mood_notes(_images(req.images))
+            mood = narrate.mood_notes(_images(images))
             text += f"\nMood photos: {mood.text}"
             calls.append({"step": "vision", "provider": mood.source, "model": mood.model, "latency_ms": mood.latency_ms})
         except Exception as e:  # mood photos are optional; say so instead of failing the look
             calls.append({"step": "vision", "error": f"Mood photos skipped: {e}"})
-    sample = None
     try:
-        res = parse_brief(text, market=req.market)
-        brief = res.brief
+        res = parse_brief(text, market=market)
         calls.append({"step": "brief", "provider": res.provider, "model": res.model,
                       "latency_ms": res.latency_ms, "attempts": res.attempts, "cached": res.cached})
-    except (llm.LLMConfigError, BriefError, Exception) as e:
-        sample = _sample_brief(req.text, req.market)
+        return res.brief, calls, False
+    except Exception as e:
+        sample = _sample_brief(text, market)
         if sample is None:
             raise HTTPException(503, f"Could not read the brief: {e}")
-        brief = sample
         calls.append({"step": "brief", "provider": "sample brief (no model call)", "latency_ms": 0})
-    if req.mirror:
-        # Same request, different shopper: the event happens where they are, and code sets the season.
-        mk = cat.markets[req.market]
-        when = brief.event_date or date.today()
-        brief = brief.model_copy(update={
-            "location": mk.default_city, "market": req.market,
-            "weather": f"{rules.season(mk.hemisphere, when)} in {mk.default_city}"})
-    look = C.compose(cat, brief, market=req.market, scope=req.scope, size=req.size, shoe_size=req.shoe_size)
-    why = narrate.explain(cat, look, brief)
-    calls.append({"step": "explain", "provider": why.source, "model": why.model, "latency_ms": why.latency_ms})
-    for p in look.parts:
-        for o in p.options:
-            o.why = why.text.get(o.item_id, "") if isinstance(why.text, dict) else ""
+        return sample, calls, True
+
+
+def _apply_overrides(brief: Brief, overrides: dict) -> Brief:
+    update = {}
+    if overrides.get("occasion"):
+        update["occasion"] = str(overrides["occasion"])
+    if overrides.get("location"):
+        update["location"] = str(overrides["location"])
+    if overrides.get("event_date"):
+        update["event_date"] = date.fromisoformat(str(overrides["event_date"]))
+    b = overrides.get("budget")
+    if b and float(b.get("amount", 0)) > 0:
+        update["budget"] = Budget(amount=float(b["amount"]), currency=str(b.get("currency") or brief.market))
+    return brief.model_copy(update=update) if update else brief
+
+
+def _for_shopper(cat, brief: Brief, market: str) -> Brief:
+    """Mirror: the same request for a shopper elsewhere. Code sets their city and season, no model call."""
+    mk = cat.markets[market]
+    when = brief.event_date or date.today()
+    return brief.model_copy(update={"location": mk.default_city, "market": market,
+                                    "weather": f"{rules.season(mk.hemisphere, when)} in {mk.default_city}"})
+
+
+def _store_look(look, brief) -> str:
     look_id = uuid.uuid4().hex[:12]
     LOOKS[look_id] = {"look": look, "brief": brief}
-    return {"look_id": look_id, "look": look.to_dict(), "brief": brief.model_dump(mode="json"),
-            "calls": calls, "sample": sample is not None, "today": date.today().isoformat()}
+    return look_id
+
+
+@app.post("/api/preread")
+def api_preread(req: BriefRequest) -> dict:
+    """Instant, no model call: chips from the text and a first glance of nearby pieces."""
+    return preread.preread(load(), req.text, req.market)
+
+
+@app.post("/api/brief")
+def api_brief(req: BriefRequest) -> dict:
+    if req.market not in load().markets:
+        raise HTTPException(400, f"Unknown market {req.market}.")
+    brief, calls, sample = _read_brief(req.text, req.market, req.images)
+    brief_id = uuid.uuid4().hex[:12]
+    BRIEFS[brief_id] = {"brief": brief, "sample": sample}
+    return {"brief_id": brief_id, "brief": brief.model_dump(mode="json"), "calls": calls, "sample": sample}
+
+
+@app.post("/api/compose")
+def api_compose(req: ComposeRequest) -> dict:
+    """Instant, no model call. Re-run freely when sizes, toggles or chips change."""
+    cat = load()
+    entry = BRIEFS.get(req.brief_id)
+    if not entry:
+        raise HTTPException(404, "That brief has expired. Build the look again.")
+    if req.market not in cat.markets:
+        raise HTTPException(400, f"Unknown market {req.market}.")
+    brief = _apply_overrides(entry["brief"], req.overrides)
+    look = C.compose(cat, brief, market=req.market, scope=req.scope, size=req.size, shoe_size=req.shoe_size,
+                     prefs=C.Prefs(**req.prefs.model_dump()))
+    return {"look_id": _store_look(look, brief), "look": look.to_dict(), "brief": brief.model_dump(mode="json"),
+            "sample": entry["sample"]}
+
+
+@app.post("/api/why/{look_id}")
+def api_why(look_id: str) -> dict:
+    """Why these pieces: one batch call, only when the shopper asks."""
+    entry = LOOKS.get(look_id)
+    if not entry:
+        raise HTTPException(404, "That look has expired. Make it again.")
+    why = narrate.explain(load(), entry["look"], entry["brief"])
+    lines = why.text if isinstance(why.text, dict) else {}
+    for p in entry["look"].parts:
+        for o in p.options:
+            o.why = lines.get(o.item_id, o.why)
+    return {"why": lines, "provider": why.source, "model": why.model, "latency_ms": why.latency_ms}
+
+
+@app.post("/api/mirror")
+def api_mirror(req: MirrorRequest) -> dict:
+    """One brief call, then a look per shopper by code."""
+    cat = load()
+    markets = [m for m in req.markets if m in cat.markets][:4]
+    if not markets:
+        raise HTTPException(400, "Pick at least one market.")
+    brief, calls, sample = _read_brief(req.text, markets[0], [])
+    out = []
+    for m in markets:
+        b = _for_shopper(cat, brief, m)
+        look = C.compose(cat, b, market=m, scope="global", size=req.size, shoe_size=req.shoe_size)
+        out.append({"market": m, "look_id": _store_look(look, b), "look": look.to_dict(), "brief": b.model_dump(mode="json")})
+    return {"shoppers": out, "calls": calls, "sample": sample}
+
+
+@app.post("/api/look")
+def make_look(req: LookRequest) -> dict:
+    """Brief plus compose in one request (used by scripts and tests). The page uses /api/brief then /api/compose."""
+    cat = load()
+    if req.market not in cat.markets:
+        raise HTTPException(400, f"Unknown market {req.market}.")
+    brief, calls, sample = _read_brief(req.text, req.market, req.images)
+    if req.mirror:
+        brief = _for_shopper(cat, brief, req.market)
+    look = C.compose(cat, brief, market=req.market, scope=req.scope, size=req.size, shoe_size=req.shoe_size)
+    return {"look_id": _store_look(look, brief), "look": look.to_dict(), "brief": brief.model_dump(mode="json"),
+            "calls": calls, "sample": sample, "today": date.today().isoformat()}
 
 
 @app.post("/api/swap")

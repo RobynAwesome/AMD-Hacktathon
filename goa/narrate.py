@@ -53,39 +53,44 @@ def explain(cat: Catalogue, look: Look, brief: Brief) -> Narration:
 
 
 def enquiry(cat: Catalogue, look: Look, brief: Brief, contact_name: str = "", note: str = "") -> list[dict]:
-    """One quote request per merchant in the look. Facts come from the verified look; the model writes the message."""
+    """One quote request per merchant in the look, all written in a single model call.
+    Facts come from the verified look; the model only writes the messages."""
     chosen = [p.options[i] for p, i in zip(look.parts, look.chosen) if i is not None]
     by_merchant: dict[str, list] = {}
     for o in chosen:
         by_merchant.setdefault(o.merchant_id, []).append(o)
+    facts = {"occasion": brief.occasion, "event_date": str(brief.event_date) if brief.event_date else None,
+             "ship_to": look.market, "note": note,
+             "merchants": {mid: {"name": cat.merchants[mid].name, "items": [o.name for o in offers]}
+                           for mid, offers in by_merchant.items()}}
+    system = ("For each merchant, write a short, warm, professional quote request from a shopper. Ask them to "
+              "confirm availability, sizes and a final quote including delivery. Do not state any prices or "
+              "delivery times yourself. Under 100 words each. Return JSON: {\"<merchant id>\": \"message\", ...}")
+    messages, source, ms = {}, "template", 0
+    try:
+        reply = _call("enquiry", system, json.dumps(facts))
+        messages = {k: str(v).strip() for k, v in _extract_json(reply.text).items() if k in by_merchant}
+        source, ms = reply.provider, reply.latency_ms
+    except Exception:
+        pass
     out = []
     for mid, offers in by_merchant.items():
         m = cat.merchants[mid]
         lines = [{"item_id": o.item_id, "name": o.name, "size": o.size or "to confirm",
                   "price": o.price_original, "currency": o.currency_original} for o in offers]
         ship = m.ships_to[look.market]
-        facts = {"merchant": m.name, "items": [x["name"] for x in lines], "occasion": brief.occasion,
-                 "event_date": str(brief.event_date) if brief.event_date else None, "ship_to": look.market,
-                 "note": note}
-        system = ("Write a short, warm, professional quote request from a shopper to a fashion merchant. "
-                  "Ask them to confirm availability, sizes and a final quote including delivery. "
-                  "Do not state any prices or delivery times yourself. Plain text, under 120 words.")
-        try:
-            reply = _call("enquiry", system, json.dumps(facts), json_mode=False)
-            body, source, ms = reply.text.strip(), reply.provider, reply.latency_ms
-        except Exception:
-            body = (f"Hello {m.name}, I would like a quote for the items below for a {brief.occasion}"
-                    + (f" on {brief.event_date}" if brief.event_date else "")
-                    + ". Please confirm availability in my sizes and a final price including delivery. Thank you.")
-            source, ms = "template", 0
-        record = {
+        body = messages.get(mid) or (
+            f"Hello {m.name}, I would like a quote for the items below for a {brief.occasion}"
+            + (f" on {brief.event_date}" if brief.event_date else "")
+            + ". Please confirm availability in my sizes and a final price including delivery. Thank you.")
+        out.append({
             "ts": int(time.time()), "merchant_id": mid, "merchant": m.name, "to": m.email,
             "from": contact_name or "GOA shopper", "market": look.market, "event_date": facts["event_date"],
             "items": lines, "subtotal": round(sum(x["price"] for x in lines), 2), "currency": m.currency,
-            "shipping": ship.cost, "delivery_days": ship.days, "message": body, "message_source": source,
-            "latency_ms": ms, "status": "sent to merchant inbox (demo, not emailed)",
-        }
-        out.append(record)
+            "shipping": ship.cost, "delivery_days": ship.days, "message": body,
+            "message_source": source if mid in messages else "template", "latency_ms": ms,
+            "status": "sent to merchant inbox (demo, not emailed)",
+        })
     ENQUIRIES_LOG.parent.mkdir(parents=True, exist_ok=True)
     with ENQUIRIES_LOG.open("a") as f:
         for r in out:

@@ -65,6 +65,24 @@ class AbroadCard:
 
 
 @dataclass
+class Prefs:
+    """Shopper choices made while the brief is read. Applied by code; no model call."""
+
+    no_heels: bool = False
+    local_first: bool = False
+    rewearable: bool = False
+    liked: list[str] = field(default_factory=list)  # item ids tapped as "more like this"
+
+
+HEEL_WORDS = ("heel", "pump", "stiletto", "slingback")
+
+
+def _has_heels(item: CatalogueItem) -> bool:
+    text = f"{item.name} {item.category} {item.description}".lower()
+    return any(w in text for w in HEEL_WORDS) and "flat" not in text
+
+
+@dataclass
 class Look:
     market: str
     currency: str
@@ -78,6 +96,7 @@ class Look:
     size: str | None
     shoe_size: str | None
     notes: list[str]
+    receipt: dict = field(default_factory=dict)  # the work done, for the shopper to see
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -142,9 +161,23 @@ def _fails_reason(failures: list[str], had_colour_match: bool) -> str:
     return max(set(failures), key=failures.count)
 
 
+def _liked_boost(cat: Catalogue, liked: list[str]):
+    """Similarity to items the shopper tapped as "more like this", from the stored embeddings."""
+    if not liked:
+        return lambda item: 0.0
+    from goa.match import _index
+
+    vecs, meta = _index()
+    row = {iid: n for n, iid in enumerate(meta["ids"])}
+    picks = [vecs[row[i]] for i in liked if i in row]
+    if not picks:
+        return lambda item: 0.0
+    return lambda item: max(float(vecs[row[item.id]] @ v) for v in picks)
+
+
 def compose(cat: Catalogue, brief: Brief, market: str | None = None, scope: str = "global",
             size: str | None = None, shoe_size: str | None = None, today: date | None = None,
-            log_gaps: bool = True) -> Look:
+            log_gaps: bool = True, prefs: Prefs | None = None) -> Look:
     market = market or brief.market
     if scope not in SCOPES:
         raise ValueError(f"scope must be one of {SCOPES}")
@@ -158,21 +191,45 @@ def compose(cat: Catalogue, brief: Brief, market: str | None = None, scope: str 
     if shoes is None and any(p.slot.value == "shoes" for p in brief.parts):
         notes.append("Add your shoe size to check shoe stock.")
 
+    prefs = prefs or Prefs()
+    boost = _liked_boost(cat, prefs.liked)
+    receipt = {"searched": sum(1 for i in cat.items if in_scope(cat, i, market, scope)
+                               and i.slot.value in {p.slot.value for p in brief.parts}),
+               "hubs": {}, "checked": 0, "ruled_out": {}, "colour_mismatch": 0}
+
     parts: list[PartResult] = []
     outside: list[list[Offer]] = []
     for part in brief.parts:
         cands = match_part(cat, part, brief, k=40)
+        for c in cands:
+            if prefs.local_first and cat.merchant(c.item).market == market:
+                c.score = round(c.score + 0.1, 4)
+            if prefs.rewearable and c.item.formality.value in ("smart_casual", "casual"):
+                c.score = round(c.score + 0.05, 4)
+            if prefs.liked:
+                c.score = round(c.score + 0.15 * boost(c.item), 4)
+        cands.sort(key=lambda c: (c.colour_ok, c.score), reverse=True)
         valid, failures, had_colour = [], [], False
         abroad_valid = []
         for c in cands:
+            in_reach = in_scope(cat, c.item, market, scope)
             if not c.colour_ok:
+                receipt["colour_mismatch"] += in_reach
+                continue
+            if prefs.no_heels and part.slot.value == "shoes" and _has_heels(c.item):
+                if in_reach:
+                    receipt["ruled_out"]["has_heels"] = receipt["ruled_out"].get("has_heels", 0) + 1
                 continue
             sz = rules.size_for(c.item, clothing, shoes)
-            if in_scope(cat, c.item, market, scope):
+            if in_reach:
                 had_colour = True
+                receipt["checked"] += 1
+                city = cat.merchant(c.item).city
+                receipt["hubs"][city] = receipt["hubs"].get(city, 0) + 1
                 why_not = rules.check_item(cat, c.item, market, sz, brief.event_date, today)
                 if why_not:
                     failures.append(why_not)
+                    receipt["ruled_out"][why_not] = receipt["ruled_out"].get(why_not, 0) + 1
                 else:
                     valid.append(_offer(cat, c, market, sz, today))
             elif rules.check_item(cat, c.item, market, sz, brief.event_date, today) is None:
@@ -198,7 +255,7 @@ def compose(cat: Catalogue, brief: Brief, market: str | None = None, scope: str 
     look = Look(market=market, currency=mk.currency, scope=scope, parts=parts, chosen=chosen,
                 total_local=total, budget_local=round(budget, 2) if budget else None,
                 budget_status=rules.budget_status(total, budget), abroad=[], size=clothing,
-                shoe_size=shoes, notes=notes)
+                shoe_size=shoes, notes=notes, receipt=receipt)
     if scope != "global":
         look.abroad = worth_it_abroad(look, outside, budget)
 

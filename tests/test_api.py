@@ -71,3 +71,48 @@ def test_enquiry_needs_size(client):
 def test_unknown_text_without_model_is_a_clear_error(client):
     r = client.post("/api/look", json={"text": "something else entirely", "market": "ZA"})
     assert r.status_code == 503
+
+
+def test_preread_is_instant_and_has_chips(client):
+    d = client.post("/api/preread", json={"text": THANDI, "market": "ZA"}).json()
+    keys = {c["key"] for c in d["chips"]}
+    assert {"occasion", "event_date", "location", "budget", "colour"} <= keys
+    assert len(d["first_glance"]) == 6 and d["needs_size"] is True
+
+
+def brief_id(client):
+    d = client.post("/api/brief", json={"text": THANDI, "market": "ZA"}).json()
+    assert d["sample"] is True
+    return d["brief_id"]
+
+
+def test_compose_reruns_without_model_calls(client):
+    bid = brief_id(client)
+    body = {"brief_id": bid, "market": "ZA", "scope": "global", "size": "M", "shoe_size": "38"}
+    a = client.post("/api/compose", json=body).json()
+    assert a["look"]["receipt"]["checked"] > 0 and a["look"]["receipt"]["searched"] >= a["look"]["receipt"]["checked"]
+    b = client.post("/api/compose", json={**body, "prefs": {"no_heels": True}}).json()
+    for p in b["look"]["parts"]:
+        if p["part"]["slot"] == "shoes":
+            assert all("heel" not in o["name"].lower() for o in p["options"])
+
+
+def test_chip_override_changes_the_rules(client):
+    bid = brief_id(client)
+    body = {"brief_id": bid, "market": "ZA", "scope": "global", "size": "M", "shoe_size": "38"}
+    tight = client.post("/api/compose", json={**body, "overrides": {"budget": {"amount": 500, "currency": "ZAR"}}}).json()
+    assert tight["look"]["budget_local"] == 500
+    assert tight["brief"]["budget"]["amount"] == 500
+
+
+def test_mirror_reads_the_brief_once(client):
+    d = client.post("/api/mirror", json={"text": THANDI, "markets": ["ZA", "US", "CN"]}).json()
+    assert len(d["shoppers"]) == 3
+    assert [c["step"] for c in d["calls"]] == ["brief"]
+    assert {s["brief"]["location"] for s in d["shoppers"]} == {"Cape Town", "New York", "Shenzhen"}
+
+
+def test_why_on_tap(client):
+    d = look(client)
+    w = client.post(f"/api/why/{d['look_id']}").json()
+    assert w["provider"] == "template" and w["why"]
