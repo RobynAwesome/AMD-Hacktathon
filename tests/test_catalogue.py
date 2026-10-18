@@ -14,7 +14,7 @@ MERCHANTS = {m["id"]: Merchant.model_validate(m) for m in CAT["merchants"]}
 
 
 def test_size_and_unique_ids():
-    assert 40 <= len(ITEMS) <= 60
+    assert 90 <= len(ITEMS) <= 120
     assert len({i.id for i in ITEMS}) == len(ITEMS)
 
 
@@ -30,14 +30,30 @@ def test_stock_keys_fit_slot_and_merchants_resolve():
         assert i.currency == MERCHANTS[i.merchant_id].currency
 
 
+def test_every_merchant_ships_to_every_market():
+    for m in MERCHANTS.values():
+        assert set(m.ships_to) == set(MARKETS), m.id
+        assert m.ships_to[m.market].days <= 4
+        assert m.region == MARKETS[m.market]["region"]
+
+
 def test_every_market_has_an_affordable_look():
-    # A garment and shoes that ship within 7 days, together under USD 250.
+    # A garment and shoes that arrive within 10 days, together with shipping under USD 250.
     for code in MARKETS:
         def cheapest(slot):
-            ok = [i for i in ITEMS if i.slot.value == slot and MERCHANTS[i.merchant_id].ships_to[code] <= 7]
-            return min(i.price * FX[i.currency] for i in ok)
+            costs = []
+            for i in ITEMS:
+                ship = MERCHANTS[i.merchant_id].ships_to[code]
+                if i.slot.value == slot and ship.days <= 10:
+                    costs.append((i.price + ship.cost) * FX[i.currency])
+            return min(costs)
 
         assert cheapest("garment") + cheapest("shoes") < 250, code
+
+
+def test_african_designers_present():
+    names = {m.name for m in MERCHANTS.values()}
+    assert {"Imbali House", "Adire Atelier"} <= names
 
 
 def test_deliberate_gaps_exist():

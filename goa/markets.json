@@ -1,8 +1,11 @@
 {
   "note": "Fixed exchange rates for the demo, approximate mid-market values from October 2026. Prices shown in another currency are marked approx.",
   "markets": [
-    {"code": "ZA", "name": "South Africa", "currency": "ZAR", "fx_to_usd": 0.055, "size_system": "UK", "hemisphere": "south", "default_city": "Cape Town"},
-    {"code": "US", "name": "United States", "currency": "USD", "fx_to_usd": 1.0, "size_system": "US", "hemisphere": "north", "default_city": "New York"},
-    {"code": "GB", "name": "United Kingdom", "currency": "GBP", "fx_to_usd": 1.27, "size_system": "UK", "hemisphere": "north", "default_city": "London"}
+    {"code": "ZA", "name": "South Africa", "region": "africa", "currency": "ZAR", "fx_to_usd": 0.055, "size_system": "UK", "hemisphere": "south", "default_city": "Cape Town"},
+    {"code": "NG", "name": "Nigeria", "region": "africa", "currency": "NGN", "fx_to_usd": 0.00065, "size_system": "UK", "hemisphere": "north", "default_city": "Lagos"},
+    {"code": "US", "name": "United States", "region": "americas", "currency": "USD", "fx_to_usd": 1.0, "size_system": "US", "hemisphere": "north", "default_city": "New York"},
+    {"code": "GB", "name": "United Kingdom", "region": "europe", "currency": "GBP", "fx_to_usd": 1.27, "size_system": "UK", "hemisphere": "north", "default_city": "London"},
+    {"code": "EU", "name": "European Union", "region": "europe", "currency": "EUR", "fx_to_usd": 1.08, "size_system": "EU", "hemisphere": "north", "default_city": "Milan"},
+    {"code": "CN", "name": "China", "region": "asia", "currency": "CNY", "fx_to_usd": 0.14, "size_system": "EU", "hemisphere": "north", "default_city": "Shenzhen"}
   ]
 }

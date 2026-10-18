@@ -35,9 +35,13 @@ SIZES_BY_SLOT = {
 }
 
 
+REGIONS = ["africa", "americas", "europe", "asia"]
+
+
 class Market(BaseModel):
-    code: str  # ZA, US, GB
+    code: str  # ZA, US, GB, EU, CN, NG
     name: str
+    region: str
     currency: str
     fx_to_usd: float  # 1 unit of this currency in USD, fixed for the demo
     size_system: str  # UK, US, EU (what users in this market usually say)
@@ -45,14 +49,22 @@ class Market(BaseModel):
     default_city: str
 
 
+class Shipping(BaseModel):
+    days: int = Field(ge=1)
+    cost: float = Field(ge=0)  # in the merchant's currency
+
+
 class Merchant(BaseModel):
     id: str
     name: str
+    about: str
     city: str
     country: str
+    market: str  # the market this merchant sells from
+    region: str
     currency: str
     email: str
-    ships_to: dict[str, int]  # market code to delivery days
+    ships_to: dict[str, Shipping]  # market code to delivery days and cost
 
     @field_validator("email")
     @classmethod

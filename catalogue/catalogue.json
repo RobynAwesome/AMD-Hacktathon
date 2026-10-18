@@ -1,42 +1,262 @@
 {
   "merchants": [
     {
+      "id": "m_imbali",
+      "name": "Imbali House",
+      "about": "Black-owned Johannesburg label: modern tailoring in shweshwe and African textiles, Ndebele-inspired beadwork.",
+      "city": "Johannesburg",
+      "country": "ZA",
+      "market": "ZA",
+      "region": "africa",
+      "currency": "ZAR",
+      "email": "imbali.house@example.com",
+      "ships_to": {
+        "ZA": {
+          "days": 3,
+          "cost": 91.0
+        },
+        "NG": {
+          "days": 7,
+          "cost": 236.0
+        },
+        "GB": {
+          "days": 8,
+          "cost": 400.0
+        },
+        "EU": {
+          "days": 9,
+          "cost": 400.0
+        },
+        "US": {
+          "days": 11,
+          "cost": 400.0
+        },
+        "CN": {
+          "days": 12,
+          "cost": 400.0
+        }
+      }
+    },
+    {
       "id": "m_fynbos",
       "name": "Fynbos Atelier",
+      "about": "Cape Town studio for breathable linens and easy summer dressing.",
       "city": "Cape Town",
       "country": "ZA",
+      "market": "ZA",
+      "region": "africa",
       "currency": "ZAR",
       "email": "fynbos.orders@example.com",
       "ships_to": {
-        "ZA": 4,
-        "GB": 9,
-        "US": 12
+        "ZA": {
+          "days": 3,
+          "cost": 91.0
+        },
+        "NG": {
+          "days": 7,
+          "cost": 273.0
+        },
+        "GB": {
+          "days": 8,
+          "cost": 455.0
+        },
+        "EU": {
+          "days": 9,
+          "cost": 455.0
+        },
+        "US": {
+          "days": 11,
+          "cost": 455.0
+        },
+        "CN": {
+          "days": 12,
+          "cost": 455.0
+        }
+      }
+    },
+    {
+      "id": "m_adire",
+      "name": "Adire Atelier",
+      "about": "Lagos designer of hand-dyed adire indigo, Ankara prints and agbada-inspired silhouettes.",
+      "city": "Lagos",
+      "country": "NG",
+      "market": "NG",
+      "region": "africa",
+      "currency": "NGN",
+      "email": "adire.atelier@example.com",
+      "ships_to": {
+        "NG": {
+          "days": 3,
+          "cost": 7692.0
+        },
+        "ZA": {
+          "days": 7,
+          "cost": 21538.0
+        },
+        "GB": {
+          "days": 6,
+          "cost": 36923.0
+        },
+        "EU": {
+          "days": 7,
+          "cost": 36923.0
+        },
+        "US": {
+          "days": 9,
+          "cost": 36923.0
+        },
+        "CN": {
+          "days": 12,
+          "cost": 36923.0
+        }
       }
     },
     {
       "id": "m_hudson",
       "name": "Hudson & Pine",
+      "about": "New York tailoring and winter-ready knitwear.",
       "city": "New York",
       "country": "US",
+      "market": "US",
+      "region": "americas",
       "currency": "USD",
       "email": "hudsonpine.hello@example.com",
       "ships_to": {
-        "US": 3,
-        "GB": 7,
-        "ZA": 11
+        "US": {
+          "days": 3,
+          "cost": 5.0
+        },
+        "GB": {
+          "days": 6,
+          "cost": 28.0
+        },
+        "EU": {
+          "days": 7,
+          "cost": 28.0
+        },
+        "NG": {
+          "days": 10,
+          "cost": 28.0
+        },
+        "ZA": {
+          "days": 11,
+          "cost": 28.0
+        },
+        "CN": {
+          "days": 9,
+          "cost": 28.0
+        }
       }
     },
     {
       "id": "m_thorn",
       "name": "Thornbury Lane",
+      "about": "London heritage fabrics: tweed, wool and polished leather.",
       "city": "London",
       "country": "GB",
+      "market": "GB",
+      "region": "europe",
       "currency": "GBP",
       "email": "thornbury.studio@example.com",
       "ships_to": {
-        "GB": 2,
-        "US": 6,
-        "ZA": 8
+        "GB": {
+          "days": 2,
+          "cost": 4.0
+        },
+        "EU": {
+          "days": 4,
+          "cost": 9.0
+        },
+        "US": {
+          "days": 6,
+          "cost": 16.0
+        },
+        "NG": {
+          "days": 6,
+          "cost": 16.0
+        },
+        "ZA": {
+          "days": 8,
+          "cost": 16.0
+        },
+        "CN": {
+          "days": 9,
+          "cost": 16.0
+        }
+      }
+    },
+    {
+      "id": "m_seta",
+      "name": "Via Seta",
+      "about": "Milan atelier for silk, cashmere and fine Italian leather.",
+      "city": "Milan",
+      "country": "IT",
+      "market": "EU",
+      "region": "europe",
+      "currency": "EUR",
+      "email": "viaseta.atelier@example.com",
+      "ships_to": {
+        "EU": {
+          "days": 3,
+          "cost": 5.0
+        },
+        "GB": {
+          "days": 4,
+          "cost": 12.0
+        },
+        "US": {
+          "days": 7,
+          "cost": 20.0
+        },
+        "NG": {
+          "days": 7,
+          "cost": 20.0
+        },
+        "ZA": {
+          "days": 9,
+          "cost": 20.0
+        },
+        "CN": {
+          "days": 9,
+          "cost": 20.0
+        }
+      }
+    },
+    {
+      "id": "m_lotus",
+      "name": "Lotus Thread",
+      "about": "Shenzhen label: sharp prices, fast production, long shipping.",
+      "city": "Shenzhen",
+      "country": "CN",
+      "market": "CN",
+      "region": "asia",
+      "currency": "CNY",
+      "email": "lotus.thread@example.com",
+      "ships_to": {
+        "CN": {
+          "days": 3,
+          "cost": 36.0
+        },
+        "US": {
+          "days": 8,
+          "cost": 86.0
+        },
+        "GB": {
+          "days": 8,
+          "cost": 86.0
+        },
+        "EU": {
+          "days": 8,
+          "cost": 86.0
+        },
+        "ZA": {
+          "days": 10,
+          "cost": 86.0
+        },
+        "NG": {
+          "days": 11,
+          "cost": 86.0
+        }
       }
     }
   ],
@@ -1573,6 +1793,1827 @@
         "ONE": 1
       },
       "image": "images/thr-016.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-001",
+      "merchant_id": "m_imbali",
+      "name": "Emerald shweshwe wrap dress",
+      "slot": "garment",
+      "category": "wrap dress",
+      "description": "Wrap dress in emerald shweshwe with a fine geometric print, light enough for summer and easy to rewear.",
+      "colours": [
+        "emerald green"
+      ],
+      "materials": [
+        "cotton",
+        "shweshwe"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 1790.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 1,
+        "L": 3,
+        "XL": 3
+      },
+      "image": "images/imb-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-002",
+      "merchant_id": "m_imbali",
+      "name": "Indigo shweshwe A-line midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Fitted bodice and full A-line skirt in classic indigo shweshwe.",
+      "colours": [
+        "indigo blue"
+      ],
+      "materials": [
+        "cotton",
+        "shweshwe"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 1650.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 3,
+        "S": 1,
+        "M": 4,
+        "L": 1,
+        "XL": 3
+      },
+      "image": "images/imb-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-003",
+      "merchant_id": "m_imbali",
+      "name": "Ochre tailored jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Sharp-shouldered jumpsuit with a wide leg and hidden pockets.",
+      "colours": [
+        "ochre"
+      ],
+      "materials": [
+        "linen",
+        "cotton"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 1950.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 2,
+        "L": 4,
+        "XL": 1
+      },
+      "image": "images/imb-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-004",
+      "merchant_id": "m_imbali",
+      "name": "Ink suit with shweshwe lining",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Two-piece suit in ink black, lined in red shweshwe.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "wool blend"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 3200.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 3,
+        "M": 2,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/imb-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-005",
+      "merchant_id": "m_imbali",
+      "name": "Terracotta pleated maxi",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Sunray-pleated maxi with a beaded tie belt.",
+      "colours": [
+        "terracotta"
+      ],
+      "materials": [
+        "crepe",
+        "glass beads"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 2100.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 0,
+        "S": 0,
+        "M": 1,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/imb-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-006",
+      "merchant_id": "m_imbali",
+      "name": "Forest green column gown",
+      "slot": "garment",
+      "category": "gown",
+      "description": "Column gown with a hand-beaded Ndebele-inspired neckline.",
+      "colours": [
+        "forest green"
+      ],
+      "materials": [
+        "crepe",
+        "glass beads"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "formal dinner",
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 2650.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 1,
+        "S": 4,
+        "M": 3,
+        "L": 1,
+        "XL": 2
+      },
+      "image": "images/imb-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-007",
+      "merchant_id": "m_imbali",
+      "name": "Tan leather block mules",
+      "slot": "shoes",
+      "category": "mules",
+      "description": "Low block-heel mules, steady on grass.",
+      "colours": [
+        "tan"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 980.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 4,
+        "37": 1,
+        "38": 1,
+        "39": 0,
+        "40": 1,
+        "41": 0,
+        "42": 1,
+        "43": 2,
+        "44": 1,
+        "45": 1
+      },
+      "image": "images/imb-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-008",
+      "merchant_id": "m_imbali",
+      "name": "Black beaded-strap sandals",
+      "slot": "shoes",
+      "category": "sandals",
+      "description": "Leather sandals with hand-beaded straps.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather",
+        "glass beads"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 1150.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 1,
+        "37": 2,
+        "38": 3,
+        "39": 3,
+        "40": 0,
+        "41": 2,
+        "42": 4,
+        "43": 1,
+        "44": 4,
+        "45": 0
+      },
+      "image": "images/imb-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-009",
+      "merchant_id": "m_imbali",
+      "name": "Cream leather loafers",
+      "slot": "shoes",
+      "category": "loafers",
+      "description": "Soft cream loafers with a stitched apron.",
+      "colours": [
+        "cream"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 1250.0,
+      "currency": "ZAR",
+      "stock": {
+        "36": 4,
+        "37": 0,
+        "38": 2,
+        "39": 4,
+        "40": 1,
+        "41": 2,
+        "42": 1,
+        "43": 2,
+        "44": 4,
+        "45": 1
+      },
+      "image": "images/imb-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-010",
+      "merchant_id": "m_imbali",
+      "name": "Indigo shweshwe kimono jacket",
+      "slot": "outer_layer",
+      "category": "kimono",
+      "description": "Unlined kimono jacket for cool evenings.",
+      "colours": [
+        "indigo blue"
+      ],
+      "materials": [
+        "cotton",
+        "shweshwe"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 1100.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 0,
+        "S": 4,
+        "M": 2,
+        "L": 2,
+        "XL": 2
+      },
+      "image": "images/imb-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-011",
+      "merchant_id": "m_imbali",
+      "name": "Camel cropped blazer",
+      "slot": "outer_layer",
+      "category": "blazer",
+      "description": "Cropped single-breasted blazer with beaded buttons.",
+      "colours": [
+        "camel"
+      ],
+      "materials": [
+        "wool blend"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 1650.0,
+      "currency": "ZAR",
+      "stock": {
+        "XS": 4,
+        "S": 0,
+        "M": 4,
+        "L": 1,
+        "XL": 1
+      },
+      "image": "images/imb-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-012",
+      "merchant_id": "m_imbali",
+      "name": "Ndebele-inspired beaded collar",
+      "slot": "accessory",
+      "category": "necklace",
+      "description": "Hand-beaded geometric collar in green, yellow and white.",
+      "colours": [
+        "green",
+        "yellow",
+        "white"
+      ],
+      "materials": [
+        "glass beads"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 650.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/imb-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-013",
+      "merchant_id": "m_imbali",
+      "name": "Geometric beaded earrings",
+      "slot": "accessory",
+      "category": "earrings",
+      "description": "Gold and black beaded drop earrings.",
+      "colours": [
+        "gold",
+        "black"
+      ],
+      "materials": [
+        "glass beads",
+        "brass"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 380.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 0
+      },
+      "image": "images/imb-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-014",
+      "merchant_id": "m_imbali",
+      "name": "Shweshwe-lined leather clutch",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Tan leather clutch lined in indigo shweshwe.",
+      "colours": [
+        "tan"
+      ],
+      "materials": [
+        "leather",
+        "shweshwe"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 720.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/imb-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "imb-015",
+      "merchant_id": "m_imbali",
+      "name": "Beaded brass cuff",
+      "slot": "accessory",
+      "category": "cuff",
+      "description": "Brass cuff with a band of glass beads.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "brass",
+        "glass beads"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 450.0,
+      "currency": "ZAR",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/imb-015.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-001",
+      "merchant_id": "m_adire",
+      "name": "Indigo adire wrap maxi",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Hand-dyed adire indigo maxi with a deep wrap and flutter sleeves.",
+      "colours": [
+        "indigo blue"
+      ],
+      "materials": [
+        "cotton",
+        "adire"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 95000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 2,
+        "S": 4,
+        "M": 1,
+        "L": 3,
+        "XL": 3
+      },
+      "image": "images/adi-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-002",
+      "merchant_id": "m_adire",
+      "name": "Ankara print puff-sleeve midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Bold Ankara wax print in green, yellow and orange.",
+      "colours": [
+        "green",
+        "yellow",
+        "orange"
+      ],
+      "materials": [
+        "cotton",
+        "wax print"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 68000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 2,
+        "S": 4,
+        "M": 1,
+        "L": 1,
+        "XL": 3
+      },
+      "image": "images/adi-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-003",
+      "merchant_id": "m_adire",
+      "name": "Ivory embroidered kaftan",
+      "slot": "garment",
+      "category": "kaftan",
+      "description": "Floor-length kaftan with tonal neck embroidery.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 85000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 3,
+        "S": 1,
+        "M": 0,
+        "L": 0,
+        "XL": 4
+      },
+      "image": "images/adi-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-004",
+      "merchant_id": "m_adire",
+      "name": "Agbada-inspired three-piece",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Flowing outer robe, tunic and trousers in navy brocade.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "cotton brocade"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "wedding guest",
+        "graduation",
+        "formal dinner"
+      ],
+      "price": 210000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 4,
+        "S": 0,
+        "M": 3,
+        "L": 4,
+        "XL": 1
+      },
+      "image": "images/adi-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-005",
+      "merchant_id": "m_adire",
+      "name": "Burnt orange adire jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Relaxed adire jumpsuit with a tie waist.",
+      "colours": [
+        "burnt orange"
+      ],
+      "materials": [
+        "cotton",
+        "adire"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 78000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 2,
+        "S": 1,
+        "M": 1,
+        "L": 0,
+        "XL": 1
+      },
+      "image": "images/adi-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-006",
+      "merchant_id": "m_adire",
+      "name": "Hand-stitched leather slides",
+      "slot": "shoes",
+      "category": "slides",
+      "description": "Brown leather slides, stitched by hand.",
+      "colours": [
+        "brown"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 32000.0,
+      "currency": "NGN",
+      "stock": {
+        "36": 1,
+        "37": 1,
+        "38": 3,
+        "39": 1,
+        "40": 3,
+        "41": 1,
+        "42": 1,
+        "43": 3,
+        "44": 2,
+        "45": 1
+      },
+      "image": "images/adi-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-007",
+      "merchant_id": "m_adire",
+      "name": "Beaded block heels",
+      "slot": "shoes",
+      "category": "block heels",
+      "description": "Gold block heels with a beaded ankle strap.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "leather",
+        "glass beads"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 55000.0,
+      "currency": "NGN",
+      "stock": {
+        "36": 0,
+        "37": 4,
+        "38": 1,
+        "39": 2,
+        "40": 4,
+        "41": 3,
+        "42": 3,
+        "43": 2,
+        "44": 3,
+        "45": 1
+      },
+      "image": "images/adi-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-008",
+      "merchant_id": "m_adire",
+      "name": "Woven leather loafers",
+      "slot": "shoes",
+      "category": "loafers",
+      "description": "Black woven-leather loafers.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 60000.0,
+      "currency": "NGN",
+      "stock": {
+        "36": 3,
+        "37": 1,
+        "38": 3,
+        "39": 3,
+        "40": 0,
+        "41": 2,
+        "42": 1,
+        "43": 3,
+        "44": 0,
+        "45": 1
+      },
+      "image": "images/adi-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-009",
+      "merchant_id": "m_adire",
+      "name": "Indigo adire duster",
+      "slot": "outer_layer",
+      "category": "duster",
+      "description": "Long open duster in hand-dyed adire.",
+      "colours": [
+        "indigo blue"
+      ],
+      "materials": [
+        "cotton",
+        "adire"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 72000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 2,
+        "L": 3,
+        "XL": 4
+      },
+      "image": "images/adi-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-010",
+      "merchant_id": "m_adire",
+      "name": "Aso-oke shawl",
+      "slot": "outer_layer",
+      "category": "shawl",
+      "description": "Hand-woven aso-oke shawl in gold.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "aso-oke",
+        "cotton",
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 45000.0,
+      "currency": "NGN",
+      "stock": {
+        "XS": 0,
+        "S": 3,
+        "M": 0,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/adi-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-011",
+      "merchant_id": "m_adire",
+      "name": "Aso-oke gele headwrap",
+      "slot": "accessory",
+      "category": "headwrap",
+      "description": "Stiff hand-woven gele in gold.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "aso-oke"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 25000.0,
+      "currency": "NGN",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/adi-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-012",
+      "merchant_id": "m_adire",
+      "name": "Coral bead necklace",
+      "slot": "accessory",
+      "category": "necklace",
+      "description": "Layered coral bead necklace.",
+      "colours": [
+        "coral red"
+      ],
+      "materials": [
+        "coral beads"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 40000.0,
+      "currency": "NGN",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/adi-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-013",
+      "merchant_id": "m_adire",
+      "name": "Adire canvas tote",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Indigo adire tote with leather handles.",
+      "colours": [
+        "indigo blue"
+      ],
+      "materials": [
+        "cotton",
+        "leather"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 30000.0,
+      "currency": "NGN",
+      "stock": {
+        "ONE": 3
+      },
+      "image": "images/adi-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "adi-014",
+      "merchant_id": "m_adire",
+      "name": "Hammered brass cuff",
+      "slot": "accessory",
+      "category": "cuff",
+      "description": "Wide hammered brass cuff.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "brass"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 18000.0,
+      "currency": "NGN",
+      "stock": {
+        "ONE": 2
+      },
+      "image": "images/adi-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-001",
+      "merchant_id": "m_seta",
+      "name": "Bottle green silk midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Bias-cut silk midi with a cowl neck.",
+      "colours": [
+        "bottle green"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "graduation",
+        "formal dinner"
+      ],
+      "price": 320.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 0,
+        "S": 3,
+        "M": 0,
+        "L": 1,
+        "XL": 1
+      },
+      "image": "images/set-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-002",
+      "merchant_id": "m_seta",
+      "name": "Cream linen trouser suit",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Soft-shouldered linen blazer and wide trousers.",
+      "colours": [
+        "cream"
+      ],
+      "materials": [
+        "linen"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "interview"
+      ],
+      "price": 420.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 0,
+        "L": 3,
+        "XL": 2
+      },
+      "image": "images/set-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-003",
+      "merchant_id": "m_seta",
+      "name": "Navy crepe wrap dress",
+      "slot": "garment",
+      "category": "wrap dress",
+      "description": "Knee-length wrap dress in heavy crepe.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "crepe"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 210.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 3,
+        "S": 0,
+        "M": 0,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/set-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-004",
+      "merchant_id": "m_seta",
+      "name": "Black silk evening gown",
+      "slot": "garment",
+      "category": "gown",
+      "description": "Floor-length silk gown with an open back.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "black_tie",
+      "occasions": [
+        "formal dinner",
+        "wedding guest"
+      ],
+      "price": 590.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 3,
+        "S": 3,
+        "M": 3,
+        "L": 3,
+        "XL": 1
+      },
+      "image": "images/set-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-005",
+      "merchant_id": "m_seta",
+      "name": "Olive pleated jumpsuit",
+      "slot": "garment",
+      "category": "jumpsuit",
+      "description": "Pleated viscose jumpsuit with a halter neck.",
+      "colours": [
+        "olive"
+      ],
+      "materials": [
+        "viscose"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 240.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 4,
+        "S": 1,
+        "M": 2,
+        "L": 3,
+        "XL": 3
+      },
+      "image": "images/set-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-006",
+      "merchant_id": "m_seta",
+      "name": "Tan suede block sandals",
+      "slot": "shoes",
+      "category": "sandals",
+      "description": "Italian suede sandals on a low block heel.",
+      "colours": [
+        "tan"
+      ],
+      "materials": [
+        "suede"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 165.0,
+      "currency": "EUR",
+      "stock": {
+        "36": 2,
+        "37": 3,
+        "38": 1,
+        "39": 4,
+        "40": 3,
+        "41": 1,
+        "42": 3,
+        "43": 1,
+        "44": 2,
+        "45": 1
+      },
+      "image": "images/set-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-007",
+      "merchant_id": "m_seta",
+      "name": "Black leather loafers",
+      "slot": "shoes",
+      "category": "loafers",
+      "description": "Hand-finished Italian leather loafers.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 195.0,
+      "currency": "EUR",
+      "stock": {
+        "36": 2,
+        "37": 0,
+        "38": 2,
+        "39": 2,
+        "40": 1,
+        "41": 0,
+        "42": 4,
+        "43": 1,
+        "44": 2,
+        "45": 0
+      },
+      "image": "images/set-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-008",
+      "merchant_id": "m_seta",
+      "name": "Gold strappy heels",
+      "slot": "shoes",
+      "category": "heels",
+      "description": "Fine-strap heels in metallic leather.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 180.0,
+      "currency": "EUR",
+      "stock": {
+        "36": 1,
+        "37": 4,
+        "38": 1,
+        "39": 0,
+        "40": 1,
+        "41": 4,
+        "42": 4,
+        "43": 4,
+        "44": 1,
+        "45": 1
+      },
+      "image": "images/set-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-009",
+      "merchant_id": "m_seta",
+      "name": "Camel cashmere wrap coat",
+      "slot": "outer_layer",
+      "category": "coat",
+      "description": "Belted cashmere wrap coat.",
+      "colours": [
+        "camel"
+      ],
+      "materials": [
+        "cashmere"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner",
+        "interview"
+      ],
+      "price": 690.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 2,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/set-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-010",
+      "merchant_id": "m_seta",
+      "name": "Ivory silk duster",
+      "slot": "outer_layer",
+      "category": "duster",
+      "description": "Lightweight silk duster for warm evenings.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 260.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 0,
+        "S": 2,
+        "M": 2,
+        "L": 1,
+        "XL": 4
+      },
+      "image": "images/set-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-011",
+      "merchant_id": "m_seta",
+      "name": "Navy unstructured blazer",
+      "slot": "outer_layer",
+      "category": "blazer",
+      "description": "Unlined wool blazer.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "wool"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 280.0,
+      "currency": "EUR",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 4,
+        "L": 2,
+        "XL": 3
+      },
+      "image": "images/set-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-012",
+      "merchant_id": "m_seta",
+      "name": "Printed silk scarf",
+      "slot": "accessory",
+      "category": "scarf",
+      "description": "Twill scarf in green and gold.",
+      "colours": [
+        "green",
+        "gold"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 85.0,
+      "currency": "EUR",
+      "stock": {
+        "ONE": 2
+      },
+      "image": "images/set-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-013",
+      "merchant_id": "m_seta",
+      "name": "Cognac leather mini bag",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Top-handle mini bag.",
+      "colours": [
+        "cognac"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 210.0,
+      "currency": "EUR",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/set-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "set-014",
+      "merchant_id": "m_seta",
+      "name": "Gold hoop earrings",
+      "slot": "accessory",
+      "category": "earrings",
+      "description": "Gold-plated silver hoops.",
+      "colours": [
+        "gold"
+      ],
+      "materials": [
+        "silver"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner",
+        "interview"
+      ],
+      "price": 70.0,
+      "currency": "EUR",
+      "stock": {
+        "ONE": 2
+      },
+      "image": "images/set-014.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-001",
+      "merchant_id": "m_lotus",
+      "name": "Jade silk qipao-inspired midi",
+      "slot": "garment",
+      "category": "midi dress",
+      "description": "Mandarin-collar silk midi with knot buttons.",
+      "colours": [
+        "jade green"
+      ],
+      "materials": [
+        "silk"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner",
+        "graduation"
+      ],
+      "price": 680.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 1,
+        "S": 1,
+        "M": 1,
+        "L": 0,
+        "XL": 4
+      },
+      "image": "images/lot-001.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-002",
+      "merchant_id": "m_lotus",
+      "name": "Black pleated skirt set",
+      "slot": "garment",
+      "category": "co-ord set",
+      "description": "Fitted top and pleated midi skirt.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "polyester"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 320.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 1,
+        "L": 3,
+        "XL": 2
+      },
+      "image": "images/lot-002.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-003",
+      "merchant_id": "m_lotus",
+      "name": "Sage linen shirt dress",
+      "slot": "garment",
+      "category": "shirt dress",
+      "description": "Relaxed linen shirt dress with a tie belt.",
+      "colours": [
+        "sage green"
+      ],
+      "materials": [
+        "linen"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 260.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 2,
+        "S": 4,
+        "M": 0,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/lot-003.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-004",
+      "merchant_id": "m_lotus",
+      "name": "Navy slim suit",
+      "slot": "garment",
+      "category": "suit",
+      "description": "Slim two-piece suit.",
+      "colours": [
+        "navy"
+      ],
+      "materials": [
+        "polyester",
+        "wool blend"
+      ],
+      "formality": "formal",
+      "occasions": [
+        "interview",
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 890.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 3,
+        "S": 3,
+        "M": 1,
+        "L": 3,
+        "XL": 0
+      },
+      "image": "images/lot-004.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-005",
+      "merchant_id": "m_lotus",
+      "name": "Champagne satin slip dress",
+      "slot": "garment",
+      "category": "slip dress",
+      "description": "Midi slip dress in liquid satin.",
+      "colours": [
+        "champagne"
+      ],
+      "materials": [
+        "satin"
+      ],
+      "formality": "cocktail",
+      "occasions": [
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 350.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 0,
+        "S": 1,
+        "M": 0,
+        "L": 0,
+        "XL": 1
+      },
+      "image": "images/lot-005.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-006",
+      "merchant_id": "m_lotus",
+      "name": "White tiered maxi",
+      "slot": "garment",
+      "category": "maxi dress",
+      "description": "Tiered cotton maxi with puff sleeves.",
+      "colours": [
+        "white"
+      ],
+      "materials": [
+        "cotton"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 290.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 1,
+        "L": 1,
+        "XL": 1
+      },
+      "image": "images/lot-006.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-007",
+      "merchant_id": "m_lotus",
+      "name": "Black patent block heels",
+      "slot": "shoes",
+      "category": "block heels",
+      "description": "Patent block heels with a square toe.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "faux leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview",
+        "formal dinner"
+      ],
+      "price": 220.0,
+      "currency": "CNY",
+      "stock": {
+        "36": 2,
+        "37": 4,
+        "38": 1,
+        "39": 2,
+        "40": 1,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 2,
+        "45": 4
+      },
+      "image": "images/lot-007.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-008",
+      "merchant_id": "m_lotus",
+      "name": "Pearl-strap flats",
+      "slot": "shoes",
+      "category": "flats",
+      "description": "Ivory flats with a faux-pearl strap.",
+      "colours": [
+        "ivory"
+      ],
+      "materials": [
+        "faux leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "wedding guest",
+        "graduation"
+      ],
+      "price": 180.0,
+      "currency": "CNY",
+      "stock": {
+        "36": 1,
+        "37": 0,
+        "38": 1,
+        "39": 0,
+        "40": 4,
+        "41": 1,
+        "42": 2,
+        "43": 0,
+        "44": 1,
+        "45": 0
+      },
+      "image": "images/lot-008.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-009",
+      "merchant_id": "m_lotus",
+      "name": "White leather sneakers",
+      "slot": "shoes",
+      "category": "sneakers",
+      "description": "Minimal leather sneakers.",
+      "colours": [
+        "white"
+      ],
+      "materials": [
+        "leather"
+      ],
+      "formality": "casual",
+      "occasions": [
+        "graduation"
+      ],
+      "price": 260.0,
+      "currency": "CNY",
+      "stock": {
+        "36": 4,
+        "37": 0,
+        "38": 1,
+        "39": 0,
+        "40": 3,
+        "41": 1,
+        "42": 0,
+        "43": 1,
+        "44": 0,
+        "45": 2
+      },
+      "image": "images/lot-009.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-010",
+      "merchant_id": "m_lotus",
+      "name": "Cropped tweed jacket",
+      "slot": "outer_layer",
+      "category": "jacket",
+      "description": "Pink and cream tweed jacket with fringed edges.",
+      "colours": [
+        "pink",
+        "cream"
+      ],
+      "materials": [
+        "polyester tweed"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 380.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 0,
+        "S": 1,
+        "M": 3,
+        "L": 2,
+        "XL": 1
+      },
+      "image": "images/lot-010.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-011",
+      "merchant_id": "m_lotus",
+      "name": "Lightweight stone trench",
+      "slot": "outer_layer",
+      "category": "trench",
+      "description": "Packable trench coat.",
+      "colours": [
+        "stone"
+      ],
+      "materials": [
+        "polyester"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "interview",
+        "graduation"
+      ],
+      "price": 420.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 3,
+        "S": 1,
+        "M": 0,
+        "L": 3,
+        "XL": 4
+      },
+      "image": "images/lot-011.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-012",
+      "merchant_id": "m_lotus",
+      "name": "Grey wool-blend coat",
+      "slot": "outer_layer",
+      "category": "coat",
+      "description": "Single-breasted coat.",
+      "colours": [
+        "grey"
+      ],
+      "materials": [
+        "wool blend"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "interview"
+      ],
+      "price": 560.0,
+      "currency": "CNY",
+      "stock": {
+        "XS": 1,
+        "S": 0,
+        "M": 1,
+        "L": 1,
+        "XL": 0
+      },
+      "image": "images/lot-012.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-013",
+      "merchant_id": "m_lotus",
+      "name": "Pearl hair clip set",
+      "slot": "accessory",
+      "category": "hair clip",
+      "description": "Set of three faux-pearl clips.",
+      "colours": [
+        "white"
+      ],
+      "materials": [
+        "faux pearl"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest"
+      ],
+      "price": 60.0,
+      "currency": "CNY",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/lot-013.png",
+      "image_credit": "placeholder, replace with licensed photo",
+      "vision_tags": null
+    },
+    {
+      "id": "lot-014",
+      "merchant_id": "m_lotus",
+      "name": "Black top-handle mini bag",
+      "slot": "accessory",
+      "category": "bag",
+      "description": "Structured mini bag.",
+      "colours": [
+        "black"
+      ],
+      "materials": [
+        "faux leather"
+      ],
+      "formality": "smart_casual",
+      "occasions": [
+        "graduation",
+        "wedding guest",
+        "formal dinner"
+      ],
+      "price": 160.0,
+      "currency": "CNY",
+      "stock": {
+        "ONE": 1
+      },
+      "image": "images/lot-014.png",
       "image_credit": "placeholder, replace with licensed photo",
       "vision_tags": null
     }
