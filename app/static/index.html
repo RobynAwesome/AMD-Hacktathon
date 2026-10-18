@@ -201,7 +201,7 @@ function renderCalls(calls) {
 
 async function build(e) {
   e && e.preventDefault();
-  $("#go").disabled = true; $("#go").textContent = "Gemma on AMD is reading your brief (up to 30 s)…";
+  $("#go").disabled = true; $("#go").textContent = "Gemma on AMD is reading your brief…";
   selectTab("look");
   try {
     const data = await api("/api/look", { text: $("#text").value, market: $("#market").value, scope: state.scope,
