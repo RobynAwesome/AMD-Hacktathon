@@ -30,9 +30,9 @@ def main() -> int:
         print(e, file=sys.stderr)
         return 1
     print(json.dumps(res.brief.model_dump(mode="json"), indent=2))
-    where = "Token Factory" if llm.is_token_factory(res.base_url) else f"stand-in ({res.base_url})"
     print(
-        f"attempts={res.attempts} latency_ms={res.latency_ms} cached={res.cached} model={res.model} via {where}",
+        f"attempts={res.attempts} latency_ms={res.latency_ms} cached={res.cached} "
+        f"provider={res.provider} model={res.model} url={res.base_url}",
         file=sys.stderr,
     )
     return 0

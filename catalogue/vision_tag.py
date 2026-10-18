@@ -5,7 +5,6 @@ Run after real photos are in: python catalogue/vision_tag.py
 """
 
 import argparse
-import base64
 import json
 import sys
 from pathlib import Path
@@ -24,13 +23,9 @@ PROMPT = (
 
 
 def tag(path: Path) -> dict:
-    b64 = base64.b64encode(path.read_bytes()).decode()
     mime = "image/png" if path.suffix == ".png" else "image/jpeg"
-    messages = [{"role": "user", "content": [
-        {"type": "text", "text": PROMPT},
-        {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-    ]}]
-    return _extract_json(llm.chat(messages).text)
+    reply = llm.chat("vision", [{"role": "user", "content": PROMPT}], images=[llm.Image(path.read_bytes(), mime)])
+    return _extract_json(reply.text)
 
 
 def main() -> int:

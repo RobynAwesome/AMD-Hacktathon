@@ -29,7 +29,7 @@ Return one JSON object only, no prose, with these keys:
   occasion (string), event_date (YYYY-MM-DD or null), location (string or null),
   market (string, use the given market code), setting (indoor/outdoor or null),
   weather (string or null),
-  budget ({"amount": number, "currency": "ZAR"|"USD"|"GBP", "soft": bool} or null),
+  budget ({"amount": number, "currency": "ZAR"|"NGN"|"USD"|"GBP"|"EUR"|"CNY", "soft": bool} or null),
   size (string or null), shoe_size (string or null),
   colours (list), formality (casual|smart_casual|cocktail|formal|black_tie or null),
   style_notes (list), constraints (list),
@@ -60,6 +60,7 @@ class BriefResult:
     model: str
     base_url: str
     cached: bool = False
+    provider: str = ""
 
 
 ChatFn = Callable[[list[dict]], llm.LLMReply]
@@ -98,11 +99,12 @@ def parse_brief(
     if market not in MARKETS:
         raise ValueError(f"unknown market {market}")
     today = today or date.today()
-    chat_fn = chat_fn or llm.chat
+    chat_fn = chat_fn or (lambda msgs: llm.chat("brief", msgs))
     path = _cache_path(text, market)
     if use_cache and path.exists():
         data = json.loads(path.read_text())
-        return BriefResult(Brief.model_validate(data["brief"]), 0, 0, data["model"], data["base_url"], cached=True)
+        return BriefResult(Brief.model_validate(data["brief"]), 0, 0, data["model"], data["base_url"],
+                           cached=True, provider=data.get("provider", ""))
 
     m = MARKETS[market]
     user = (
@@ -127,7 +129,8 @@ def parse_brief(
             continue
         if use_cache:
             CACHE_DIR.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps({"brief": brief.model_dump(mode="json"), "model": reply.model, "base_url": reply.base_url}, indent=2))
-        return BriefResult(brief, attempt, total_ms, reply.model, reply.base_url)
+            path.write_text(json.dumps({"brief": brief.model_dump(mode="json"), "model": reply.model,
+                                       "base_url": reply.base_url, "provider": reply.provider}, indent=2))
+        return BriefResult(brief, attempt, total_ms, reply.model, reply.base_url, provider=reply.provider)
 
     raise BriefError(f"brief failed validation twice: {last_error}")

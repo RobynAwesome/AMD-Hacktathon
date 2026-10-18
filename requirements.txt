@@ -7,3 +7,4 @@ numpy
 pillow
 fastembed
 pytest
+anthropic  # optional, only for the anthropic provider
