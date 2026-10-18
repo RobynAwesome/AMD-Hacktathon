@@ -8,7 +8,13 @@ from goa import llm
 
 
 @pytest.fixture(autouse=True)
-def clean_env(monkeypatch):
+def clean_env(monkeypatch, tmp_path):
+    from goa import usage
+
+    monkeypatch.setattr(llm, "CACHE_DIR", tmp_path / "llm")
+    monkeypatch.setattr(usage, "CALLS_LOG", tmp_path / "calls.jsonl")
+    monkeypatch.setattr(usage, "USAGE", usage.Usage())
+    monkeypatch.delenv("GOA_CACHE_ONLY", raising=False)
     for k in ["GOA_PROVIDER", "GOA_MODE", "TOKEN_FACTORY_BASE_URL", "TOKEN_FACTORY_API_KEY", "RADEON_API_KEY", "GEMMA_MODEL"]:
         monkeypatch.delenv(k, raising=False)
     for s in llm.STEPS:
@@ -55,8 +61,9 @@ def test_openai_compat_request_shape(monkeypatch):
 
     def fake_post(url, json, headers, timeout):
         sent.update(url=url, body=json, headers=headers)
-        return SimpleNamespace(status_code=200, raise_for_status=lambda: None,
-                               json=lambda: {"choices": [{"message": {"content": "{}"}}]})
+        return SimpleNamespace(status_code=200, raise_for_status=lambda: None, headers={},
+                               json=lambda: {"choices": [{"message": {"content": "{}"}}],
+                                             "usage": {"prompt_tokens": 12, "completion_tokens": 3}})
 
     monkeypatch.setattr(llm.httpx, "post", fake_post)
     reply = llm.chat("vision", [{"role": "user", "content": "tag"}], images=[llm.Image(b"png", "image/png")])
@@ -66,6 +73,7 @@ def test_openai_compat_request_shape(monkeypatch):
     assert parts[0] == {"type": "text", "text": "tag"}
     assert parts[1]["image_url"]["url"].startswith("data:image/png;base64,")
     assert reply.provider == "token_factory" and reply.step == "vision"
+    assert sent["body"]["max_tokens"] == llm.MAX_TOKENS["vision"]
 
 
 def test_anthropic_request_shape():
@@ -90,6 +98,82 @@ def test_anthropic_adapter_reads_text_and_refusal():
         return SimpleNamespace(beta=SimpleNamespace(messages=SimpleNamespace(create=create)))
 
     msgs = [{"role": "user", "content": "x"}]
-    assert llm._anthropic(r, msgs, True, [], 10, client=client("end_turn")) == "ok"
+    assert llm._anthropic(r, msgs, True, [], 10, client=client("end_turn"))[0] == "ok"
     with pytest.raises(RuntimeError):
         llm._anthropic(r, msgs, True, [], 10, client=client("refusal"))
+
+
+def _fake_tf(monkeypatch, calls, headers=None, content="{}"):
+    monkeypatch.setenv("TOKEN_FACTORY_API_KEY", "k")
+
+    def fake_post(url, json, headers_, timeout):  # noqa: ARG001
+        calls.append(json)
+        return SimpleNamespace(status_code=200, raise_for_status=lambda: None, headers=headers or {},
+                               json=lambda: {"choices": [{"message": {"content": content}}]})
+
+    monkeypatch.setattr(llm.httpx, "post", lambda url, json, headers, timeout: fake_post(url, json, headers, timeout))
+
+
+def test_cache_hit_makes_no_network_call(monkeypatch):
+    calls = []
+    _fake_tf(monkeypatch, calls)
+    msgs = [{"role": "user", "content": "ideas please"}]
+    first = llm.chat("ideas", msgs)
+    second = llm.chat("ideas", msgs)
+    assert len(calls) == 1 and not first.cached and second.cached
+
+
+def test_unparseable_json_is_not_cached(monkeypatch):
+    calls = []
+    _fake_tf(monkeypatch, calls, content="not json")
+    msgs = [{"role": "user", "content": "x"}]
+    llm.chat("ideas", msgs)
+    llm.chat("ideas", msgs)
+    assert len(calls) == 2
+
+
+def test_guard_levels_from_headers(monkeypatch):
+    from goa import usage
+
+    calls = []
+    _fake_tf(monkeypatch, calls, headers={"X-RateLimit-Limit-Spend": "10", "X-RateLimit-Remaining-Spend": "2"})
+    llm.chat("brief", [{"role": "user", "content": "a"}], use_cache=False)  # sees 20% remaining
+    assert usage.guard_level() == "essential"
+    with pytest.raises(llm.LLMUnavailable):
+        llm.chat("explain", [{"role": "user", "content": "b"}])
+    llm.chat("enquiry", [{"role": "user", "content": "c"}], json_mode=False)  # essential still runs
+    usage.USAGE.remaining = 0.5  # 5% remaining
+    assert usage.guard_level() == "cache_only"
+    with pytest.raises(llm.LLMUnavailable):
+        llm.chat("brief", [{"role": "user", "content": "d"}], use_cache=False)
+
+
+def test_cache_only_env_blocks_live_calls(monkeypatch):
+    calls = []
+    _fake_tf(monkeypatch, calls)
+    monkeypatch.setenv("GOA_CACHE_ONLY", "1")
+    with pytest.raises(llm.LLMUnavailable):
+        llm.chat("ideas", [{"role": "user", "content": "x"}])
+    assert calls == []
+
+
+def test_usage_endpoint_parsing():
+    from goa import usage
+
+    u = usage.Usage()
+    u.update_from_usage({"data": {"total_quota": 5.0, "used": 4.0, "reset_at": "2026-10-19T00:00:00Z", "rpm_limit": 30}})
+    assert u.fraction_remaining() == pytest.approx(0.2) and u.rpm == "30"
+
+
+def test_rate_limiter_never_exceeds_per_minute():
+    from goa.usage import RateLimiter
+
+    t = [0.0]
+    lim = RateLimiter(15, 4, clock=lambda: t[0], sleep=lambda s: t.__setitem__(0, t[0] + s))
+    starts = []
+    for _ in range(40):
+        lim.acquire()
+        starts.append(t[0])
+        lim.release()
+    for i, s in enumerate(starts):
+        assert sum(1 for x in starts if s <= x < s + 60) <= 15

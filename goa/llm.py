@@ -13,6 +13,7 @@ Providers and prize locks live in goa/providers.json.
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import os
 import random
@@ -30,7 +31,12 @@ try:
 except ImportError:
     pass
 
+from goa import usage
+
 CONFIG = json.loads((Path(__file__).parent / "providers.json").read_text())
+CACHE_DIR = Path(__file__).resolve().parent.parent / "cache" / "llm"
+# Output caps per step, so no call can run away with the shared quota. Gemma does not think by default.
+MAX_TOKENS = {"brief": 1200, "explain": 600, "enquiry": 400, "ideas": 400, "vision": 300}
 PROVIDERS = CONFIG["providers"]
 STEPS = CONFIG["steps"]
 LOCKS = CONFIG["prize_locks"]
@@ -38,6 +44,10 @@ LOCKS = CONFIG["prize_locks"]
 
 class LLMConfigError(RuntimeError):
     pass
+
+
+class LLMUnavailable(RuntimeError):
+    """The usage guard or cache-only mode stopped a live call. Callers fall back to cache or templates."""
 
 
 @dataclass
@@ -65,6 +75,7 @@ class LLMReply:
     base_url: str
     step: str = ""
     provider: str = ""
+    cached: bool = False
 
 
 def _env(name: str) -> str:
@@ -129,7 +140,8 @@ def _post_with_backoff(url: str, body: dict, headers: dict, timeout: float, trie
     return resp
 
 
-def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list[Image], timeout: float) -> str:
+def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list[Image],
+                   timeout: float) -> tuple[str, int | None, int | None]:
     msgs = [dict(m) for m in messages]
     if images:
         last = msgs[-1]
@@ -138,7 +150,7 @@ def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list
             b64 = base64.b64encode(img.data).decode()
             parts.append({"type": "image_url", "image_url": {"url": f"data:{img.mime};base64,{b64}"}})
         last["content"] = parts
-    body = {"model": r.model, "messages": msgs, "temperature": 0}
+    body = {"model": r.model, "messages": msgs, "temperature": 0, "max_tokens": MAX_TOKENS.get(r.step, 600)}
     if json_mode:
         body["response_format"] = {"type": "json_object"}
     headers = {"Authorization": f"Bearer {r.key}"} if r.key else {}
@@ -147,8 +159,11 @@ def _openai_compat(r: Route, messages: list[dict], json_mode: bool, images: list
         # Some endpoints reject response_format; the prompt still asks for JSON.
         body.pop("response_format")
         resp = _post_with_backoff(f"{r.base_url}/chat/completions", body, headers, timeout)
+    usage.USAGE.update_from_headers(getattr(resp, "headers", {}) or {})
     resp.raise_for_status()
-    return resp.json()["choices"][0]["message"]["content"] or ""
+    data = resp.json()
+    u = data.get("usage") or {}
+    return data["choices"][0]["message"]["content"] or "", u.get("prompt_tokens"), u.get("completion_tokens")
 
 
 def _anthropic_request(r: Route, messages: list[dict], images: list[Image]) -> dict:
@@ -168,7 +183,8 @@ def _anthropic_request(r: Route, messages: list[dict], images: list[Image]) -> d
     return req
 
 
-def _anthropic(r: Route, messages: list[dict], json_mode: bool, images: list[Image], timeout: float, client=None) -> str:
+def _anthropic(r: Route, messages: list[dict], json_mode: bool, images: list[Image], timeout: float,
+               client=None) -> tuple[str, int | None, int | None]:
     try:
         import anthropic
     except ImportError as e:
@@ -179,21 +195,78 @@ def _anthropic(r: Route, messages: list[dict], json_mode: bool, images: list[Ima
     resp = client.beta.messages.create(betas=["server-side-fallback-2026-07-01"], extra_body={"fallbacks": "default"}, **req)
     if resp.stop_reason == "refusal":
         raise RuntimeError("the model declined this request")
-    return "".join(b.text for b in resp.content if b.type == "text")
+    u = getattr(resp, "usage", None)
+    text = "".join(b.text for b in resp.content if b.type == "text")
+    return text, getattr(u, "input_tokens", None), getattr(u, "output_tokens", None)
+
+
+def _parses(text: str) -> bool:
+    start, end = text.find("{"), text.rfind("}")
+    try:
+        json.loads(text[start:end + 1])
+        return True
+    except ValueError:
+        return False
+
+
+def _cache_key(r: Route, messages: list[dict], json_mode: bool, images: list[Image]) -> str:
+    h = hashlib.sha256()
+    h.update(json.dumps([r.step, r.provider, r.model, json_mode, messages], sort_keys=True).encode())
+    for img in images:
+        h.update(hashlib.sha256(img.data).digest())
+    return h.hexdigest()[:24]
 
 
 def chat(step: str, messages: list[dict], json_mode: bool = True, images: list[Image] | None = None,
-         timeout: float = 90.0) -> LLMReply:
+         timeout: float = 90.0, use_cache: bool = True) -> LLMReply:
+    """One model call, through the cache, the usage guard and the rate limiter, in that order."""
     r = route(step)
+    images = images or []
+    path = CACHE_DIR / f"{_cache_key(r, messages, json_mode, images)}.json"
+    if use_cache and path.exists():
+        hit = json.loads(path.read_text())
+        usage.log_call(step, r.provider, r.model, cached=True)
+        return LLMReply(text=hit["text"], latency_ms=0, model=r.model, base_url=r.base_url or r.provider,
+                        step=step, provider=r.provider, cached=True)
+    ok, why = usage.allowed(step)
+    if not ok:
+        raise LLMUnavailable(why)
     _require(r)
+    usage.LIMITER.acquire()
     start = time.perf_counter()
-    if r.kind == "anthropic":
-        text = _anthropic(r, messages, json_mode, images or [], timeout)
-    else:
-        text = _openai_compat(r, messages, json_mode, images or [], timeout)
+    try:
+        if r.kind == "anthropic":
+            text, t_in, t_out = _anthropic(r, messages, json_mode, images, timeout)
+        else:
+            text, t_in, t_out = _openai_compat(r, messages, json_mode, images, timeout)
+    except Exception as e:
+        usage.log_call(step, r.provider, r.model, cached=False, error=type(e).__name__)
+        raise
+    finally:
+        usage.LIMITER.release()
     latency_ms = int((time.perf_counter() - start) * 1000)
+    usage.log_call(step, r.provider, r.model, cached=False, latency_ms=latency_ms, tokens_in=t_in, tokens_out=t_out)
+    if use_cache and text.strip() and (not json_mode or _parses(text)):
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"text": text, "step": step, "model": r.model, "ts": int(time.time())}))
     return LLMReply(text=text, latency_ms=latency_ms, model=r.model, base_url=r.base_url or r.provider,
                     step=step, provider=r.provider)
+
+
+def refresh_usage() -> dict | None:
+    """GET /v1/usage on Token Factory. Returns the raw body, or None if no key or it fails."""
+    r = route("brief")
+    if r.provider != "token_factory" or not r.key:
+        return None
+    try:
+        resp = httpx.get(f"{r.base_url}/usage", params={"include_recent": "true"},
+                         headers={"Authorization": f"Bearer {r.key}"}, timeout=20)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception:
+        return None
+    usage.USAGE.update_from_usage(data)
+    return data
 
 
 def list_models(provider: str | None = None) -> list[str]:

@@ -8,6 +8,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import threading
 import uuid
 from contextlib import asynccontextmanager
 from datetime import date
@@ -19,7 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from goa import compose as C
-from goa import gaps, llm, narrate, rules
+from goa import gaps, llm, narrate, rules, usage
 from goa.brief import BriefError, parse_brief
 from goa.catalogue import CATALOGUE_DIR, ROOT, load
 from goa.schemas import Brief
@@ -27,11 +28,21 @@ from goa.schemas import Brief
 HERE = Path(__file__).resolve().parent
 SAMPLE_BRIEFS = ROOT / "eval" / "sample_briefs.json"
 
+def _usage_poller(stop: threading.Event) -> None:
+    """Refresh Token Factory usage every 5 minutes so the spend guard has current numbers."""
+    while not stop.wait(300):
+        llm.refresh_usage()
+
+
 @asynccontextmanager
 async def lifespan(_app):
     llm.check_submission()  # in GOA_MODE=submission, refuse to start if a prize-locked step left Token Factory
     load()
+    llm.refresh_usage()
+    stop = threading.Event()
+    threading.Thread(target=_usage_poller, args=(stop,), daemon=True).start()
     yield
+    stop.set()
 
 
 app = FastAPI(title="GOA", lifespan=lifespan)
@@ -187,3 +198,8 @@ def gap_view(market: str | None = None) -> list[dict]:
 def get_ideas(occasion: str = "graduation", market: str = "ZA", notes: str = "") -> dict:
     n = narrate.ideas(occasion, market, notes)
     return {"ideas": n.text, "provider": n.source, "latency_ms": n.latency_ms}
+
+
+@app.get("/api/usage")
+def get_usage() -> dict:
+    return usage.summary()

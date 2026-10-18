@@ -99,7 +99,8 @@ def parse_brief(
     if market not in MARKETS:
         raise ValueError(f"unknown market {market}")
     today = today or date.today()
-    chat_fn = chat_fn or (lambda msgs: llm.chat("brief", msgs))
+    # The brief has its own cache of validated results, so it skips the general reply cache.
+    chat_fn = chat_fn or (lambda msgs: llm.chat("brief", msgs, use_cache=False))
     path = _cache_path(text, market)
     if use_cache and path.exists():
         data = json.loads(path.read_text())

@@ -131,6 +131,7 @@ h2 { font: 600 22px var(--display); margin: 0 } h3 { margin: 0 }
       <div class="notice">Describe a look and GOA splits it into parts, searches merchants by meaning, and checks stock, size, delivery and budget in code. Anything that fails a check is never shown.</div>
     </main>
   </div>
+  <footer class="calls" id="usage" aria-live="polite"></footer>
 </div>
 
 <script>
@@ -206,7 +207,7 @@ async function build(e) {
     const data = await api("/api/look", { text: $("#text").value, market: $("#market").value, scope: state.scope,
       size: $("#size").value || null, shoe_size: $("#shoe").value || null, images: state.photos });
     Object.assign(state, { lookId: data.look_id, look: data.look, brief: data.brief, sample: data.sample });
-    renderCalls(data.calls); renderLook();
+    renderCalls(data.calls); renderLook(); renderUsage();
   } catch (err) { $("#view").innerHTML = `<div class="notice err">${esc(err.message)}</div>` }
   finally { $("#go").disabled = false; $("#go").textContent = "Build my look" }
 }
@@ -360,6 +361,16 @@ $("#photos").addEventListener("change", async e => {
   })));
   $("#thumbs").innerHTML = state.photos.map(p => `<img src="${p}" alt="Mood photo">`).join("");
 });
+
+async function renderUsage() {
+  try {
+    const u = await api("/api/usage");
+    const pct = u.fraction_remaining == null ? "unknown" : Math.round(u.fraction_remaining * 100) + "% of today's AMD quota left";
+    const guard = { normal: "", essential: " · saving quota: only brief and enquiry call the model", cache_only: " · cache only: no live model calls" }[u.guard];
+    $("#usage").innerHTML = `<span>Token Factory: ${pct}${guard}</span><span>${u.calls_live} live calls, ${u.calls_cached} from cache</span>`;
+  } catch {}
+}
+renderUsage(); setInterval(renderUsage, 60000);
 
 init().catch(e => $("#view").innerHTML = `<div class="notice err">${esc(e.message)}</div>`);
 </script>
