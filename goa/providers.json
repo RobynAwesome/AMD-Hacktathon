@@ -1,0 +1,69 @@
+{
+  "note": "Named model providers. Pick one per step with GOA_PROVIDER or GOA_PROVIDER_<STEP>. Keys come from env vars, never from this file.",
+  "providers": {
+    "token_factory": {
+      "kind": "openai_compat",
+      "base_url_env": "TOKEN_FACTORY_BASE_URL",
+      "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+      "key_env": "TOKEN_FACTORY_API_KEY",
+      "key_env_alias": "RADEON_API_KEY",
+      "model_env": "GEMMA_MODEL",
+      "model": "Gemma-4-31B-IT",
+      "note": "AMD Token Factory shared endpoint. 30 RPM and 8 concurrent per team key. No embeddings endpoint."
+    },
+    "ai_studio": {
+      "kind": "openai_compat",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "key_env": "AI_STUDIO_API_KEY",
+      "model": "gemma-4-31b-it"
+    },
+    "openrouter": {
+      "kind": "openai_compat",
+      "base_url": "https://openrouter.ai/api/v1",
+      "key_env": "OPENROUTER_API_KEY",
+      "model": "google/gemma-4-31b-it"
+    },
+    "openai": {
+      "kind": "openai_compat",
+      "base_url": "https://api.openai.com/v1",
+      "key_env": "OPENAI_API_KEY",
+      "model": "gpt-5.1"
+    },
+    "ollama": {
+      "kind": "openai_compat",
+      "base_url": "http://localhost:11434/v1",
+      "key_env": "",
+      "model": "gemma4:31b"
+    },
+    "anthropic": {
+      "kind": "anthropic",
+      "key_env": "ANTHROPIC_API_KEY",
+      "model": "claude-opus-5-5"
+    }
+  },
+  "steps": [
+    "brief",
+    "vision",
+    "explain",
+    "enquiry",
+    "ideas"
+  ],
+  "prize_locks": {
+    "brief": {
+      "provider": "token_factory",
+      "why": "AMD Track 3 (every Gemma call on Token Factory) and the Google Gemma prize"
+    },
+    "vision": {
+      "provider": "token_factory",
+      "why": "AMD Track 3 (every Gemma call on Token Factory) and the Google Gemma prize"
+    },
+    "explain": {
+      "provider": "token_factory",
+      "why": "AMD Track 3 (every Gemma call on Token Factory) and the Google Gemma prize"
+    },
+    "enquiry": {
+      "provider": "token_factory",
+      "why": "AMD Track 3 (every Gemma call on Token Factory) and the Google Gemma prize"
+    }
+  }
+}

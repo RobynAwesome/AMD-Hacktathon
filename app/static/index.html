@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Indigo of shweshwe as the ground colour, ochre as the single warm accent, AMD red only on AMD calls. */
+:root {
+  --bg: #f5f3ee; --surface: #ffffff; --ink: #1b2142; --muted: #5f6478; --line: #dcd9d0;
+  --indigo: #24306b; --ochre: #c98a1b; --ok: #2f7a4f; --warn: #b8741a; --bad: #b3352b; --amd: #c4282f;
+  --display: "Fraunces", Georgia, serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --bg: #12142a; --surface: #1b1e38; --ink: #ecebf5; --muted: #a3a6c0; --line: #2f3358;
+  --indigo: #9fb0ff; --ochre: #f0b445; --ok: #6cc690; --warn: #f0b445; --bad: #ff7b6e; --amd: #ff6b6b; color-scheme: dark } }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 20px max(16px, env(safe-area-inset-right)) 64px max(16px, env(safe-area-inset-left)); display: grid; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.logo { font: 700 34px/1 var(--display); letter-spacing: .02em; color: var(--indigo); }
+.tag { color: var(--muted); }
+.band { height: 8px; border-radius: 4px; background:
+  repeating-linear-gradient(90deg, var(--indigo) 0 18px, var(--ochre) 18px 24px, var(--indigo) 24px 30px, transparent 30px 36px); opacity: .9 }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 12px; min-width: 0 }
+label { font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: grid; gap: 6px }
+select, input, textarea, button { font: inherit; color: inherit }
+select, input, textarea { font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 15px; width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+textarea { min-height: 96px; resize: vertical; text-transform: none; letter-spacing: 0 }
+.row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden }
+.seg button { flex: 1; border: 0; padding: 10px 6px; background: var(--bg); cursor: pointer; font-size: 14px }
+.seg button[aria-pressed="true"] { background: var(--indigo); color: var(--bg) }
+.btn { border: 0; border-radius: 8px; padding: 12px 16px; background: var(--indigo); color: var(--bg); font-weight: 600; cursor: pointer }
+.btn.ghost { background: transparent; color: var(--indigo); border: 1px solid var(--indigo) }
+.btn:disabled { opacity: .5; cursor: wait }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; background: var(--bg); cursor: pointer; font-size: 13px; text-align: left }
+.thumbs { display: flex; gap: 8px } .thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px }
+.calls { font: 12px/1.6 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px }
+.calls .amd { color: var(--amd) }
+.summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px }
+.total { font: 700 28px/1 var(--display) }
+.pill { font: 500 12px var(--mono); padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor }
+.within { color: var(--ok) } .near { color: var(--warn) } .over { color: var(--bad) } .no_budget { color: var(--muted) }
+.hubs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.hub { font: 500 12px var(--mono); padding: 4px 10px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line) }
+.hub b { color: var(--indigo) }
+.parts { display: grid; gap: 14px }
+.part { display: grid; gap: 10px; grid-template-columns: 120px 1fr; align-items: start; border-top: 1px solid var(--line); padding-top: 14px; min-width: 0 }
+.part img { width: 120px; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; background: var(--bg); max-width: 100% }
+.slot { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ochre) }
+.want { color: var(--muted); font-style: italic; font-size: 13px }
+.name { font: 600 17px/1.3 var(--body) }
+.merchant { font-size: 13px } .merchant b { color: var(--indigo) }
+.facts { font: 12.5px/1.6 var(--mono); color: var(--muted) }
+.why { font-size: 13.5px }
+.swaps { display: flex; gap: 8px; flex-wrap: wrap }
+.swaps button { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 4px; cursor: pointer; display: grid; gap: 2px; width: 84px; font-size: 11px; text-align: left }
+.swaps img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 5px }
+.gap { border: 1.5px dashed var(--warn); border-radius: 10px; padding: 12px; grid-column: 1 / -1; display: grid; gap: 4px }
+.gap .slot { color: var(--warn) }
+.abroad { border-left: 3px solid var(--ochre); padding-left: 12px; display: grid; gap: 8px }
+.card-row { display: grid; grid-template-columns: 72px 1fr auto; gap: 10px; align-items: center }
+.card-row img { width: 72px; aspect-ratio: 3/4; object-fit: cover; border-radius: 6px }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap }
+.tabs button { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 999px; cursor: pointer }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg) }
+.mirror { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) }
+.mirror .panel h3 { margin: 0; font: 600 18px var(--display) }
+.mini { display: grid; grid-template-columns: 48px 1fr; gap: 8px; align-items: center; font-size: 13px }
+.mini img { width: 48px; aspect-ratio: 3/4; object-fit: cover; border-radius: 4px }
+.notice { padding: 10px 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: 13.5px }
+.notice.err { border-color: var(--bad); color: var(--bad) }
+table { border-collapse: collapse; width: 100%; font-size: 14px } td, th { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font: 500 11px var(--mono); text-transform: uppercase; color: var(--muted) }
+pre.msg { white-space: pre-wrap; font: 13px/1.5 var(--body); margin: 0 }
+h2 { font: 600 22px var(--display); margin: 0 } h3 { margin: 0 }
+.layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); align-items: start }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr } }
+@media (max-width: 420px) { .part { grid-template-columns: 92px 1fr } .part img { width: 92px } }
+@media (prefers-reduced-motion: no-preference) { .fade { animation: fade .35s ease-out } @keyframes fade { from { opacity: .4; transform: translateY(4px) } } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo">GOA</span>
+    <span class="tag">Imagine it freely. See which parts real businesses, anywhere, can make happen.</span>
+  </header>
+  <div class="band" aria-hidden="true"></div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-look" aria-selected="true">Create a look</button>
+    <button role="tab" id="tab-mirror" aria-selected="false">Mirror: same brief, around the world</button>
+    <button role="tab" id="tab-gaps" aria-selected="false">Merchant gap view</button>
+    <button role="tab" id="tab-inbox" aria-selected="false">Merchant inbox</button>
+  </div>
+
+  <div class="layout">
+    <form class="panel" id="form">
+      <div class="row">
+        <label>Shopping from<select id="market"></select></label>
+        <label>Clothing size<input id="size" placeholder="e.g. M or UK 10"></label>
+        <label>Shoe size<input id="shoe" placeholder="e.g. 38 or UK 5"></label>
+      </div>
+      <label>Search
+        <div class="seg" id="scope" role="group" aria-label="Search scope">
+          <button type="button" data-scope="local">Near me</button>
+          <button type="button" data-scope="region">My region</button>
+          <button type="button" data-scope="global" aria-pressed="true">Worldwide</button>
+        </div>
+      </label>
+      <label>Describe what you imagine
+        <textarea id="text">Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.</textarea>
+      </label>
+      <div class="chips" id="ideas"></div>
+      <div class="row">
+        <button type="button" class="btn ghost" id="ideas-btn">Give me ideas</button>
+        <label style="align-self:end">Mood photos (up to 3)<input id="photos" type="file" accept="image/*" multiple></label>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+      <button class="btn" id="go" type="submit">Build my look</button>
+      <div class="calls" id="calls"></div>
+    </form>
+
+    <main id="view" class="panel" aria-live="polite">
+      <div class="notice">Describe a look and GOA splits it into parts, searches merchants by meaning, and checks stock, size, delivery and budget in code. Anything that fails a check is never shown.</div>
+    </main>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const state = { config: null, scope: "global", lookId: null, look: null, brief: null, photos: [], tab: "look" };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const money = (v, ccy) => { try { return new Intl.NumberFormat(undefined, { style: "currency", currency: ccy, maximumFractionDigits: 0 }).format(v) } catch { return `${ccy} ${Math.round(v)}` } };
+const day = iso => new Date(iso + "T00:00:00").toLocaleDateString(undefined, { day: "numeric", month: "short" });
+const SLOT = { garment: "Dress or suit", shoes: "Shoes", outer_layer: "Outer layer", accessory: "Accessory" };
+const STATUS = { within: "Within budget", near: "Near budget", over: "Over budget", no_budget: "No budget set" };
+const REASON = { no_match: "No merchant in your search stocks this yet.", out_of_stock_in_size: "Matches exist, but not in your size.", too_slow: "Matches exist, but none arrive before your date." };
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.detail || `Request failed (${r.status})`);
+  return data;
+}
+
+function marketLabel(m) { return `${m.default_city}, ${m.name} (${m.currency})` }
+
+async function init() {
+  state.config = await api("/api/config");
+  $("#market").innerHTML = state.config.markets.map(m => `<option value="${m.code}">${esc(marketLabel(m))}</option>`).join("");
+  try { const saved = localStorage.getItem("goa-market"); if (saved) $("#market").value = saved } catch {}
+  const params = new URLSearchParams(location.search);
+  if (params.get("market")) $("#market").value = params.get("market");
+  if (params.get("size")) $("#size").value = params.get("size");
+  if (params.get("shoe")) $("#shoe").value = params.get("shoe");
+  if (params.get("scope")) setScope(params.get("scope"));
+  if (params.get("mirror")) { selectTab("mirror"); runMirror(params.get("mirror").split(",")); }
+  else if (params.get("tab")) selectTab(params.get("tab"));
+  if (params.get("auto") === "1" && !params.get("mirror")) build();
+}
+
+function setScope(s) {
+  state.scope = s;
+  document.querySelectorAll("#scope button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.scope === s)));
+}
+$("#scope").addEventListener("click", e => { if (e.target.dataset.scope) setScope(e.target.dataset.scope) });
+$("#market").addEventListener("change", () => { try { localStorage.setItem("goa-market", $("#market").value) } catch {} });
+
+function selectTab(t) {
+  state.tab = t;
+  ["look", "mirror", "gaps", "inbox"].forEach(x => $("#tab-" + x).setAttribute("aria-selected", String(x === t)));
+  if (t === "look") state.look ? renderLook() : null;
+  if (t === "gaps") renderGaps();
+  if (t === "inbox") renderInbox();
+  if (t === "mirror" && !$("#view").dataset.mirror) $("#view").innerHTML = `<div class="notice">The mirror runs one brief for shoppers in three places at once. Pick markets and run it.</div>
+    <div class="row">${[0, 1, 2].map(i => `<label>Shopper ${i + 1}<select class="mk">${state.config.markets.map(m => `<option value="${m.code}">${esc(m.default_city)}</option>`).join("")}</select></label>`).join("")}</div>
+    <button class="btn" id="mirror-go" type="button">Run the mirror</button>`;
+  if (t === "mirror" && !$("#view").dataset.mirror) {
+    const sels = document.querySelectorAll(".mk"); ["ZA", "US", "CN"].forEach((c, i) => sels[i].value = c);
+    $("#mirror-go").onclick = () => runMirror([...sels].map(s => s.value));
+  }
+}
+["look", "mirror", "gaps", "inbox"].forEach(t => $("#tab-" + t).addEventListener("click", () => { delete $("#view").dataset.mirror; selectTab(t) }));
+
+function renderCalls(calls) {
+  $("#calls").innerHTML = (calls || []).map(c => {
+    if (c.error) return `<span>${esc(c.error)}</span>`;
+    const amd = c.provider === "token_factory";
+    const who = amd ? `${esc(c.model)} on AMD Token Factory` : esc(c.provider);
+    return `<span class="${amd ? "amd" : ""}">${esc(c.step)}: ${who}${c.latency_ms ? ` · ${(c.latency_ms / 1000).toFixed(1)} s` : ""}${c.cached ? " · cached" : ""}</span>`;
+  }).join("");
+}
+
+async function build(e) {
+  e && e.preventDefault();
+  $("#go").disabled = true; $("#go").textContent = "Reading your brief…";
+  selectTab("look");
+  try {
+    const data = await api("/api/look", { text: $("#text").value, market: $("#market").value, scope: state.scope,
+      size: $("#size").value || null, shoe_size: $("#shoe").value || null, images: state.photos });
+    Object.assign(state, { lookId: data.look_id, look: data.look, brief: data.brief, sample: data.sample });
+    renderCalls(data.calls); renderLook();
+  } catch (err) { $("#view").innerHTML = `<div class="notice err">${esc(err.message)}</div>` }
+  finally { $("#go").disabled = false; $("#go").textContent = "Build my look" }
+}
+$("#form").addEventListener("submit", build);
+
+function hubStrip(look) {
+  const hubs = [];
+  look.parts.forEach((p, i) => { const c = look.chosen[i]; if (c !== null) hubs.push(p.options[c]) });
+  const cities = [...new Map(hubs.map(o => [o.city, o])).values()];
+  return `<div class="hubs"><span class="facts">Your look travels from</span>${cities.map(o => `<span class="hub"><b>${esc(o.city)}</b> · ${o.days} days</span>`).join("")}</div>`;
+}
+
+function offerBlock(o, ccy) {
+  return `<div class="name">${esc(o.name)}</div>
+    <div class="merchant"><b>${esc(o.merchant)}</b> · ${esc(o.city)}</div>
+    <div class="facts">${money(o.price_local, ccy)} + ${money(o.shipping_local, ccy)} shipping${o.currency_original !== ccy ? ` (approx, sold in ${o.currency_original})` : ""}<br>
+      Arrives ${day(o.arrives)} · ${o.size ? `in stock in ${esc(o.size)}` : "size to confirm"}</div>
+    ${o.why ? `<div class="why">${esc(o.why)}</div>` : ""}`;
+}
+
+function renderLook() {
+  const L = state.look; if (!L) return;
+  const ccy = L.currency;
+  const merchants = state.config.merchants;
+  let h = "";
+  if (state.sample) h += `<div class="notice">Sample brief: no model was called for this brief. Add the Token Factory key for a live Gemma call.</div>`;
+  h += `<div class="summary fade"><span class="total">${money(L.total_local, ccy)}</span>
+    <span class="pill ${L.budget_status}">${STATUS[L.budget_status]}${L.budget_local ? ` · budget ${money(L.budget_local, ccy)}` : ""}</span>
+    <span class="facts">${L.scope === "global" ? "Searched worldwide" : L.scope === "region" ? "Searched my region" : "Searched near me"} · shipping included</span></div>`;
+  L.notes.forEach(n => h += `<div class="notice">${esc(n)}</div>`);
+  h += hubStrip(L);
+  h += `<div class="parts">`;
+  L.parts.forEach((p, i) => {
+    const want = `<div class="slot">${SLOT[p.part.slot]}</div><div class="want">“${esc(p.part.description)}”</div>`;
+    if (p.status !== "available") {
+      h += `<div class="part"><div class="gap">${want}<b>Not on offer yet</b><span>${REASON[p.reason] || ""} Logged so merchants can see the demand.</span></div></div>`;
+      return;
+    }
+    const o = p.options[L.chosen[i]];
+    h += `<div class="part fade"><img src="/${esc(o.image)}" alt="${esc(o.name)}"><div style="display:grid;gap:6px;min-width:0">${want}${offerBlock(o, ccy)}
+      ${p.options.length > 1 ? `<div class="swaps">${p.options.map((x, j) => j === L.chosen[i] ? "" : `<button type="button" data-part="${i}" data-opt="${j}"><img src="/${esc(x.image)}" alt=""><span>${esc(x.name)}</span><span class="facts">${money(x.landed_local, ccy)}</span></button>`).join("")}</div>` : ""}
+    </div></div>`;
+  });
+  h += `</div>`;
+  if (L.abroad.length) {
+    h += `<div class="abroad"><h3>Worth it from abroad</h3>`;
+    L.abroad.forEach(a => h += `<div class="card-row"><img src="/${esc(a.offer.image)}" alt=""><div>${offerBlock(a.offer, ccy)}<div class="why">${esc(a.reason)}${a.budget_status === "near" ? ` <span class="pill near">${money(a.over_by, ccy)} over budget</span>` : ""}</div></div>
+      <button type="button" class="btn ghost" data-abroad="${a.part_index}">Use this</button></div>`);
+    h += `</div>`;
+  }
+  h += `<div class="panel" style="background:var(--bg)"><h3>Send one enquiry</h3>
+    <div class="row"><label>Your name<input id="ename" placeholder="Thandi"></label><label>Note to the merchant<input id="enote" placeholder="Optional"></label></div>
+    <div class="row"><button type="button" class="btn" id="send">Send quote request</button><button type="button" class="btn ghost" id="save">Save this look</button></div>
+    <div id="sent"></div></div>`;
+  $("#view").innerHTML = h;
+  document.querySelectorAll(".swaps button").forEach(b => b.onclick = () => doSwap(+b.dataset.part, +b.dataset.opt));
+  document.querySelectorAll("[data-abroad]").forEach(b => b.onclick = () => useAbroad(+b.dataset.abroad));
+  $("#send").onclick = sendEnquiry;
+  $("#save").onclick = () => { try { const s = JSON.parse(localStorage.getItem("goa-saved") || "[]"); s.unshift({ at: Date.now(), text: $("#text").value, look: state.look }); localStorage.setItem("goa-saved", JSON.stringify(s.slice(0, 10))); $("#save").textContent = "Saved on this device" } catch { $("#save").textContent = "Could not save here" } };
+}
+
+async function doSwap(part, opt) {
+  try { const d = await api("/api/swap", { look_id: state.lookId, part, option: opt }); state.look = d.look; renderLook() }
+  catch (e) { alertInline(e.message) }
+}
+
+function useAbroad(partIndex) {
+  // Abroad cards are verified offers; add one as the chosen option for that part, on this page only.
+  const card = state.look.abroad.find(a => a.part_index === partIndex);
+  const p = state.look.parts[partIndex];
+  const old = p.status === "available" ? p.options[state.look.chosen[partIndex]].landed_local : 0;
+  if (p.status !== "available") { p.status = "available"; p.options = [] }
+  p.options.unshift(card.offer); state.look.chosen[partIndex] = 0;
+  state.look.total_local = state.look.total_local - old + card.offer.landed_local;
+  const b = state.look.budget_local;
+  state.look.budget_status = !b ? "no_budget" : state.look.total_local <= b ? "within" : state.look.total_local <= b * 1.1 ? "near" : "over";
+  state.look.abroad = state.look.abroad.filter(a => a !== card);
+  state.abroadLocal = true;
+  renderLook();
+}
+
+function alertInline(msg) { const el = $("#sent") || $("#view"); el.insertAdjacentHTML("afterbegin", `<div class="notice err">${esc(msg)}</div>`) }
+
+async function sendEnquiry() {
+  if (state.abroadLocal) return alertInline("Rebuild the look with Worldwide search to send an enquiry that includes items from abroad.");
+  try {
+    const d = await api("/api/enquiry", { look_id: state.lookId, name: $("#ename").value, note: $("#enote").value });
+    $("#sent").innerHTML = d.enquiries.map(q => `<div class="notice"><b>Sent to ${esc(q.merchant)}</b> (${esc(q.to)}, demo inbox, not emailed)<br>
+      ${q.items.map(i => `${esc(i.name)}, size ${esc(i.size)}: ${money(i.price, i.currency)}`).join("<br>")}<br>
+      Shipping ${money(q.shipping, q.currency)} · ${q.delivery_days} days${q.event_date ? ` · needed by ${day(q.event_date)}` : ""}
+      <pre class="msg">${esc(q.message)}</pre><span class="facts">Message written by ${q.message_source === "token_factory" ? "Gemma on AMD Token Factory" : esc(q.message_source)}</span></div>`).join("");
+  } catch (e) { alertInline(e.message) }
+}
+
+async function renderGaps() {
+  $("#view").innerHTML = `<div class="notice">Loading…</div>`;
+  const rows = await api("/api/gaps");
+  $("#view").innerHTML = `<h2>What people wanted that nobody in reach stocks</h2>
+    <p class="facts">Counted from every look people built. A merchant can read this as demand for things they could make next.</p>
+    ${rows.length ? `<div style="overflow-x:auto"><table><tr><th>Wanted</th><th>Looks</th><th>Where</th><th>Why unmet</th><th>In their words</th></tr>
+    ${rows.map(r => `<tr><td><b>${esc(r.want)}</b></td><td>${r.count}</td><td>${Object.entries(r.markets).map(([k, v]) => `${k} ${v}`).join(", ")}</td><td>${esc(r.reason_text)}</td><td class="want">${r.examples.map(esc).join("<br>")}</td></tr>`).join("")}</table></div>`
+    : `<div class="notice">No gaps logged yet. Build a few looks first.</div>`}`;
+}
+
+async function renderInbox() {
+  const rows = await api("/api/enquiries");
+  $("#view").innerHTML = `<h2>Merchant inbox</h2><p class="facts">Quote requests sent from GOA. Demo inbox: nothing is emailed.</p>
+    ${rows.length ? rows.map(q => `<div class="notice"><b>${esc(q.merchant)}</b> from ${esc(q.from)} · ship to ${esc(q.market)}${q.event_date ? ` · needed by ${day(q.event_date)}` : ""}<br>
+    ${q.items.map(i => `${esc(i.name)} (${esc(i.size)})`).join(", ")} · ${money(q.subtotal, q.currency)} + ${money(q.shipping, q.currency)} shipping<pre class="msg">${esc(q.message)}</pre></div>`).join("") : `<div class="notice">No enquiries yet.</div>`}`;
+}
+
+async function runMirror(codes) {
+  $("#view").dataset.mirror = "1";
+  const ms = Object.fromEntries(state.config.markets.map(m => [m.code, m]));
+  $("#view").innerHTML = `<h2>One brief, ${codes.length} shoppers</h2><p class="want">“${esc($("#text").value)}”</p><div class="mirror">${codes.map(c => `<div class="panel" id="mir-${c}"><h3>${esc(ms[c]?.default_city || c)}</h3><div class="facts">Building…</div></div>`).join("")}</div>`;
+  const all = [];
+  await Promise.all(codes.map(async c => {
+    try {
+      const d = await api("/api/look", { text: $("#text").value, market: c, scope: "global", mirror: true, size: $("#size").value || "M", shoe_size: $("#shoe").value || "38" });
+      all.push(...d.calls);
+      const L = d.look;
+      $("#mir-" + c).innerHTML = `<h3>${esc(ms[c].default_city)}</h3>
+        <div class="summary"><span class="total" style="font-size:22px">${money(L.total_local, L.currency)}</span><span class="pill ${L.budget_status}">${STATUS[L.budget_status]}</span></div>
+        <div class="facts">${esc(d.brief.weather || "")}</div>
+        ${L.parts.map((p, i) => p.status === "available" ? (o => `<div class="mini"><img src="/${esc(o.image)}" alt=""><div><b>${esc(o.name)}</b><br><span class="facts">${esc(o.city)} · ${money(o.landed_local, L.currency)} · arrives ${day(o.arrives)}</span></div></div>`)(p.options[L.chosen[i]])
+          : `<div class="gap" style="padding:8px"><span class="slot">${SLOT[p.part.slot]}</span>Not on offer yet</div>`).join("")}`;
+    } catch (e) { $("#mir-" + c).innerHTML = `<div class="notice err">${esc(e.message)}</div>` }
+  }));
+  renderCalls(all);
+}
+
+$("#ideas-btn").onclick = async () => {
+  $("#ideas-btn").disabled = true;
+  try {
+    const d = await api(`/api/ideas?market=${$("#market").value}&occasion=${encodeURIComponent("graduation")}`);
+    $("#ideas").innerHTML = d.ideas.map(i => `<button type="button" class="chip" data-brief="${esc(i.brief)}"><b>${esc(i.title)}</b><br>${esc(i.brief)}</button>`).join("")
+      + `<span class="facts">${d.provider === "token_factory" ? "Ideas from Gemma on AMD Token Factory" : d.provider === "template" ? "Starter ideas (no model call)" : "Ideas from " + esc(d.provider)}</span>`;
+    document.querySelectorAll("#ideas .chip").forEach(c => c.onclick = () => { $("#text").value = c.dataset.brief });
+  } catch (e) { $("#ideas").innerHTML = `<span class="notice err">${esc(e.message)}</span>` }
+  finally { $("#ideas-btn").disabled = false }
+};
+
+$("#photos").addEventListener("change", async e => {
+  const files = [...e.target.files].slice(0, 3);
+  state.photos = await Promise.all(files.map(f => new Promise(res => {
+    const img = new Image(); img.onload = () => {
+      const scale = Math.min(1, 768 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas"); c.width = img.width * scale; c.height = img.height * scale;
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL("image/jpeg", 0.85));
+    }; img.src = URL.createObjectURL(f);
+  })));
+  $("#thumbs").innerHTML = state.photos.map(p => `<img src="${p}" alt="Mood photo">`).join("");
+});
+
+init().catch(e => $("#view").innerHTML = `<div class="notice err">${esc(e.message)}</div>`);
+</script>
+</body>
+</html>
