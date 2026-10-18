@@ -45,6 +45,11 @@ Rules:
   in weather (for example "likely warm, summer in Cape Town").
 - Suggest the parts a complete look needs for the occasion and weather, even if the person
   did not list them all.
+Keep it short, because every token is slow to generate:
+- Minified JSON on one line, no spaces or line breaks.
+- Leave out any key whose value would be null or an empty list.
+- Each part description is at most 8 words. weather is at most 6 words.
+- style_notes and constraints: at most 3 items each, a few words each.
 """
 
 
