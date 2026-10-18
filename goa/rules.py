@@ -18,6 +18,7 @@ DRESS_SIZES = {
 }
 SHOE_OFFSET_TO_EU = {"UK": 33, "US": 31, "EU": 0}  # rough women's conversion, stated in the README
 WORD_SIZES = {"EXTRA SMALL": "XS", "SMALL": "S", "MEDIUM": "M", "LARGE": "L", "EXTRA LARGE": "XL", "XXS": "XS"}
+BEYOND_RANGE = {"XXL", "2XL", "3XL", "XXXL", "4XL"}  # real sizes the catalogue does not stock: a gap, not "unknown"
 
 
 def clothing_size(raw: str | None, size_system: str) -> str | None:
@@ -29,10 +30,16 @@ def clothing_size(raw: str | None, size_system: str) -> str | None:
         return s
     if s in WORD_SIZES:
         return WORD_SIZES[s]
+    if s in BEYOND_RANGE:
+        return "XXL"
     m = re.match(r"^(UK|US|EU)?\s*(\d{1,2})$", s)
     if m:
         system = m.group(1) or size_system
-        return DRESS_SIZES.get(system, {}).get(m.group(2))
+        n = m.group(2)
+        mapped = DRESS_SIZES.get(system, {}).get(n)
+        if mapped is None and int(n) > max(int(k) for k in DRESS_SIZES.get(system, {"0": 0})):
+            return "XXL"
+        return mapped
     return None
 
 

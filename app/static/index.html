@@ -236,7 +236,7 @@ function renderLook() {
   if (state.sample) h += `<div class="notice">Sample brief: no model was called for this brief. Add the Token Factory key for a live Gemma call.</div>`;
   h += `<div class="summary fade"><span class="total">${money(L.total_local, ccy)}</span>
     <span class="pill ${L.budget_status}">${STATUS[L.budget_status]}${L.budget_local ? ` · budget ${money(L.budget_local, ccy)}` : ""}</span>
-    <span class="facts">${L.scope === "global" ? "Searched worldwide" : L.scope === "region" ? "Searched my region" : "Searched near me"} · shipping included</span></div>`;
+    <span class="facts">${L.scope === "global" ? "Searched worldwide" : L.scope === "region" ? "Searched my region" : "Searched near me"} · shipping included, once per merchant</span></div>`;
   L.notes.forEach(n => h += `<div class="notice">${esc(n)}</div>`);
   h += hubStrip(L);
   h += `<div class="parts">`;
@@ -278,10 +278,12 @@ function useAbroad(partIndex) {
   // Abroad cards are verified offers; add one as the chosen option for that part, on this page only.
   const card = state.look.abroad.find(a => a.part_index === partIndex);
   const p = state.look.parts[partIndex];
-  const old = p.status === "available" ? p.options[state.look.chosen[partIndex]].landed_local : 0;
   if (p.status !== "available") { p.status = "available"; p.options = [] }
   p.options.unshift(card.offer); state.look.chosen[partIndex] = 0;
-  state.look.total_local = state.look.total_local - old + card.offer.landed_local;
+  // Same rule as the server: item prices plus shipping once per merchant.
+  const chosen = state.look.parts.map((x, i) => state.look.chosen[i] === null ? null : x.options[state.look.chosen[i]]).filter(Boolean);
+  const ship = {}; chosen.forEach(o => ship[o.merchant_id] = Math.max(ship[o.merchant_id] || 0, o.shipping_local));
+  state.look.total_local = chosen.reduce((a, o) => a + o.price_local, 0) + Object.values(ship).reduce((a, v) => a + v, 0);
   const b = state.look.budget_local;
   state.look.budget_status = !b ? "no_budget" : state.look.total_local <= b ? "within" : state.look.total_local <= b * 1.1 ? "near" : "over";
   state.look.abroad = state.look.abroad.filter(a => a !== card);

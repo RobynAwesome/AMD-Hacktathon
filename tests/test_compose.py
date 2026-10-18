@@ -50,8 +50,9 @@ def test_green_jacket_is_a_logged_gap():
 def test_within_budget_and_shipping_counted():
     look = C.compose(CAT, thandi(), scope="local", today=TODAY)
     assert look.budget_status == "within"
-    landed = sum(p.options[i].landed_local for p, i in zip(look.parts, look.chosen) if i is not None)
-    assert abs(landed - look.total_local) < 0.05
+    chosen = C.chosen_offers(look)
+    per_merchant = {o.merchant_id: o.shipping_local for o in chosen}
+    assert abs(sum(o.price_local for o in chosen) + sum(per_merchant.values()) - look.total_local) < 0.05
     assert all(o.shipping_local > 0 for p in look.parts for o in p.options)
 
 
@@ -79,7 +80,6 @@ def test_too_slow_items_are_dropped():
 def test_swap_recomputes_total():
     look = C.compose(CAT, thandi(), scope="global", today=TODAY)
     idx = next(i for i, p in enumerate(look.parts) if len(p.options) > 1)
-    before = look.total_local
     C.swap(look, idx, 1)
-    p = look.parts[idx]
-    assert abs(look.total_local - (before - p.options[0].landed_local + p.options[1].landed_local)) < 0.05
+    assert look.parts[idx].options[1] in C.chosen_offers(look)
+    assert abs(look.total_local - C.offers_total(C.chosen_offers(look))) < 0.05

@@ -1,7 +1,7 @@
 """Synthetic catalogue generator: 7 fictional merchants in 6 markets. Deterministic (fixed seed).
 
 Merchants (all fictional):
-  Imbali House (Johannesburg), Fynbos Atelier (Cape Town), Adire Atelier (Lagos),
+  Imbali House (Johannesburg), Ridge & Rand (Durban), Fynbos Atelier (Cape Town), Ọ̀ṢỌ́ Studio (Lagos),
   Hudson & Pine (New York), Thornbury Lane (London), Via Seta (Milan), Lotus Thread (Shenzhen).
 Every merchant ships to every market, with delivery days and a shipping cost.
 Gaps on purpose, so the gap view has signal: no green outer layer anywhere, no green shoes,
@@ -35,12 +35,14 @@ DAYS = {
 
 # (id, name, about, city, country, market, email, intl shipping in USD)
 MERCHANT_ROWS = [
-    ("m_imbali", "Imbali House", "Black-owned Johannesburg label: modern tailoring in shweshwe and African textiles, Ndebele-inspired beadwork.",
+    ("m_imbali", "Imbali House", "Black-owned Johannesburg label: sculptural tailoring, Karoo mohair and merino, and silk printed from paintings by Johannesburg artists.",
      "Johannesburg", "ZA", "ZA", "imbali.house@example.com", 22),
-    ("m_fynbos", "Fynbos Atelier", "Cape Town studio for breathable linens and easy summer dressing.",
+    ("m_ridge", "Ridge & Rand", "Durban leather studio: sneakers, loafers, mules and bags in South African leather, made in KwaZulu-Natal.",
+     "Durban", "ZA", "ZA", "ridgeandrand@example.com", 22),
+    ("m_fynbos", "Fynbos Atelier", "Cape Town studio: linens, merino knitwear and a print line drawn by a Cape Town illustrator.",
      "Cape Town", "ZA", "ZA", "fynbos.orders@example.com", 25),
-    ("m_adire", "Adire Atelier", "Lagos designer of hand-dyed adire indigo, Ankara prints and agbada-inspired silhouettes.",
-     "Lagos", "NG", "NG", "adire.atelier@example.com", 24),
+    ("m_oso", "Ọ̀ṢỌ́ Studio", "Contemporary Lagos label: minimal tailoring, oversized shirting, column dresses and raw silk.",
+     "Lagos", "NG", "NG", "oso.studio@example.com", 24),
     ("m_hudson", "Hudson & Pine", "New York tailoring and winter-ready knitwear.",
      "New York", "US", "US", "hudsonpine.hello@example.com", 28),
     ("m_thorn", "Thornbury Lane", "London heritage fabrics: tweed, wool and polished leather.",
@@ -86,12 +88,12 @@ ITEMS = {
         ("garment", "jumpsuit", "Olive wide-leg jumpsuit", "Belted cotton jumpsuit with wide legs and a V neck.", ["olive"], ["cotton"], "smart_casual", [GRAD, JOB], 1250),
         ("garment", "shirt dress", "Ivory cotton shirt dress", "Crisp poplin shirt dress with a tie waist, easy to rewear.", ["ivory"], ["cotton"], "smart_casual", [GRAD, JOB], 990),
         ("garment", "suit", "Stone linen two-piece suit", "Unstructured linen blazer and trousers, relaxed tailoring.", ["stone"], ["linen"], "smart_casual", [GRAD, WED, JOB], 2450),
-        ("garment", "midi dress", "Protea print tea dress", "Floral print tea dress with puff sleeves.", ["pink", "green"], ["viscose"], "casual", [GRAD], 850),
+        ("garment", "midi dress", "Coastline print linen midi", "Linen midi printed with a line drawing of the Atlantic coast by a Cape Town illustrator.", ["olive", "cream"], ["linen"], "smart_casual", [GRAD, WED], 1450),
         ("shoes", "block heels", "Tan block-heel sandals", "Leather sandals with a low block heel, steady on grass.", ["tan"], ["leather"], "smart_casual", [GRAD, WED], 750),
         ("shoes", "flats", "Gold pointed flats", "Metallic leather flats, all-day comfort.", ["gold"], ["leather"], "smart_casual", [GRAD, WED, DIN], 620),
         ("shoes", "espadrilles", "Natural wedge espadrilles", "Jute wedge espadrilles with ankle ties.", ["natural", "beige"], ["jute", "canvas"], "casual", [GRAD], 540),
         ("shoes", "loafers", "Brown suede loafers", "Soft suede loafers, unlined.", ["brown"], ["suede"], "smart_casual", [GRAD, JOB], 980),
-        ("outer_layer", "kimono", "Cream crochet kimono", "Light open-knit cover-up for evening breeze.", ["cream"], ["cotton"], "casual", [GRAD, WED], 690),
+        ("outer_layer", "cardigan", "Cream merino rib cardigan", "Fine-rib merino cardigan for cool evenings.", ["cream"], ["merino wool"], "smart_casual", [GRAD, WED, JOB], 890),
         ("outer_layer", "blazer", "Black cropped blazer", "Cropped single-button blazer.", ["black"], ["polyester", "viscose"], "smart_casual", [JOB, GRAD, DIN], 1150),
         ("outer_layer", "wrap", "Gold silk shawl", "Lightweight silk shawl for warm nights.", ["gold"], ["silk"], "cocktail", [WED, DIN], 580),
         ("accessory", "bag", "Woven straw clutch", "Hand-woven clutch with a leather strap.", ["natural"], ["straw", "leather"], "casual", [GRAD, WED], 420),
@@ -135,37 +137,44 @@ ITEMS = {
         ("accessory", "earrings", "Pearl drop earrings", "Freshwater pearl drops.", ["white"], ["pearl", "silver"], "formal", [GRAD, WED, DIN, JOB], 70),
     ],
     "m_imbali": [
-        ("garment", "wrap dress", "Emerald shweshwe wrap dress", "Wrap dress in emerald shweshwe with a fine geometric print, light enough for summer and easy to rewear.", ["emerald green"], ["cotton", "shweshwe"], "smart_casual", [GRAD, WED], 1790),
-        ("garment", "midi dress", "Indigo shweshwe A-line midi", "Fitted bodice and full A-line skirt in classic indigo shweshwe.", ["indigo blue"], ["cotton", "shweshwe"], "smart_casual", [GRAD, WED], 1650),
-        ("garment", "jumpsuit", "Ochre tailored jumpsuit", "Sharp-shouldered jumpsuit with a wide leg and hidden pockets.", ["ochre"], ["linen", "cotton"], "smart_casual", [GRAD, JOB], 1950),
-        ("garment", "suit", "Ink suit with shweshwe lining", "Two-piece suit in ink black, lined in red shweshwe.", ["black"], ["wool blend"], "formal", [JOB, GRAD, WED, DIN], 3200),
-        ("garment", "maxi dress", "Terracotta pleated maxi", "Sunray-pleated maxi with a beaded tie belt.", ["terracotta"], ["crepe", "glass beads"], "cocktail", [WED, DIN, GRAD], 2100),
-        ("garment", "gown", "Forest green column gown", "Column gown with a hand-beaded Ndebele-inspired neckline.", ["forest green"], ["crepe", "glass beads"], "formal", [DIN, WED, GRAD], 2650),
-        ("shoes", "mules", "Tan leather block mules", "Low block-heel mules, steady on grass.", ["tan"], ["leather"], "smart_casual", [GRAD, WED], 980),
-        ("shoes", "sandals", "Black beaded-strap sandals", "Leather sandals with hand-beaded straps.", ["black"], ["leather", "glass beads"], "cocktail", [WED, DIN, GRAD], 1150),
-        ("shoes", "loafers", "Cream leather loafers", "Soft cream loafers with a stitched apron.", ["cream"], ["leather"], "smart_casual", [JOB, GRAD], 1250),
-        ("outer_layer", "kimono", "Indigo shweshwe kimono jacket", "Unlined kimono jacket for cool evenings.", ["indigo blue"], ["cotton", "shweshwe"], "smart_casual", [GRAD, WED], 1100),
-        ("outer_layer", "blazer", "Camel cropped blazer", "Cropped single-breasted blazer with beaded buttons.", ["camel"], ["wool blend"], "smart_casual", [JOB, GRAD], 1650),
-        ("accessory", "necklace", "Ndebele-inspired beaded collar", "Hand-beaded geometric collar in green, yellow and white.", ["green", "yellow", "white"], ["glass beads"], "smart_casual", [GRAD, WED], 650),
-        ("accessory", "earrings", "Geometric beaded earrings", "Gold and black beaded drop earrings.", ["gold", "black"], ["glass beads", "brass"], "smart_casual", [GRAD, WED, DIN], 380),
-        ("accessory", "bag", "Shweshwe-lined leather clutch", "Tan leather clutch lined in indigo shweshwe.", ["tan"], ["leather", "shweshwe"], "smart_casual", [GRAD, WED, DIN], 720),
-        ("accessory", "cuff", "Beaded brass cuff", "Brass cuff with a band of glass beads.", ["gold"], ["brass", "glass beads"], "smart_casual", [GRAD, WED, DIN], 450),
+        ("garment", "column dress", "Emerald painted-print silk column", "Silk twill column dress printed from an original abstract painting by a Johannesburg artist.", ["emerald green", "gold"], ["silk"], "cocktail", [GRAD, WED, DIN], 2600),
+        ("garment", "blazer dress", "Ink sculptural blazer dress", "Double-breasted blazer dress with a sculpted shoulder.", ["black"], ["wool crepe"], "formal", [JOB, GRAD, DIN], 2950),
+        ("garment", "suit", "Sage wide-leg trouser suit", "Relaxed single-breasted suit with wide trousers.", ["sage green"], ["linen", "wool"], "smart_casual", [GRAD, JOB, WED], 3100),
+        ("garment", "shirt dress", "Indigo shweshwe shirt dress", "Oversized shirt dress in indigo shweshwe with a hidden placket.", ["indigo blue"], ["cotton", "shweshwe"], "smart_casual", [GRAD], 1650),
+        ("garment", "co-ord set", "Ochre pleated skirt set", "Boxy top and knife-pleated midi skirt.", ["ochre"], ["crepe"], "smart_casual", [GRAD, WED], 1980),
+        ("garment", "knit dress", "Charcoal merino column dress", "Fine merino knit dress, long sleeves, ankle length.", ["charcoal"], ["merino wool"], "smart_casual", [JOB, GRAD, DIN], 1850),
+        ("shoes", "mules", "Black sculpted-heel mules", "Leather mules on a sculpted low heel.", ["black"], ["leather"], "cocktail", [WED, DIN, GRAD], 1350),
+        ("outer_layer", "coat", "Karoo mohair wrap coat", "Brushed mohair wrap coat, spun and woven in the Eastern Cape.", ["oatmeal", "cream"], ["mohair"], "smart_casual", [GRAD, JOB, WED, DIN], 3400),
+        ("outer_layer", "jacket", "Cropped tailored jacket", "Cropped jacket with a shweshwe lining.", ["black"], ["wool blend", "shweshwe"], "smart_casual", [JOB, GRAD], 2200),
+        ("accessory", "scarf", "Painted-print silk scarf", "Silk scarf printed from the same original painting as the column dress.", ["gold", "green", "black"], ["silk"], "smart_casual", [GRAD, WED, DIN], 650),
+        ("accessory", "necklace", "Minimal brass collar", "Hand-forged brass collar.", ["gold"], ["brass"], "smart_casual", [GRAD, WED, DIN], 520),
+        ("accessory", "earrings", "Bead and silver drop earrings", "Single strand of black glass beads on silver.", ["black", "silver"], ["glass beads", "silver"], "smart_casual", [GRAD, WED, DIN, JOB], 420),
     ],
-    "m_adire": [
-        ("garment", "maxi dress", "Indigo adire wrap maxi", "Hand-dyed adire indigo maxi with a deep wrap and flutter sleeves.", ["indigo blue"], ["cotton", "adire"], "smart_casual", [GRAD, WED], 95000),
-        ("garment", "midi dress", "Ankara print puff-sleeve midi", "Bold Ankara wax print in green, yellow and orange.", ["green", "yellow", "orange"], ["cotton", "wax print"], "smart_casual", [GRAD, WED], 68000),
-        ("garment", "kaftan", "Ivory embroidered kaftan", "Floor-length kaftan with tonal neck embroidery.", ["ivory"], ["cotton"], "smart_casual", [GRAD, WED, DIN], 85000),
-        ("garment", "suit", "Agbada-inspired three-piece", "Flowing outer robe, tunic and trousers in navy brocade.", ["navy"], ["cotton brocade"], "formal", [WED, GRAD, DIN], 210000),
-        ("garment", "jumpsuit", "Burnt orange adire jumpsuit", "Relaxed adire jumpsuit with a tie waist.", ["burnt orange"], ["cotton", "adire"], "smart_casual", [GRAD, JOB], 78000),
-        ("shoes", "slides", "Hand-stitched leather slides", "Brown leather slides, stitched by hand.", ["brown"], ["leather"], "casual", [GRAD], 32000),
-        ("shoes", "block heels", "Beaded block heels", "Gold block heels with a beaded ankle strap.", ["gold"], ["leather", "glass beads"], "cocktail", [WED, DIN, GRAD], 55000),
-        ("shoes", "loafers", "Woven leather loafers", "Black woven-leather loafers.", ["black"], ["leather"], "smart_casual", [JOB, GRAD], 60000),
-        ("outer_layer", "duster", "Indigo adire duster", "Long open duster in hand-dyed adire.", ["indigo blue"], ["cotton", "adire"], "smart_casual", [GRAD, WED], 72000),
-        ("outer_layer", "shawl", "Aso-oke shawl", "Hand-woven aso-oke shawl in gold.", ["gold"], ["aso-oke", "cotton", "silk"], "cocktail", [WED, DIN], 45000),
-        ("accessory", "headwrap", "Aso-oke gele headwrap", "Stiff hand-woven gele in gold.", ["gold"], ["aso-oke"], "formal", [WED, GRAD], 25000),
-        ("accessory", "necklace", "Coral bead necklace", "Layered coral bead necklace.", ["coral red"], ["coral beads"], "formal", [WED, DIN, GRAD], 40000),
-        ("accessory", "bag", "Adire canvas tote", "Indigo adire tote with leather handles.", ["indigo blue"], ["cotton", "leather"], "casual", [GRAD, JOB], 30000),
+    "m_oso": [
+        ("garment", "shirt dress", "Oversized poplin shirt dress", "Crisp oversized shirt dress with a dropped shoulder.", ["white"], ["cotton"], "smart_casual", [GRAD, JOB], 85000),
+        ("garment", "column dress", "Emerald washed-crepe column", "Bias-cut column dress in washed crepe.", ["emerald green"], ["crepe"], "cocktail", [WED, GRAD, DIN], 120000),
+        ("garment", "co-ord set", "Indigo wrap skirt set", "Hand-dyed indigo cotton, cut as a clean wrap skirt and boxy top.", ["indigo blue"], ["cotton"], "smart_casual", [GRAD, WED], 98000),
+        ("garment", "suit", "Stone boxy linen two-piece", "Boxy jacket and straight trousers in heavy linen.", ["stone"], ["linen"], "smart_casual", [GRAD, JOB], 140000),
+        ("garment", "jumpsuit", "Black tuxedo jumpsuit", "Tailored jumpsuit with satin lapels.", ["black"], ["wool blend", "satin"], "formal", [DIN, WED], 165000),
+        ("shoes", "slides", "Tan square-toe slides", "Square-toe leather slides.", ["tan"], ["leather"], "casual", [GRAD], 42000),
+        ("shoes", "block heels", "Black sculpted block heels", "Leather heels on a sculpted block.", ["black"], ["leather"], "cocktail", [WED, DIN, GRAD], 65000),
+        ("outer_layer", "overshirt", "Cream linen overshirt", "Oversized linen overshirt to wear open.", ["cream"], ["linen"], "casual", [GRAD], 58000),
+        ("outer_layer", "blazer", "Navy raw-silk blazer", "Unstructured blazer in raw silk.", ["navy"], ["silk"], "smart_casual", [JOB, WED, GRAD], 125000),
         ("accessory", "cuff", "Hammered brass cuff", "Wide hammered brass cuff.", ["gold"], ["brass"], "smart_casual", [GRAD, WED, DIN], 18000),
+        ("accessory", "bag", "Cognac leather bucket bag", "Soft leather bucket bag.", ["cognac"], ["leather"], "smart_casual", [GRAD, WED], 70000),
+        ("accessory", "earrings", "Sculptural silver earrings", "Cast silver earrings.", ["silver"], ["silver"], "smart_casual", [GRAD, WED, DIN], 35000),
+    ],
+    "m_ridge": [
+        ("shoes", "sneakers", "White leather court sneakers", "Low-top sneakers in South African leather.", ["white"], ["leather"], "casual", [GRAD], 1450),
+        ("shoes", "mules", "Tan leather block mules", "Low block-heel mules, steady on grass.", ["tan"], ["leather"], "smart_casual", [GRAD, WED], 1290),
+        ("shoes", "loafers", "Black leather loafers", "Hand-lasted penny loafers.", ["black"], ["leather"], "smart_casual", [JOB, GRAD], 1590),
+        ("shoes", "boots", "Cognac Chelsea boots", "Leather Chelsea boots on a crepe sole.", ["cognac"], ["leather"], "smart_casual", [GRAD, JOB], 1890),
+        ("shoes", "slingbacks", "Bone leather slingbacks", "Kitten-heel slingbacks.", ["cream"], ["leather"], "cocktail", [WED, DIN, GRAD], 1390),
+        ("shoes", "sandals", "Black strappy block sandals", "Strappy sandals on a low block heel.", ["black"], ["leather"], "smart_casual", [GRAD, WED, DIN], 1190),
+        ("accessory", "bag", "Black structured tote", "Structured leather tote that fits a laptop.", ["black"], ["leather"], "smart_casual", [JOB, GRAD], 1690),
+        ("accessory", "bag", "Cognac mini crossbody", "Small crossbody bag with an adjustable strap.", ["cognac"], ["leather"], "smart_casual", [GRAD, WED], 990),
+        ("accessory", "belt", "Woven leather belt", "Hand-woven leather belt.", ["tan"], ["leather"], "smart_casual", [GRAD, JOB], 520),
+        ("accessory", "bag", "Stone saddle-stitched clutch", "Saddle-stitched leather clutch.", ["stone"], ["leather"], "smart_casual", [WED, DIN, GRAD], 890),
     ],
     "m_seta": [
         ("garment", "midi dress", "Bottle green silk midi", "Bias-cut silk midi with a cowl neck.", ["bottle green"], ["silk"], "cocktail", [WED, GRAD, DIN], 320),
@@ -201,7 +210,7 @@ ITEMS = {
     ],
 }
 
-PREFIX = {"m_imbali": "imb", "m_fynbos": "fyn", "m_adire": "adi", "m_hudson": "hud", "m_thorn": "thr", "m_seta": "set", "m_lotus": "lot"}
+PREFIX = {"m_imbali": "imb", "m_fynbos": "fyn", "m_oso": "oso", "m_ridge": "rid", "m_hudson": "hud", "m_thorn": "thr", "m_seta": "set", "m_lotus": "lot"}
 
 
 def stock_for(slot: Slot, rng: random.Random) -> dict[str, int]:

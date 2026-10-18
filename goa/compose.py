@@ -104,6 +104,18 @@ def _offer(cat: Catalogue, c: Candidate, market: str, size: str | None, today: d
     )
 
 
+def offers_total(offers: list[Offer]) -> float:
+    """Item prices plus shipping charged once per merchant (one parcel per merchant)."""
+    ship: dict[str, float] = {}
+    for o in offers:
+        ship[o.merchant_id] = max(ship.get(o.merchant_id, 0.0), o.shipping_local)
+    return round(sum(o.price_local for o in offers) + sum(ship.values()), 2)
+
+
+def chosen_offers(look: "Look") -> list[Offer]:
+    return [p.options[i] for p, i in zip(look.parts, look.chosen) if i is not None]
+
+
 def _budget_local(cat: Catalogue, brief: Brief, market: str) -> float | None:
     if brief.budget is None:
         return None
@@ -115,14 +127,13 @@ def _best_combo(parts: list[PartResult], budget: float | None) -> tuple[list[int
     choices = [range(len(p.options)) if p.options else [None] for p in parts]
     best, best_key = None, None
     for combo in itertools.product(*choices):
-        total = sum(p.options[i].landed_local for p, i in zip(parts, combo) if i is not None)
+        total = offers_total([p.options[i] for p, i in zip(parts, combo) if i is not None])
         score = sum(p.options[i].score for p, i in zip(parts, combo) if i is not None)
         fits = budget is None or total <= budget
         key = (fits, score if fits else -total)
         if best_key is None or key > best_key:
             best, best_key = list(combo), key
-    total = sum(p.options[i].landed_local for p, i in zip(parts, best) if i is not None)
-    return best, round(total, 2)
+    return best, offers_total([p.options[i] for p, i in zip(parts, best) if i is not None])
 
 
 def _fails_reason(failures: list[str], had_colour_match: bool) -> str:
@@ -168,7 +179,10 @@ def compose(cat: Catalogue, brief: Brief, market: str | None = None, scope: str 
                 abroad_valid.append(_offer(cat, c, market, sz, today))
         outside.append(abroad_valid[:OPTIONS_PER_PART])
         if valid:
-            parts.append(PartResult(part.model_dump(mode="json"), "available", valid[:POOL_PER_PART]))
+            # Best matches plus the cheapest valid items, so the budget search always has affordable choices.
+            best = valid[: POOL_PER_PART - 2]
+            cheap = sorted((o for o in valid if o not in best), key=lambda o: o.landed_local)[:2]
+            parts.append(PartResult(part.model_dump(mode="json"), "available", best + cheap))
         else:
             parts.append(PartResult(part.model_dump(mode="json"), "not_on_offer",
                                     reason=_fails_reason(failures, had_colour)))
@@ -203,7 +217,8 @@ def worth_it_abroad(look: Look, outside: list[list[Offer]], budget: float | None
     for idx, (part, offers) in enumerate(zip(look.parts, outside)):
         current = part.options[look.chosen[idx]] if look.chosen[idx] is not None else None
         for o in offers:
-            new_total = look.total_local - (current.landed_local if current else 0) + o.landed_local
+            rest = [x.options[look.chosen[j]] for j, x in enumerate(look.parts) if j != idx and look.chosen[j] is not None]
+            new_total = offers_total(rest + [o])
             status = rules.budget_status(new_total, budget)
             if status == "over":
                 continue
@@ -242,8 +257,7 @@ def validate_look(cat: Catalogue, look: Look, brief: Brief, today: date) -> list
         price, ship = rules.landed_local(cat, item, look.market)
         if abs(price + ship - o.landed_local) > 0.01:
             problems.append(f"{o.item_id} price mismatch")
-    total = sum(p.options[i].landed_local for p, i in zip(look.parts, look.chosen) if i is not None)
-    if abs(total - look.total_local) > 0.05:
+    if abs(offers_total(chosen_offers(look)) - look.total_local) > 0.05:
         problems.append("total mismatch")
     return problems
 
@@ -270,7 +284,7 @@ def swap(look: Look, part_index: int, option_index: int) -> Look:
     if not 0 <= option_index < len(look.parts[part_index].options):
         raise ValueError("no such option")
     look.chosen[part_index] = option_index
-    look.total_local = round(sum(p.options[i].landed_local for p, i in zip(look.parts, look.chosen) if i is not None), 2)
+    look.total_local = offers_total(chosen_offers(look))
     look.budget_status = rules.budget_status(look.total_local, look.budget_local)
     return look
 

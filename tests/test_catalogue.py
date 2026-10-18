@@ -14,7 +14,7 @@ MERCHANTS = {m["id"]: Merchant.model_validate(m) for m in CAT["merchants"]}
 
 
 def test_size_and_unique_ids():
-    assert 90 <= len(ITEMS) <= 120
+    assert 100 <= len(ITEMS) <= 120
     assert len({i.id for i in ITEMS}) == len(ITEMS)
 
 
@@ -53,7 +53,18 @@ def test_every_market_has_an_affordable_look():
 
 def test_african_designers_present():
     names = {m.name for m in MERCHANTS.values()}
-    assert {"Imbali House", "Adire Atelier"} <= names
+    assert {"Imbali House", "Ridge & Rand", "Ọ̀ṢỌ́ Studio"} <= names
+    african = [m for m in MERCHANTS.values() if m.region == "africa"]
+    assert len(african) >= 4
+
+
+def test_no_cliche_copy():
+    # Products from African designers describe the design, not a theme.
+    banned = ["african-inspired", "africa-inspired", "tribal", "ethnic", "exotic", "inspired print"]
+    texts = [f"{i.name} {i.description}".lower() for i in ITEMS]
+    texts += [m.about.lower() for m in MERCHANTS.values()]
+    for t in texts:
+        assert not any(b in t for b in banned), t
 
 
 def test_deliberate_gaps_exist():

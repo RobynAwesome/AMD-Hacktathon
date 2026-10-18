@@ -15,7 +15,7 @@ from goa.schemas import Brief, CatalogueItem, Part
 COLOUR_FAMILIES = {
     "green": ["green", "sage", "emerald", "olive", "forest", "bottle", "mint", "jade"],
     "blue": ["blue", "indigo", "navy", "teal"],
-    "neutral": ["ivory", "cream", "stone", "beige", "natural", "white", "champagne", "nude", "camel", "tan"],
+    "neutral": ["ivory", "cream", "oatmeal", "bone", "stone", "beige", "natural", "white", "champagne", "nude", "camel", "tan"],
     "dark": ["black", "charcoal", "grey", "gray"],
     "red": ["red", "burgundy", "oxblood", "coral", "pink", "lilac", "purple"],
     "warm": ["yellow", "gold", "ochre", "orange", "terracotta", "burnt", "cognac", "brown", "rust"],

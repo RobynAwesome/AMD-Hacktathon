@@ -18,6 +18,12 @@ def test_clothing_sizes():
     assert rules.clothing_size("10", "US") == "XL"
     assert rules.clothing_size(None, "UK") is None
     assert rules.clothing_size("huge", "UK") is None
+    assert rules.clothing_size("XXL", "UK") == "XXL"
+    assert rules.clothing_size("UK 20", "UK") == "XXL"
+
+
+def test_beyond_range_size_is_out_of_stock_not_unknown():
+    assert not rules.in_stock(item("fyn-001"), "XXL")
 
 
 def test_shoe_sizes():
