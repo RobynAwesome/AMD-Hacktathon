@@ -115,3 +115,39 @@ def preread(cat: Catalogue, text: str, market: str, today: date | None = None) -
     found = chips(text, today)
     return {"chips": found, "first_glance": first_glance(cat, text, market), "hubs": hubs(cat),
             "needs_size": not any(c["key"] == "size" for c in found)}
+
+
+def fallback_brief(text: str, market: str = "ZA", today: date | None = None):
+    """Build a structured Brief from pre-read chips when a live LLM call is unavailable on serverless."""
+    from goa.schemas import Brief, Budget, Formality, Part, Slot
+
+    today = today or date.today()
+    found = chips(text, today)
+    by_key = {c["key"]: c["value"] for c in found}
+    colours = [c["value"] for c in found if c["key"] == "colour"]
+    occ = str(by_key.get("occasion") or "graduation")
+    ev_date = date.fromisoformat(by_key["event_date"]) if "event_date" in by_key else None
+    loc = by_key.get("location")
+    setting = by_key.get("setting")
+    bval = by_key.get("budget")
+    budget = Budget(amount=float(bval["amount"]), currency=str(bval["currency"]), soft="around" in text.lower() or "about" in text.lower()) if bval else None
+    size = by_key.get("size")
+    tl = text.lower()
+    formality = Formality.black_tie if "black tie" in tl else Formality.formal if "formal" in tl and "not formal" not in tl else Formality.smart_casual if "casual" in tl or "not formal" in tl else Formality.cocktail
+    c_str = ", ".join(colours) if colours else "versatile"
+    parts = [
+        Part(slot=Slot.garment, description=f"{c_str} {occ} outfit: {text.strip()[:120]}", colours=colours, materials=[]),
+        Part(slot=Slot.shoes, description=f"{'flat ' if 'flat' in tl or 'no heel' in tl else ''}shoes for {occ}", colours=[], materials=["leather"]),
+        Part(slot=Slot.accessory, description=f"understated accessory for {occ}", colours=[], materials=[]),
+    ]
+    if any(w in tl for w in ("jacket", "blazer", "shawl", "wrap", "coat", "cool", "evening", "outdoor")):
+        parts.insert(2, Part(slot=Slot.outer_layer, description=f"light outer layer or jacket for {occ}", colours=colours[:1], materials=["linen"]))
+    return Brief(
+        occasion=occ, event_date=ev_date, location=loc, market=market, setting=setting,
+        weather="warm day" if "warm" in tl else None, budget=budget, size=size, shoe_size=None,
+        colours=colours, formality=formality,
+        style_notes=[w for w in ("elegant", "rewearable", "relaxed", "tailored", "minimal", "bold") if w in tl or (w == "rewearable" and "wear again" in tl)],
+        constraints=["no heels"] if ("flat" in tl or "no heel" in tl) else [],
+        parts=parts,
+    )
+

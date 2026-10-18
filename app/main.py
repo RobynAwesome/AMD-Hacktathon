@@ -176,6 +176,8 @@ def _read_brief(text: str, market: str, images: list[str]) -> tuple[Brief, list[
         return res.brief, calls, False
     except Exception as e:
         sample = _sample_brief(text, market)
+        if sample is None and os.environ.get("VERCEL"):
+            sample = preread.fallback_brief(text, market)
         if sample is None:
             raise HTTPException(503, f"Could not read the brief: {e}")
         calls.append({"step": "brief", "provider": "sample brief (no model call)", "latency_ms": 0})

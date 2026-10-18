@@ -73,8 +73,9 @@ def _subspace_query(text: str, vecs: np.ndarray, ids: list[str]) -> np.ndarray:
         item = cat.by_id.get(iid)
         if item is None:
             continue
-        blob = " ".join([item.name, item.category, item.description, item.slot.value,
-                         *item.colours, *item.materials, *item.occasions, *item.style_tags]).lower()
+        vtags = list(item.vision_tags.values()) if isinstance(item.vision_tags, dict) else []
+        blob = " ".join([item.name, item.category, item.description, item.slot.value, item.formality.value,
+                         *item.colours, *item.materials, *item.occasions, *(str(x) for x in vtags)]).lower()
         i_words = set(re.findall(r"[a-z0-9]+", blob))
         overlap = len(q_words & i_words)
         fam_hit = 2.0 if (q_fams & families(item.colours)) else 0.0
