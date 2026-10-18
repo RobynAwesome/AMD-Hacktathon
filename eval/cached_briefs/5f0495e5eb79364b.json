@@ -1,0 +1,59 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-12",
+    "location": "Cape Town",
+    "market": "ZA",
+    "setting": "outdoor",
+    "weather": "warm, summer in Cape Town",
+    "budget": {
+      "amount": 2500.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "green"
+    ],
+    "formality": "smart_casual",
+    "style_notes": [
+      "elegant but not formal",
+      "versatile for future wear"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "elegant green midi dress in a breathable fabric, versatile cut for future occasions",
+        "colours": [
+          "green"
+        ],
+        "materials": [
+          "linen",
+          "cotton blend",
+          "viscose"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "comfortable yet polished block heels or dressy sandals for outdoor terrain",
+        "colours": [
+          "nude",
+          "gold",
+          "tan"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist jewelry and a small clutch to elevate the look",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

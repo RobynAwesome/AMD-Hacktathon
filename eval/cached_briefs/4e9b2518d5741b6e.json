@@ -1,0 +1,76 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-10",
+    "location": "London",
+    "market": "GB",
+    "setting": "indoor",
+    "weather": "cold and probably raining",
+    "budget": {
+      "amount": 450.0,
+      "currency": "GBP",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "bottle green"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "classic"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "classic formal graduation dress or tailored suit in bottle green",
+        "colours": [
+          "bottle green"
+        ],
+        "materials": [
+          "wool-blend",
+          "crepe"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "heavyweight, water-resistant long wool coat for cold, rainy London weather",
+        "colours": [
+          "black",
+          "navy",
+          "bottle green"
+        ],
+        "materials": [
+          "wool",
+          "cashmere"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "elegant closed-toe pumps or polished dress shoes for a formal ceremony",
+        "colours": [
+          "black",
+          "nude"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "sturdy umbrella and a small formal clutch or bag",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "leather",
+          "satin"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

@@ -32,9 +32,10 @@ except ImportError:
     pass
 
 from goa import usage
+from goa.catalogue import CACHE_ROOT
 
-CONFIG = json.loads((Path(__file__).parent / "providers.json").read_text())
-CACHE_DIR = Path(__file__).resolve().parent.parent / "cache" / "llm"
+CONFIG = json.loads((Path(__file__).parent / "providers.json").read_text(encoding="utf-8"))
+CACHE_DIR = CACHE_ROOT / "llm"
 # Output caps per step, so no call can run away with the shared quota. Gemma does not think by default.
 MAX_TOKENS = {"brief": 1200, "explain": 600, "enquiry": 400, "ideas": 400, "vision": 300}
 PROVIDERS = CONFIG["providers"]
@@ -272,8 +273,11 @@ def chat(step: str, messages: list[dict], json_mode: bool = True, images: list[I
     latency_ms = int((time.perf_counter() - start) * 1000)
     usage.log_call(step, r.provider, r.model, cached=False, latency_ms=latency_ms, tokens_in=t_in, tokens_out=t_out)
     if use_cache and text.strip() and (not json_mode or _parses(text)):
-        CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"text": text, "step": step, "model": r.model, "ts": int(time.time())}))
+        try:
+            CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({"text": text, "step": step, "model": r.model, "ts": int(time.time())}), encoding="utf-8")
+        except OSError:
+            pass
     return LLMReply(text=text, latency_ms=latency_ms, model=r.model, base_url=r.base_url or r.provider,
                     step=step, provider=r.provider)
 

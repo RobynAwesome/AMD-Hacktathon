@@ -1,0 +1,67 @@
+{
+  "brief": {
+    "occasion": "black tie dinner",
+    "event_date": "2026-11-28",
+    "location": "London",
+    "market": "GB",
+    "setting": "indoor",
+    "weather": "likely cold, late autumn in London",
+    "budget": {
+      "amount": 1200.0,
+      "currency": "GBP",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "black"
+    ],
+    "formality": "black_tie",
+    "style_notes": [
+      "black silk gown",
+      "cape"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "floor-length black silk evening gown, elegant and formal for a black tie dinner",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "silk"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "dramatic black evening cape to keep warm while arriving, luxurious feel",
+        "colours": [
+          "black"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "shoes",
+        "description": "elegant black high-heeled pumps or strappy sandals to complement a silk gown",
+        "colours": [
+          "black"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "sophisticated evening clutch and statement jewelry for a formal dinner",
+        "colours": [
+          "black",
+          "silver",
+          "gold"
+        ],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

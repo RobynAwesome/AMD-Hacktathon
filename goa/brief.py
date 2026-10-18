@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from dataclasses import dataclass
 from datetime import date
@@ -13,11 +14,12 @@ from typing import Callable
 from pydantic import ValidationError
 
 from goa import llm
+from goa.catalogue import CACHE_ROOT, ROOT
 from goa.schemas import Brief
 
-ROOT = Path(__file__).resolve().parent.parent
-CACHE_DIR = ROOT / "cache" / "briefs"
-MARKETS = {m["code"]: m for m in json.loads((Path(__file__).parent / "markets.json").read_text())["markets"]}
+CACHE_DIR = CACHE_ROOT / "briefs"
+SEED_BRIEF_DIR = ROOT / "eval" / "cached_briefs"
+MARKETS = {m["code"]: m for m in json.loads((Path(__file__).parent / "markets.json").read_text(encoding="utf-8"))["markets"]}
 
 THANDI = (
     "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, "
@@ -104,13 +106,22 @@ def parse_brief(
     if market not in MARKETS:
         raise ValueError(f"unknown market {market}")
     today = today or date.today()
+    can_use_cache = use_cache and (
+        chat_fn is not None
+        or bool(llm.route("brief").key)
+        or os.environ.get("GOA_CACHE_ONLY") == "1"
+        or bool(os.environ.get("VERCEL"))
+    )
     # The brief has its own cache of validated results, so it skips the general reply cache.
     chat_fn = chat_fn or (lambda msgs: llm.chat("brief", msgs, use_cache=False))
     path = _cache_path(text, market)
-    if use_cache and path.exists():
-        data = json.loads(path.read_text())
-        return BriefResult(Brief.model_validate(data["brief"]), 0, 0, data["model"], data["base_url"],
-                           cached=True, provider=data.get("provider", ""))
+    seed_path = SEED_BRIEF_DIR / path.name
+    if can_use_cache:
+        for hit_path in (path, seed_path):
+            if hit_path.exists():
+                data = json.loads(hit_path.read_text(encoding="utf-8"))
+                return BriefResult(Brief.model_validate(data["brief"]), 0, 0, data["model"], data["base_url"],
+                                   cached=True, provider=data.get("provider", ""))
 
     m = MARKETS[market]
     user = (
@@ -134,9 +145,12 @@ def parse_brief(
             ]
             continue
         if use_cache:
-            CACHE_DIR.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps({"brief": brief.model_dump(mode="json"), "model": reply.model,
-                                       "base_url": reply.base_url, "provider": reply.provider}, indent=2))
+            try:
+                CACHE_DIR.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps({"brief": brief.model_dump(mode="json"), "model": reply.model,
+                                           "base_url": reply.base_url, "provider": reply.provider}, indent=2), encoding="utf-8")
+            except OSError:
+                pass
         return BriefResult(brief, attempt, total_ms, reply.model, reply.base_url, provider=reply.provider)
 
     raise BriefError(f"brief failed validation twice: {last_error}")

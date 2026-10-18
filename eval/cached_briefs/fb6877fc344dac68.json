@@ -1,0 +1,67 @@
+{
+  "brief": {
+    "occasion": "graduation",
+    "event_date": "2026-12-12",
+    "location": "Cape Town",
+    "market": "ZA",
+    "setting": "outdoor",
+    "weather": "warm, summer in Cape Town",
+    "budget": {
+      "amount": 2500.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "sage green"
+    ],
+    "formality": "smart_casual",
+    "style_notes": [
+      "versatile pieces for future wear",
+      "comfort-focused"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "sage green dress or jumpsuit, versatile cut for future wear, breathable fabric for a warm outdoor ceremony",
+        "colours": [
+          "sage green"
+        ],
+        "materials": [
+          "linen",
+          "cotton blend",
+          "viscose"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "comfortable block heels or dressy flats suitable for walking on grass or outdoor surfaces",
+        "colours": [
+          "nude",
+          "gold",
+          "silver"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "outer_layer",
+        "description": "lightweight outer layer, such as a cropped cardigan or sheer wrap, for temperature shifts",
+        "colours": [
+          "cream",
+          "white",
+          "beige"
+        ],
+        "materials": [
+          "cotton",
+          "silk",
+          "light knit"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

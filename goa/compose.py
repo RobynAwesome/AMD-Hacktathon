@@ -12,7 +12,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import date
 
 from goa import rules
-from goa.catalogue import ROOT, Catalogue
+from goa.catalogue import CACHE_ROOT, ROOT, Catalogue
 from goa.match import Candidate, families, match_part
 from goa.schemas import Brief, CatalogueItem, Part
 
@@ -20,7 +20,7 @@ SCOPES = ["local", "region", "global"]
 OPTIONS_PER_PART = 3  # shown per part: the chosen item plus swaps
 POOL_PER_PART = 6  # searched per part when fitting the budget
 MAX_ABROAD = 2
-GAPS_LOG = ROOT / "cache" / "gaps.jsonl"
+GAPS_LOG = CACHE_ROOT / "gaps.jsonl"
 
 
 @dataclass
@@ -323,15 +323,18 @@ def log_gap_entries(look: Look, brief: Brief) -> None:
     gaps = [p for p in look.parts if p.status == "not_on_offer"]
     if not gaps:
         return
-    GAPS_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with GAPS_LOG.open("a") as f:
-        for p in gaps:
-            f.write(json.dumps({
-                "ts": int(time.time()), "market": look.market, "scope": look.scope, "occasion": brief.occasion,
-                "slot": p.part["slot"], "description": p.part["description"], "colours": p.part["colours"],
-                "colour_families": sorted(families(p.part["colours"])), "materials": p.part["materials"],
-                "reason": p.reason,
-            }) + "\n")
+    try:
+        GAPS_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with GAPS_LOG.open("a", encoding="utf-8") as f:
+            for p in gaps:
+                f.write(json.dumps({
+                    "ts": int(time.time()), "market": look.market, "scope": look.scope, "occasion": brief.occasion,
+                    "slot": p.part["slot"], "description": p.part["description"], "colours": p.part["colours"],
+                    "colour_families": sorted(families(p.part["colours"])), "materials": p.part["materials"],
+                    "reason": p.reason,
+                }) + "\n")
+    except OSError:
+        pass
 
 
 def swap(look: Look, part_index: int, option_index: int) -> Look:

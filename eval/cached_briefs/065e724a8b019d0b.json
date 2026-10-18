@@ -1,0 +1,67 @@
+{
+  "brief": {
+    "occasion": "Formal dinner",
+    "event_date": "2026-11-30",
+    "location": "Beijing",
+    "market": "CN",
+    "setting": "indoor",
+    "weather": "likely cold, late autumn/early winter in Beijing",
+    "budget": {
+      "amount": 3000.0,
+      "currency": "CNY",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "jade",
+      "grey"
+    ],
+    "formality": "formal",
+    "style_notes": [],
+    "constraints": [
+      "African designer preferred"
+    ],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "elegant jade silk formal dress, floor-length or midi with a refined drape",
+        "colours": [
+          "jade"
+        ],
+        "materials": [
+          "silk"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "warm grey heavy wool coat for cold Beijing winter, tailored fit to wear over formal dress",
+        "colours": [
+          "grey"
+        ],
+        "materials": [
+          "wool"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "classic formal pumps or heels to complement a silk gown",
+        "colours": [
+          "silver",
+          "nude",
+          "black"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist jewelry or a clutch to accent the jade silk",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

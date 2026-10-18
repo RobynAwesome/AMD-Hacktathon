@@ -1,0 +1,61 @@
+{
+  "brief": {
+    "occasion": "Interview",
+    "event_date": "2026-11-04",
+    "location": "Shanghai",
+    "market": "CN",
+    "setting": "indoor",
+    "weather": "likely cool, autumn in Shanghai",
+    "budget": {
+      "amount": 1200.0,
+      "currency": "CNY",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "black"
+    ],
+    "formality": "formal",
+    "style_notes": [],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "professional black co-ord set, tailored fit for a corporate interview",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "wool blend",
+          "crepe"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "pointed-toe patent leather high heels for a polished look",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "patent leather"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist professional handbag and subtle jewelry to complement the black suit",
+        "colours": [
+          "black",
+          "silver",
+          "gold"
+        ],
+        "materials": [
+          "leather"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

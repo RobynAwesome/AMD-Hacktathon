@@ -67,12 +67,24 @@ class SwapRequest(BaseModel):
     look_id: str
     part: int
     option: int
+    brief: dict | None = None
+    compose: dict | None = None
+    chosen: list[int | None] | None = None
 
 
 class EnquiryRequest(BaseModel):
     look_id: str
     name: str = ""
     note: str = ""
+    brief: dict | None = None
+    compose: dict | None = None
+    chosen: list[int | None] | None = None
+
+
+class WhyRequest(BaseModel):
+    brief: dict | None = None
+    compose: dict | None = None
+    chosen: list[int | None] | None = None
 
 
 def _sample_brief(text: str, market: str) -> Brief | None:
@@ -134,6 +146,7 @@ class ComposeRequest(BaseModel):
     shoe_size: str | None = None
     prefs: PrefsIn = PrefsIn()
     overrides: dict = {}  # chip corrections: occasion, event_date, location, budget {amount, currency}
+    brief: dict | None = None
 
 
 class MirrorRequest(BaseModel):
@@ -197,6 +210,35 @@ def _store_look(look, brief) -> str:
     return look_id
 
 
+def _resolve_look(look_id: str, brief_data: dict | None = None, compose_data: dict | None = None,
+                  chosen: list[int | None] | None = None) -> dict | None:
+    entry = LOOKS.get(look_id)
+    if entry:
+        return entry
+    if not brief_data:
+        return None
+    cat = load()
+    brief = Brief.model_validate(brief_data)
+    cd = compose_data or {}
+    market = cd.get("market") or brief.market
+    if market not in cat.markets:
+        market = "ZA"
+    brief = _apply_overrides(brief, cd.get("overrides") or {})
+    prefs_in = PrefsIn.model_validate(cd.get("prefs") or {})
+    look = C.compose(
+        cat, brief, market=market, scope=cd.get("scope") or "global",
+        size=cd.get("size"), shoe_size=cd.get("shoe_size"),
+        prefs=C.Prefs(**prefs_in.model_dump()), log_gaps=False,
+    )
+    if chosen and len(chosen) == len(look.parts):
+        for idx, opt_idx in enumerate(chosen):
+            if opt_idx is not None and opt_idx != look.chosen[idx] and 0 <= opt_idx < len(look.parts[idx].options):
+                look = C.swap(look, idx, opt_idx)
+    entry = {"look": look, "brief": brief}
+    LOOKS[look_id] = entry
+    return entry
+
+
 @app.post("/api/preread")
 def api_preread(req: BriefRequest) -> dict:
     """Instant, no model call: chips from the text and a first glance of nearby pieces."""
@@ -218,6 +260,9 @@ def api_compose(req: ComposeRequest) -> dict:
     """Instant, no model call. Re-run freely when sizes, toggles or chips change."""
     cat = load()
     entry = BRIEFS.get(req.brief_id)
+    if not entry and req.brief:
+        entry = {"brief": Brief.model_validate(req.brief), "sample": False}
+        BRIEFS[req.brief_id] = entry
     if not entry:
         raise HTTPException(404, "That brief has expired. Build the look again.")
     if req.market not in cat.markets:
@@ -230,9 +275,9 @@ def api_compose(req: ComposeRequest) -> dict:
 
 
 @app.post("/api/why/{look_id}")
-def api_why(look_id: str) -> dict:
+def api_why(look_id: str, req: WhyRequest | None = None) -> dict:
     """Why these pieces: one batch call, only when the shopper asks."""
-    entry = LOOKS.get(look_id)
+    entry = _resolve_look(look_id, req.brief if req else None, req.compose if req else None, req.chosen if req else None)
     if not entry:
         raise HTTPException(404, "That look has expired. Make it again.")
     why = narrate.explain(load(), entry["look"], entry["brief"])
@@ -275,7 +320,7 @@ def make_look(req: LookRequest) -> dict:
 
 @app.post("/api/swap")
 def swap(req: SwapRequest) -> dict:
-    entry = LOOKS.get(req.look_id)
+    entry = _resolve_look(req.look_id, req.brief, req.compose, req.chosen)
     if not entry:
         raise HTTPException(404, "That look has expired. Make it again.")
     try:
@@ -287,7 +332,7 @@ def swap(req: SwapRequest) -> dict:
 
 @app.post("/api/enquiry")
 def send_enquiry(req: EnquiryRequest) -> dict:
-    entry = LOOKS.get(req.look_id)
+    entry = _resolve_look(req.look_id, req.brief, req.compose, req.chosen)
     if not entry:
         raise HTTPException(404, "That look has expired. Make it again.")
     look = entry["look"]

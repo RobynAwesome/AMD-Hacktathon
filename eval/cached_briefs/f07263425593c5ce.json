@@ -1,0 +1,78 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-25",
+    "location": "Shenzhen",
+    "market": "CN",
+    "setting": "indoor",
+    "weather": "likely mild to cool, winter in Shenzhen",
+    "budget": {
+      "amount": 1500.0,
+      "currency": "CNY",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "white",
+      "champagne"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "modern"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "modern tailored graduation dress or sleek jumpsuit in a structured fabric",
+        "colours": [
+          "white",
+          "champagne"
+        ],
+        "materials": [
+          "crepe",
+          "satin"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "elegant pointed-toe pumps or minimalist strappy heels for a formal ceremony",
+        "colours": [
+          "white",
+          "nude",
+          "champagne"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "chic tailored blazer or a light wool coat for the winter breeze in Shenzhen",
+        "colours": [
+          "white",
+          "cream"
+        ],
+        "materials": [
+          "wool blend"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist modern jewelry and a small structured clutch bag",
+        "colours": [
+          "gold",
+          "silver"
+        ],
+        "materials": [
+          "metal",
+          "leather"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

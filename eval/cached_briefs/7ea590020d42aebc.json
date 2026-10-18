@@ -1,0 +1,72 @@
+{
+  "brief": {
+    "occasion": "Job interview at consulting firm",
+    "event_date": "2026-10-26",
+    "location": "Cape Town",
+    "market": "ZA",
+    "setting": "indoor",
+    "weather": "likely mild, spring in Cape Town",
+    "budget": {
+      "amount": 4000.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "navy",
+      "grey"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "polished",
+      "professional"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "Tailored professional suit in navy or grey, structured blazer with matching trousers or skirt for a consulting firm environment",
+        "colours": [
+          "navy",
+          "grey"
+        ],
+        "materials": [
+          "wool blend",
+          "polyester blend"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "Crisp white button-down blouse or formal shirt, tucked in for a clean silhouette",
+        "colours": [
+          "white"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "shoes",
+        "description": "Polished closed-toe pumps or classic leather oxfords in a neutral tone",
+        "colours": [
+          "black",
+          "brown"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "Minimalist professional leather belt and matching handbag or briefcase",
+        "colours": [
+          "black",
+          "brown"
+        ],
+        "materials": [
+          "leather"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

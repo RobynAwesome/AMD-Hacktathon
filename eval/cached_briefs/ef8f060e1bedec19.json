@@ -1,0 +1,66 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-05",
+    "location": "Johannesburg",
+    "market": "ZA",
+    "setting": "indoor",
+    "weather": "likely warm, summer in Johannesburg",
+    "budget": {
+      "amount": 6000.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "black",
+      "charcoal"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "Sharp tailoring",
+      "South African designer"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "Sharp tailored suit by a South African designer, slim or modern fit for a graduation ceremony",
+        "colours": [
+          "black",
+          "charcoal"
+        ],
+        "materials": [
+          "wool blend",
+          "lightweight wool"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "Polished leather dress shoes, classic oxford or derby style",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "Silk necktie or bowtie and a matching pocket square for a formal academic look",
+        "colours": [
+          "black",
+          "charcoal",
+          "silver"
+        ],
+        "materials": [
+          "silk"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

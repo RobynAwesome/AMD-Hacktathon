@@ -1,0 +1,87 @@
+{
+  "brief": {
+    "occasion": "Wedding guest",
+    "event_date": "2026-11-07",
+    "location": "Cotswolds",
+    "market": "GB",
+    "setting": "indoor",
+    "weather": "likely cool, autumn in the Cotswolds",
+    "budget": {
+      "amount": 300.0,
+      "currency": "GBP",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "lilac",
+      "pastel"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "wedding guest attire",
+      "pastel palette"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "elegant midi-length wedding guest dress in lilac or pastel tones, suitable for a formal autumn wedding",
+        "colours": [
+          "lilac",
+          "pastel"
+        ],
+        "materials": [
+          "silk",
+          "crepe",
+          "chiffon"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "tailored coat or structured wrap to keep warm during a November Cotswolds wedding",
+        "colours": [
+          "cream",
+          "pale grey",
+          "lilac"
+        ],
+        "materials": [
+          "wool",
+          "cashmere"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "classic pointed-toe pumps or block heels for comfort on countryside terrain",
+        "colours": [
+          "nude",
+          "silver",
+          "lilac"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "sophisticated fascinator to complement the pastel dress",
+        "colours": [
+          "lilac",
+          "pastel"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "small clutch bag to match the shoes and fascinator",
+        "colours": [
+          "nude",
+          "silver",
+          "lilac"
+        ],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

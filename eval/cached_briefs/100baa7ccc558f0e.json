@@ -1,0 +1,61 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-18",
+    "location": "Milan",
+    "market": "EU",
+    "setting": "indoor",
+    "weather": "likely cold, winter in Milan",
+    "budget": {
+      "amount": 700.0,
+      "currency": "EUR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "cream",
+      "tan"
+    ],
+    "formality": "formal",
+    "style_notes": [],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "tailored cream linen suit, sharp cut for a graduation ceremony",
+        "colours": [
+          "cream"
+        ],
+        "materials": [
+          "linen"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "classic tan leather loafers, polished and sophisticated",
+        "colours": [
+          "tan"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "heavy wool overcoat to keep warm in the Milanese December winter",
+        "colours": [
+          "camel",
+          "navy",
+          "charcoal"
+        ],
+        "materials": [
+          "wool"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

@@ -1,0 +1,964 @@
+{
+  "meta": {
+    "sha256": "c974ef17d239e209575dd0869c3d087b04b361f8d21a194cc89e9a1ceaf83936",
+    "today": "2026-10-18",
+    "model": "Gemma-4-31B-IT",
+    "live_calls": 20,
+    "cached_calls": 0
+  },
+  "summary": [
+    {
+      "system": "goa",
+      "valid_composition_rate": "55%",
+      "grounding": "100%",
+      "parts_filled": "83%",
+      "sendable_enquiry": "80%",
+      "median_steps_to_enquiry": 3,
+      "gaps_captured": 12
+    },
+    {
+      "system": "baseline",
+      "valid_composition_rate": "30%",
+      "grounding": "82%",
+      "parts_filled": "93%",
+      "sendable_enquiry": "35%",
+      "median_steps_to_enquiry": 8,
+      "gaps_captured": 0
+    }
+  ],
+  "rows": [
+    {
+      "id": "b01",
+      "text": "Graduation in Cape Town on 12 December, outdoor, warm. Green, elegant but not formal, something I can wear again. Budget R2,500.",
+      "market": "ZA",
+      "scope": "local",
+      "goa": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 2492.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 1,
+        "items": [
+          "Sage linen wrap midi",
+          "Natural wedge espadrilles",
+          "Bead and silver drop earrings"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "near",
+        "total": 2611.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 7,
+        "gaps": [],
+        "items": [
+          "Sage linen wrap midi",
+          "Tan block-heel sandals",
+          "Woven straw clutch"
+        ]
+      }
+    },
+    {
+      "id": "b02",
+      "text": "Graduation in Johannesburg on 5 December. Sharp tailoring by a South African designer, black or charcoal, budget R6,000.",
+      "market": "ZA",
+      "scope": "local",
+      "goa": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 5372.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 2,
+        "items": [
+          "Ink sculptural blazer dress",
+          "Black leather loafers",
+          "Painted-print silk scarf"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 3642.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 8,
+        "gaps": [],
+        "items": [
+          "Charcoal merino column dress",
+          "Black strappy block sandals",
+          "Bead and silver drop earrings"
+        ]
+      }
+    },
+    {
+      "id": "b03",
+      "text": "Wedding guest in Durban, 28 November, beach venue, hot. Something flowing and colourful, no heels. Around R3,000.",
+      "market": "ZA",
+      "scope": "global",
+      "goa": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 2815.27,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Jade silk qipao-inspired midi",
+          "Pearl-strap flats",
+          "Black top-handle mini bag"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 2,
+        "budget_status": "over",
+        "total": 9750.46,
+        "currency": "ZAR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Bottle green silk midi",
+          "Silver slingbacks",
+          "Woven straw clutch"
+        ]
+      }
+    },
+    {
+      "id": "b04",
+      "text": "Job interview in Cape Town next week, 26 October, consulting firm. Navy or grey, polished, under R4,000.",
+      "market": "ZA",
+      "scope": "local",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 3683.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 1,
+        "items": [
+          "Charcoal merino column dress",
+          "Woven leather belt",
+          "Gold pointed flats",
+          "Bead and silver drop earrings"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 2,
+        "budget_status": "over",
+        "total": 4992.0,
+        "currency": "ZAR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Sage wide-leg trouser suit",
+          "Black strappy block sandals",
+          "Woven leather belt"
+        ]
+      }
+    },
+    {
+      "id": "b05",
+      "text": "Formal dinner in Johannesburg on 14 November, winter-ready even though it's summer, I run cold. Emerald silk, a warm wrap. R7,000.",
+      "market": "ZA",
+      "scope": "region",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 5110.27,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 2,
+        "items": [
+          "Emerald painted-print silk column",
+          "Gold silk shawl",
+          "Black strappy block sandals",
+          "Hammered brass cuff"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 4532.0,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 11,
+        "gaps": [],
+        "items": [
+          "Emerald painted-print silk column",
+          "Gold silk shawl",
+          "Tan block-heel sandals",
+          "Woven straw clutch"
+        ]
+      }
+    },
+    {
+      "id": "b06",
+      "text": "Graduation in Pretoria, 9 December, plus size, I wear XXL. Bright and joyful, budget R3,500.",
+      "market": "ZA",
+      "scope": "global",
+      "goa": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 2,
+        "shown": 2,
+        "shown_passing": 2,
+        "budget_status": "within",
+        "total": 2696.81,
+        "currency": "ZAR",
+        "sendable": true,
+        "steps": 2,
+        "gaps": [
+          {
+            "slot": "garment",
+            "want": "plus size formal graduation dress in a bright, joyful color, tailored for an XXL fit, elegant and celebratory",
+            "reason": "out_of_stock_in_size"
+          }
+        ],
+        "abroad_cards": 0,
+        "items": [
+          "Gold pointed flats",
+          "Pearl drop earrings"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 2,
+        "shown": 3,
+        "shown_passing": 2,
+        "budget_status": "over",
+        "total": 4641.27,
+        "currency": "ZAR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Navy ballet flats",
+          "Green leather crossbody"
+        ]
+      }
+    },
+    {
+      "id": "b07",
+      "text": "Wedding guest in Lagos on 20 December, evening, very elegant, emerald or gold. Budget 300,000 naira.",
+      "market": "NG",
+      "scope": "local",
+      "goa": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 1,
+        "shown": 1,
+        "shown_passing": 1,
+        "budget_status": "within",
+        "total": 25692.0,
+        "currency": "NGN",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [
+          {
+            "slot": "garment",
+            "want": "floor-length elegant evening gown in emerald green or gold, tailored fit for a wedding guest",
+            "reason": "out_of_stock_in_size"
+          },
+          {
+            "slot": "shoes",
+            "want": "strappy high-heeled sandals in gold or metallic tones to complement the gown",
+            "reason": "no_match"
+          }
+        ],
+        "abroad_cards": 2,
+        "items": [
+          "Hammered brass cuff"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 2,
+        "budget_status": "within",
+        "total": 232692.0,
+        "currency": "NGN",
+        "sendable": true,
+        "steps": 8,
+        "gaps": [],
+        "items": [
+          "Black tuxedo jumpsuit",
+          "Tan square-toe slides",
+          "Hammered brass cuff"
+        ]
+      }
+    },
+    {
+      "id": "b08",
+      "text": "Interview at a bank in Lagos, 3 November. Minimal, cream or white, oversized but sharp. 250,000 naira.",
+      "market": "NG",
+      "scope": "region",
+      "goa": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 198661.23,
+        "currency": "NGN",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 1,
+        "items": [
+          "Oversized poplin shirt dress",
+          "Tan square-toe slides",
+          "Woven leather belt"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 520807.69,
+        "currency": "NGN",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Sage wide-leg trouser suit",
+          "Gold pointed flats",
+          "Black structured tote"
+        ]
+      }
+    },
+    {
+      "id": "b09",
+      "text": "Graduation in Abuja, 15 December, I want green and something from a Nigerian designer, plus a green jacket. 200,000 naira.",
+      "market": "NG",
+      "scope": "global",
+      "goa": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 187692.0,
+        "currency": "NGN",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [
+          {
+            "slot": "outer_layer",
+            "want": "Tailored green jacket, structured and polished for a formal ceremony",
+            "reason": "no_match"
+          }
+        ],
+        "abroad_cards": 0,
+        "items": [
+          "Emerald washed-crepe column",
+          "Tan square-toe slides",
+          "Hammered brass cuff"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "over",
+        "total": 893792.32,
+        "currency": "NGN",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Emerald satin slip maxi",
+          "Cropped tailored jacket",
+          "Black leather pumps",
+          "Green leather crossbody"
+        ]
+      }
+    },
+    {
+      "id": "b10",
+      "text": "Graduation in New York on 20 December, it'll be freezing. Forest green, warm, under $400.",
+      "market": "US",
+      "scope": "local",
+      "goa": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 385.0,
+        "currency": "USD",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [
+          {
+            "slot": "garment",
+            "want": "formal forest green dress or tailored suit in a heavy, warm fabric suitable for a graduation ceremony",
+            "reason": "out_of_stock_in_size"
+          }
+        ],
+        "abroad_cards": 2,
+        "items": [
+          "Grey cashmere cardigan",
+          "Black leather pumps",
+          "Plaid wool scarf"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 668.0,
+        "currency": "USD",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Navy crepe sheath",
+          "Camel wool coat",
+          "Black leather pumps",
+          "Plaid wool scarf"
+        ]
+      }
+    },
+    {
+      "id": "b11",
+      "text": "Wedding guest in Brooklyn on 1 November, cocktail attire, burgundy or black, $350 total.",
+      "market": "US",
+      "scope": "global",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 340.39,
+        "currency": "USD",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Black tuxedo jumpsuit",
+          "Black sculpted block heels",
+          "Grey wool-blend coat",
+          "Cognac mini crossbody"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "over",
+        "total": 685.87,
+        "currency": "USD",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Black tuxedo jumpsuit",
+          "Black leather pumps",
+          "Black wool cape",
+          "Gold hoop earrings"
+        ]
+      }
+    },
+    {
+      "id": "b12",
+      "text": "Interview in Manhattan tomorrow, 19 October. Charcoal suit, black shoes. $600.",
+      "market": "US",
+      "scope": "global",
+      "goa": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 0,
+        "shown": 0,
+        "shown_passing": 0,
+        "budget_status": "within",
+        "total": 0,
+        "currency": "USD",
+        "sendable": false,
+        "steps": null,
+        "gaps": [
+          {
+            "slot": "garment",
+            "want": "tailored charcoal grey professional business suit, structured fit for a corporate interview",
+            "reason": "too_slow"
+          },
+          {
+            "slot": "shoes",
+            "want": "polished black leather dress shoes, classic oxford or derby style",
+            "reason": "too_slow"
+          },
+          {
+            "slot": "accessory",
+            "want": "crisp white button-down dress shirt, slim or regular fit to complement the suit",
+            "reason": "too_slow"
+          }
+        ],
+        "abroad_cards": 0,
+        "items": []
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 0,
+        "shown": 3,
+        "shown_passing": 0,
+        "budget_status": "within",
+        "total": 0,
+        "currency": "USD",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": []
+      }
+    },
+    {
+      "id": "b13",
+      "text": "Graduation in London, 10 December, cold and probably raining. Bottle green, classic, a good coat. Budget \u00a3450.",
+      "market": "GB",
+      "scope": "local",
+      "goa": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 529.0,
+        "currency": "GBP",
+        "sendable": false,
+        "steps": null,
+        "gaps": [
+          {
+            "slot": "accessory",
+            "want": "sturdy umbrella and a small formal clutch or bag",
+            "reason": "no_match"
+          }
+        ],
+        "abroad_cards": 2,
+        "items": [
+          "Bottle green tweed shift",
+          "Black wool cape",
+          "Black chelsea boots"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 614.0,
+        "currency": "GBP",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Bottle green tweed shift",
+          "Black wool cape",
+          "Oxblood brogues",
+          "Green leather crossbody"
+        ]
+      }
+    },
+    {
+      "id": "b14",
+      "text": "Wedding guest in the Cotswolds on 7 November, lilac or pastel, a fascinator. \u00a3300.",
+      "market": "GB",
+      "scope": "region",
+      "goa": {
+        "complete_valid": false,
+        "parts": 5,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "over",
+        "total": 397.0,
+        "currency": "GBP",
+        "sendable": false,
+        "steps": null,
+        "gaps": [
+          {
+            "slot": "accessory",
+            "want": "sophisticated fascinator to complement the pastel dress",
+            "reason": "no_match"
+          }
+        ],
+        "abroad_cards": 1,
+        "items": [
+          "Lilac tea dress",
+          "Ivory linen blazer",
+          "Silver slingbacks",
+          "Feather fascinator"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 5,
+        "filled": 5,
+        "shown": 5,
+        "shown_passing": 5,
+        "budget_status": "over",
+        "total": 963.97,
+        "currency": "GBP",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Lilac tea dress",
+          "Camel cashmere wrap coat",
+          "Silver slingbacks",
+          "Feather fascinator",
+          "Green leather crossbody"
+        ]
+      }
+    },
+    {
+      "id": "b15",
+      "text": "Black tie dinner in London, 28 November. Black silk gown and a cape, money is less important, \u00a31,200.",
+      "market": "GB",
+      "scope": "global",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 842.9,
+        "currency": "GBP",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Black silk evening gown",
+          "Black wool cape",
+          "Black strappy block sandals",
+          "Hammered brass cuff"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 874.32,
+        "currency": "GBP",
+        "sendable": true,
+        "steps": 11,
+        "gaps": [],
+        "items": [
+          "Black silk evening gown",
+          "Black wool cape",
+          "Black strappy block sandals",
+          "Gold hoop earrings"
+        ]
+      }
+    },
+    {
+      "id": "b16",
+      "text": "Graduation in Milan on 18 December, cream linen suit, tan loafers, \u20ac700.",
+      "market": "EU",
+      "scope": "local",
+      "goa": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 850.0,
+        "currency": "EUR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "abroad_cards": 2,
+        "items": [
+          "Cream linen trouser suit",
+          "Tan suede block sandals",
+          "Ivory silk duster"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 2,
+        "budget_status": "over",
+        "total": 880.0,
+        "currency": "EUR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Cream linen trouser suit",
+          "Black leather loafers",
+          "Ivory silk duster"
+        ]
+      }
+    },
+    {
+      "id": "b17",
+      "text": "Wedding guest in Lake Como, 12 November, green silk, gold heels, \u20ac500. I want green shoes if possible.",
+      "market": "EU",
+      "scope": "global",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 422.01,
+        "currency": "EUR",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Jade silk qipao-inspired midi",
+          "Gold strappy heels",
+          "Gold silk shawl",
+          "Printed silk scarf"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "over",
+        "total": 642.71,
+        "currency": "EUR",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Bottle green silk midi",
+          "Gold strappy heels",
+          "Gold silk shawl",
+          "Printed silk scarf"
+        ]
+      }
+    },
+    {
+      "id": "b18",
+      "text": "Graduation in Shenzhen on 25 December, budget 1,500 yuan, white or champagne, modern.",
+      "market": "CN",
+      "scope": "local",
+      "goa": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 2,
+        "shown": 2,
+        "shown_passing": 2,
+        "budget_status": "within",
+        "total": 716.0,
+        "currency": "CNY",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [
+          {
+            "slot": "garment",
+            "want": "modern tailored graduation dress or sleek jumpsuit in a structured fabric",
+            "reason": "out_of_stock_in_size"
+          },
+          {
+            "slot": "accessory",
+            "want": "minimalist modern jewelry and a small structured clutch bag",
+            "reason": "no_match"
+          }
+        ],
+        "abroad_cards": 2,
+        "items": [
+          "White leather sneakers",
+          "Lightweight stone trench"
+        ]
+      },
+      "baseline": {
+        "complete_valid": false,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 3,
+        "budget_status": "over",
+        "total": 1656.0,
+        "currency": "CNY",
+        "sendable": false,
+        "steps": null,
+        "gaps": [],
+        "items": [
+          "Jade silk qipao-inspired midi",
+          "Black patent block heels",
+          "Grey wool-blend coat",
+          "Black top-handle mini bag"
+        ]
+      }
+    },
+    {
+      "id": "b19",
+      "text": "Interview in Shanghai on 4 November, black co-ord, patent heels, 1,200 yuan.",
+      "market": "CN",
+      "scope": "region",
+      "goa": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 736.0,
+        "currency": "CNY",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Black pleated skirt set",
+          "Black patent block heels",
+          "Black top-handle mini bag"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 3,
+        "filled": 3,
+        "shown": 3,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 736.0,
+        "currency": "CNY",
+        "sendable": true,
+        "steps": 7,
+        "gaps": [],
+        "items": [
+          "Black pleated skirt set",
+          "Black patent block heels",
+          "Black top-handle mini bag"
+        ]
+      }
+    },
+    {
+      "id": "b20",
+      "text": "Formal dinner in Beijing, 30 November, I want a jade silk dress and a warm grey coat, 3,000 yuan, and something by an African designer if it can arrive.",
+      "market": "CN",
+      "scope": "global",
+      "goa": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 4,
+        "budget_status": "within",
+        "total": 2940.29,
+        "currency": "CNY",
+        "sendable": true,
+        "steps": 3,
+        "gaps": [],
+        "abroad_cards": 0,
+        "items": [
+          "Jade silk qipao-inspired midi",
+          "Grey wool-blend coat",
+          "Black leather pumps",
+          "Silk knit tie"
+        ]
+      },
+      "baseline": {
+        "complete_valid": true,
+        "parts": 4,
+        "filled": 4,
+        "shown": 4,
+        "shown_passing": 3,
+        "budget_status": "within",
+        "total": 2940.29,
+        "currency": "CNY",
+        "sendable": true,
+        "steps": 11,
+        "gaps": [],
+        "items": [
+          "Jade silk qipao-inspired midi",
+          "Grey wool-blend coat",
+          "Black leather pumps",
+          "Silk knit tie"
+        ]
+      }
+    }
+  ]
+}

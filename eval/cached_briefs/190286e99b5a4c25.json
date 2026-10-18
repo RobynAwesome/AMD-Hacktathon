@@ -1,0 +1,60 @@
+{
+  "brief": {
+    "occasion": "Wedding guest",
+    "event_date": "2026-11-28",
+    "location": "Durban",
+    "market": "ZA",
+    "setting": "outdoor",
+    "weather": "hot, summer in Durban",
+    "budget": {
+      "amount": 3000.0,
+      "currency": "ZAR",
+      "soft": true
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "colourful"
+    ],
+    "formality": "cocktail",
+    "style_notes": [
+      "flowing",
+      "beach venue"
+    ],
+    "constraints": [
+      "no heels"
+    ],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "flowing, colourful maxi or midi dress, lightweight fabric for a beach wedding",
+        "colours": [
+          "colourful"
+        ],
+        "materials": [
+          "chiffon",
+          "silk",
+          "viscose"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "elegant flat sandals or dressy slides, comfortable for sand",
+        "colours": [],
+        "materials": [
+          "leather",
+          "metallic"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "lightweight clutch bag and statement earrings to complement the colourful dress",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

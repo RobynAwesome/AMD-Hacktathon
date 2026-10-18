@@ -1,0 +1,59 @@
+{
+  "brief": {
+    "occasion": "Interview",
+    "event_date": "2026-10-19",
+    "location": "Manhattan",
+    "market": "US",
+    "setting": "indoor",
+    "weather": "likely cool, autumn in New York",
+    "budget": {
+      "amount": 600.0,
+      "currency": "USD",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "charcoal",
+      "black"
+    ],
+    "formality": "formal",
+    "style_notes": [],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "tailored charcoal grey professional business suit, structured fit for a corporate interview",
+        "colours": [
+          "charcoal"
+        ],
+        "materials": [
+          "wool blend"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "polished black leather dress shoes, classic oxford or derby style",
+        "colours": [
+          "black"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "crisp white button-down dress shirt, slim or regular fit to complement the suit",
+        "colours": [
+          "white"
+        ],
+        "materials": [
+          "cotton"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

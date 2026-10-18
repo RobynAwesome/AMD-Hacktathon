@@ -518,11 +518,12 @@ function renderReceipt(r, look, animate) {
 }
 
 async function recompose(first = false) {
-  const d = await api("/api/compose", { brief_id: state.briefId, market: $("#market").value, scope: state.scope,
+  const req = { brief_id: state.briefId, brief: state.brief, market: $("#market").value, scope: state.scope,
     size: $("#s-size") ? $("#s-size").value || null : $("#size").value || null,
     shoe_size: $("#s-shoe") ? $("#s-shoe").value || null : $("#shoe").value || null,
-    prefs: { ...state.prefs, liked: state.liked }, overrides: state.overrides });
-  Object.assign(state, { lookId: d.look_id, look: d.look, brief: d.brief, abroadLocal: false, whySrc: null });
+    prefs: { ...state.prefs, liked: state.liked }, overrides: state.overrides };
+  const d = await api("/api/compose", req);
+  Object.assign(state, { lookId: d.look_id, look: d.look, brief: d.brief, composeReq: req, abroadLocal: false, whySrc: null });
   renderReceipt(d.look.receipt, d.look, first); renderLook(); renderUsage();
   if (first) loadTicker();
 }
@@ -540,7 +541,7 @@ async function build(e) {
   api("/api/preread", { text, market }).then(renderPreread).catch(() => {});
   try {
     const b = await api("/api/brief", { text, market, images: state.photos.length ? [await collage(state.photos)] : [] });
-    Object.assign(state, { briefId: b.brief_id, sample: b.sample });
+    Object.assign(state, { briefId: b.brief_id, brief: b.brief, sample: b.sample });
     clearInterval(tick);
     const c = b.calls.find(x => x.step === "brief") || {};
     $("#wait").textContent = b.sample ? "Sample brief · no model call"
@@ -627,7 +628,7 @@ function renderLook() {
   if ($("#why")) $("#why").onclick = async () => {
     $("#why").disabled = true; $("#why").textContent = "Asking Gemma on AMD…";
     try {
-      const w = await api(`/api/why/${state.lookId}`, {});
+      const w = await api(`/api/why/${state.lookId}`, { brief: state.brief, compose: state.composeReq, chosen: state.look ? state.look.chosen : null });
       state.look.parts.forEach(p => p.options.forEach(o => { if (w.why[o.item_id]) o.why = w.why[o.item_id] }));
       state.whySrc = w.provider === "token_factory" ? `Reasons written by ${w.model} on AMD Token Factory${w.latency_ms ? ` in ${(w.latency_ms / 1000).toFixed(1)} s` : " (cached)"}` : "Reasons: plain summary (no model call)";
       renderLook();
@@ -637,8 +638,10 @@ function renderLook() {
 }
 
 async function doSwap(part, opt) {
-  try { const d = await api("/api/swap", { look_id: state.lookId, part, option: opt }); state.look = d.look; renderLook() }
-  catch (e) { alertInline(e.message) }
+  try {
+    const d = await api("/api/swap", { look_id: state.lookId, part, option: opt, brief: state.brief, compose: state.composeReq, chosen: state.look ? state.look.chosen : null });
+    state.look = d.look; renderLook();
+  } catch (e) { alertInline(e.message) }
 }
 
 function useAbroad(partIndex) {
@@ -664,7 +667,8 @@ async function sendEnquiry() {
   if (state.abroadLocal) return alertInline("Rebuild the look with Worldwide search to send an enquiry that includes items from abroad.");
   $("#send").disabled = true;
   try {
-    const d = await api("/api/enquiry", { look_id: state.lookId, name: $("#ename").value, note: $("#enote").value });
+    const d = await api("/api/enquiry", { look_id: state.lookId, name: $("#ename").value, note: $("#enote").value, brief: state.brief, compose: state.composeReq, chosen: state.look ? state.look.chosen : null });
+    state.sentEnquiries = [...d.enquiries, ...(state.sentEnquiries || [])];
     const shops = [...new Set(d.enquiries.map(q => q.merchant))];
     const amd = d.enquiries.some(q => q.message_source === "token_factory");
     $("#sent").innerHTML = `<div class="sent" role="status"><b>Request sent to ${shops.length > 1 ? shops.slice(0, -1).map(esc).join(", ") + " and " + esc(shops[shops.length - 1]) : esc(shops[0])}</b>
@@ -700,7 +704,9 @@ async function renderGaps() {
 
 async function renderInbox() {
   try {
-    const rows = await api("/api/enquiries");
+    const serverRows = await api("/api/enquiries");
+    const seen = new Set(serverRows.map(q => `${q.at}|${q.merchant}|${q.from}`));
+    const rows = [...(state.sentEnquiries || []).filter(q => !seen.has(`${q.at}|${q.merchant}|${q.from}`)), ...serverRows];
     $("#view").innerHTML = `<div class="mk-head"><span class="tag">[for makers] quote requests</span><h2>Quote<br><em>requests.</em></h2>
       <p style="margin:0;color:var(--muted)">Sent from GOA with verified items, size and date. Demo inbox: nothing is emailed.</p></div>
       ${rows.length ? rows.map(q => `<article class="inbox dark">

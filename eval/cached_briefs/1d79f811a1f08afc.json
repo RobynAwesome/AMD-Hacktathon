@@ -1,0 +1,80 @@
+{
+  "brief": {
+    "occasion": "Wedding guest",
+    "event_date": "2026-11-01",
+    "location": "Brooklyn, NY",
+    "market": "US",
+    "setting": "indoor",
+    "weather": "likely cool, autumn in New York",
+    "budget": {
+      "amount": 350.0,
+      "currency": "USD",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "burgundy",
+      "black"
+    ],
+    "formality": "cocktail",
+    "style_notes": [],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "cocktail length dress or tailored suit in a rich burgundy or classic black, elegant and polished for a wedding",
+        "colours": [
+          "burgundy",
+          "black"
+        ],
+        "materials": [
+          "crepe",
+          "satin",
+          "wool-blend"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "sleek pointed-toe pumps or polished dress shoes to complement the cocktail attire",
+        "colours": [
+          "black",
+          "nude",
+          "burgundy"
+        ],
+        "materials": [
+          "leather",
+          "suede"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "tailored overcoat or elegant wrap for the cool November New York evening",
+        "colours": [
+          "black",
+          "charcoal"
+        ],
+        "materials": [
+          "wool",
+          "cashmere"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist clutch and understated jewelry to add a touch of sophistication",
+        "colours": [
+          "gold",
+          "silver",
+          "black"
+        ],
+        "materials": [
+          "metal",
+          "leather"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

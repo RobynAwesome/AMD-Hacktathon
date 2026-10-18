@@ -1,0 +1,57 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-09",
+    "location": "Pretoria",
+    "market": "ZA",
+    "setting": "indoor",
+    "weather": "likely hot, summer in Pretoria",
+    "budget": {
+      "amount": 3500.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": "XXL",
+    "shoe_size": null,
+    "colours": [
+      "bright",
+      "joyful"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "bright and joyful aesthetic"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "plus size formal graduation dress in a bright, joyful color, tailored for an XXL fit, elegant and celebratory",
+        "colours": [
+          "bright"
+        ],
+        "materials": [
+          "chiffon",
+          "silk-blend"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "comfortable yet elegant formal heels or dress flats for a long ceremony",
+        "colours": [],
+        "materials": [
+          "leather",
+          "satin"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "complementary jewelry and a small clutch to complete the celebratory look",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

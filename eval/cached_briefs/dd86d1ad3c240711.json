@@ -1,0 +1,66 @@
+{
+  "brief": {
+    "occasion": "Bank Interview",
+    "event_date": "2026-11-03",
+    "location": "Lagos",
+    "market": "NG",
+    "setting": "indoor",
+    "weather": "likely hot and humid, November in Lagos",
+    "budget": {
+      "amount": 250000.0,
+      "currency": "NGN",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "cream",
+      "white"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "minimal",
+      "oversized but sharp"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "oversized sharp tailored power suit in cream or white, structured shoulders with wide-leg trousers",
+        "colours": [
+          "cream",
+          "white"
+        ],
+        "materials": [
+          "wool blend",
+          "crepe"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "pointed-toe pumps or sleek loafers in a neutral tone for a professional finish",
+        "colours": [
+          "nude",
+          "white"
+        ],
+        "materials": [
+          "leather"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "minimalist leather tote bag and simple stud earrings to maintain a clean aesthetic",
+        "colours": [
+          "cream",
+          "white"
+        ],
+        "materials": [
+          "leather"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

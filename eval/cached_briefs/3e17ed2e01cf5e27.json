@@ -1,0 +1,64 @@
+{
+  "brief": {
+    "occasion": "Graduation",
+    "event_date": "2026-12-15",
+    "location": "Abuja",
+    "market": "NG",
+    "setting": "indoor",
+    "weather": "likely warm, dry season in Abuja",
+    "budget": {
+      "amount": 200000.0,
+      "currency": "NGN",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "green"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "Nigerian designer"
+    ],
+    "constraints": [
+      "must include a green jacket"
+    ],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "Elegant formal dress or tailored set by a Nigerian designer, sophisticated cut for graduation",
+        "colours": [
+          "green"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "outer_layer",
+        "description": "Tailored green jacket, structured and polished for a formal ceremony",
+        "colours": [
+          "green"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "shoes",
+        "description": "Classic formal pumps or dress shoes to complement the green ensemble",
+        "colours": [
+          "gold",
+          "nude",
+          "black"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "Minimalist jewelry and a small clutch bag to complete the professional look",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

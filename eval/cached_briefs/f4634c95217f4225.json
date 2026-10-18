@@ -1,0 +1,63 @@
+{
+  "brief": {
+    "occasion": "Formal dinner",
+    "event_date": "2026-11-14",
+    "location": "Johannesburg",
+    "market": "ZA",
+    "setting": "indoor",
+    "weather": "likely warm, summer in Johannesburg, but user runs cold",
+    "budget": {
+      "amount": 7000.0,
+      "currency": "ZAR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "emerald"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "winter-ready for summer",
+      "user runs cold"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "elegant emerald silk formal gown, full length for a dinner event",
+        "colours": [
+          "emerald"
+        ],
+        "materials": [
+          "silk"
+        ]
+      },
+      {
+        "slot": "outer_layer",
+        "description": "thick, warm wrap or shawl to provide warmth for someone who runs cold",
+        "colours": [],
+        "materials": [
+          "wool",
+          "cashmere",
+          "heavy silk"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "formal evening heels or dress shoes to complement a silk gown",
+        "colours": [],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "sophisticated jewelry and a clutch bag for a formal dinner",
+        "colours": [],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

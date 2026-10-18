@@ -1,0 +1,67 @@
+{
+  "brief": {
+    "occasion": "Wedding guest",
+    "event_date": "2026-12-20",
+    "location": "Lagos",
+    "market": "NG",
+    "setting": "indoor",
+    "weather": "likely warm and humid, December in Lagos",
+    "budget": {
+      "amount": 300000.0,
+      "currency": "NGN",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "emerald",
+      "gold"
+    ],
+    "formality": "formal",
+    "style_notes": [
+      "very elegant"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "floor-length elegant evening gown in emerald green or gold, tailored fit for a wedding guest",
+        "colours": [
+          "emerald",
+          "gold"
+        ],
+        "materials": [
+          "silk",
+          "satin",
+          "lace"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "strappy high-heeled sandals in gold or metallic tones to complement the gown",
+        "colours": [
+          "gold"
+        ],
+        "materials": [
+          "leather",
+          "satin"
+        ]
+      },
+      {
+        "slot": "accessory",
+        "description": "statement clutch bag and matching jewelry set to enhance the elegant look",
+        "colours": [
+          "gold",
+          "emerald"
+        ],
+        "materials": [
+          "metal",
+          "crystals"
+        ]
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

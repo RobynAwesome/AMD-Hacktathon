@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import json
+import os
+import re
+import tempfile
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 
 import numpy as np
 
-from goa.catalogue import CATALOGUE_DIR, Catalogue
+from goa.catalogue import CATALOGUE_DIR, Catalogue, load
 from goa.embedding import hashed_bow
 from goa.schemas import Brief, CatalogueItem, Part
 
@@ -43,22 +47,58 @@ class Candidate:
 @lru_cache(maxsize=1)
 def _index():
     vecs = np.load(CATALOGUE_DIR / "embeddings.npy")
-    meta = json.loads((CATALOGUE_DIR / "embedding_ids.json").read_text())
+    meta = json.loads((CATALOGUE_DIR / "embedding_ids.json").read_text(encoding="utf-8"))
     return vecs, meta
 
 
 @lru_cache(maxsize=1)
 def _fastembed_model(name: str):
+    if os.environ.get("VERCEL") or not os.access(Path.home(), os.W_OK):
+        tmp = Path(tempfile.gettempdir())
+        os.environ.setdefault("HF_HOME", str(tmp / "hf_cache"))
+        os.environ.setdefault("FASTEMBED_CACHE_PATH", str(tmp / "fastembed_cache"))
     from fastembed import TextEmbedding
 
-    return TextEmbedding(name)
+    cache_dir = os.environ.get("FASTEMBED_CACHE_PATH")
+    return TextEmbedding(name, cache_dir=cache_dir) if cache_dir else TextEmbedding(name)
+
+
+def _subspace_query(text: str, vecs: np.ndarray, ids: list[str]) -> np.ndarray:
+    """Project query tokens into the precomputed bge-small catalogue embedding subspace when ONNX download is unavailable on serverless."""
+    cat = load()
+    q_words = set(re.findall(r"[a-z0-9]+", text.lower()))
+    q_fams = families(list(q_words))
+    weights = np.zeros(len(ids), dtype=np.float32)
+    for i, iid in enumerate(ids):
+        item = cat.by_id.get(iid)
+        if item is None:
+            continue
+        blob = " ".join([item.name, item.category, item.description, item.slot.value,
+                         *item.colours, *item.materials, *item.occasions, *item.style_tags]).lower()
+        i_words = set(re.findall(r"[a-z0-9]+", blob))
+        overlap = len(q_words & i_words)
+        fam_hit = 2.0 if (q_fams & families(item.colours)) else 0.0
+        weights[i] = float(overlap) + fam_hit
+    if float(weights.max()) <= 0.0:
+        v = vecs.mean(axis=0).astype(np.float32)
+    else:
+        top = np.argsort(-weights)[:12]
+        w = np.maximum(weights[top], 0.0)
+        v = (w[:, None] * vecs[top]).sum(axis=0).astype(np.float32)
+    return v
 
 
 def embed_query(text: str) -> np.ndarray:
     """Embed with the same backend that built the catalogue vectors."""
-    _, meta = _index()
+    vecs, meta = _index()
     if meta["backend"].startswith("fastembed"):
-        v = np.array(list(_fastembed_model(meta["model"]).embed([text]))[0], dtype=np.float32)
+        if os.environ.get("VERCEL"):
+            v = _subspace_query(text, vecs, meta["ids"])
+        else:
+            try:
+                v = np.array(list(_fastembed_model(meta["model"]).embed([text]))[0], dtype=np.float32)
+            except Exception:
+                v = _subspace_query(text, vecs, meta["ids"])
     else:
         v = hashed_bow([text], dim=meta["dim"])[0]
     return v / (np.linalg.norm(v) + 1e-9)

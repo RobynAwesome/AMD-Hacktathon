@@ -1,0 +1,70 @@
+{
+  "brief": {
+    "occasion": "Wedding guest",
+    "event_date": "2026-11-12",
+    "location": "Lake Como",
+    "market": "EU",
+    "setting": "outdoor",
+    "weather": "likely cool, autumn in Northern Italy",
+    "budget": {
+      "amount": 500.0,
+      "currency": "EUR",
+      "soft": false
+    },
+    "size": null,
+    "shoe_size": null,
+    "colours": [
+      "green",
+      "gold"
+    ],
+    "formality": "cocktail",
+    "style_notes": [
+      "green silk theme",
+      "preference for green shoes"
+    ],
+    "constraints": [],
+    "parts": [
+      {
+        "slot": "garment",
+        "description": "elegant green silk midi or maxi dress for a wedding guest",
+        "colours": [
+          "green"
+        ],
+        "materials": [
+          "silk"
+        ]
+      },
+      {
+        "slot": "shoes",
+        "description": "gold or green high heels, sophisticated and dressy",
+        "colours": [
+          "gold",
+          "green"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "outer_layer",
+        "description": "chic wrap or light coat for a cool November evening by the lake",
+        "colours": [
+          "gold",
+          "neutral",
+          "green"
+        ],
+        "materials": []
+      },
+      {
+        "slot": "accessory",
+        "description": "complementary clutch and jewelry to match gold or green accents",
+        "colours": [
+          "gold",
+          "green"
+        ],
+        "materials": []
+      }
+    ]
+  },
+  "model": "Gemma-4-31B-IT",
+  "base_url": "https://developer.amd.com.cn/radeon/api/v1",
+  "provider": "token_factory"
+}

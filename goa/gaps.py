@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter, defaultdict
 
-from goa.catalogue import Catalogue
+from goa.catalogue import ROOT, Catalogue
 from goa.compose import GAPS_LOG
+
+SEED_GAPS = ROOT / "eval" / "cached_briefs" / "seed_gaps.jsonl"
 
 REASONS = {
     "no_match": "nobody stocks it",
@@ -22,9 +25,11 @@ def _key(e: dict) -> str:
 
 
 def load_entries() -> list[dict]:
-    if not GAPS_LOG.exists():
-        return []
-    return [json.loads(line) for line in GAPS_LOG.read_text().splitlines() if line.strip()]
+    if GAPS_LOG.exists():
+        return [json.loads(line) for line in GAPS_LOG.read_text().splitlines() if line.strip()]
+    if os.environ.get("VERCEL") and SEED_GAPS.exists():
+        return [json.loads(line) for line in SEED_GAPS.read_text().splitlines() if line.strip()]
+    return []
 
 
 def ranked(cat: Catalogue, market: str | None = None, looks_total: int | None = None) -> list[dict]:

@@ -12,11 +12,11 @@ from dataclasses import asdict, dataclass
 
 from goa import llm
 from goa.brief import _extract_json
-from goa.catalogue import ROOT, Catalogue
+from goa.catalogue import CACHE_ROOT, ROOT, Catalogue
 from goa.compose import Look
 from goa.schemas import Brief
 
-ENQUIRIES_LOG = ROOT / "cache" / "enquiries.jsonl"
+ENQUIRIES_LOG = CACHE_ROOT / "enquiries.jsonl"
 
 
 @dataclass
@@ -91,10 +91,13 @@ def enquiry(cat: Catalogue, look: Look, brief: Brief, contact_name: str = "", no
             "message_source": source if mid in messages else "template", "latency_ms": ms,
             "status": "sent to merchant inbox (demo, not emailed)",
         })
-    ENQUIRIES_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with ENQUIRIES_LOG.open("a") as f:
-        for r in out:
-            f.write(json.dumps(r) + "\n")
+    try:
+        ENQUIRIES_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with ENQUIRIES_LOG.open("a", encoding="utf-8") as f:
+            for r in out:
+                f.write(json.dumps(r) + "\n")
+    except OSError:
+        pass
     return out
 
 

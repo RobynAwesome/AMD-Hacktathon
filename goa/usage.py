@@ -17,8 +17,9 @@ import time
 from collections import deque
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-CALLS_LOG = ROOT / "cache" / "calls.jsonl"
+from goa.catalogue import CACHE_ROOT, ROOT
+
+CALLS_LOG = CACHE_ROOT / "calls.jsonl"
 ESSENTIAL_STEPS = {"brief", "enquiry"}
 
 
@@ -154,11 +155,14 @@ def allowed(step: str) -> tuple[bool, str]:
 def log_call(step: str, provider: str, model: str, cached: bool, latency_ms: int = 0,
              tokens_in: int | None = None, tokens_out: int | None = None, error: str | None = None) -> None:
     """One line per model call. Token counts only, never prompt or reply text."""
-    CALLS_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with CALLS_LOG.open("a") as f:
-        f.write(json.dumps({"ts": int(time.time()), "step": step, "provider": provider, "model": model,
-                            "cached": cached, "latency_ms": latency_ms, "tokens_in": tokens_in,
-                            "tokens_out": tokens_out, "error": error, "guard": guard_level()}) + "\n")
+    try:
+        CALLS_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with CALLS_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": int(time.time()), "step": step, "provider": provider, "model": model,
+                                "cached": cached, "latency_ms": latency_ms, "tokens_in": tokens_in,
+                                "tokens_out": tokens_out, "error": error, "guard": guard_level()}) + "\n")
+    except OSError:
+        pass
 
 
 def recent_calls(n: int = 20) -> list[dict]:
