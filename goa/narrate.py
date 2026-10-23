@@ -25,6 +25,12 @@ class Narration:
     source: str  # provider name, or "template"
     latency_ms: int = 0
     model: str = ""
+    cached: bool = False
+    error: str | None = None
+
+
+class EnquiryStorageError(RuntimeError):
+    pass
 
 
 def _call(step: str, system: str, user: str, json_mode: bool = True, images=None) -> llm.LLMReply:
@@ -45,11 +51,11 @@ def explain(cat: Catalogue, look: Look, brief: Brief) -> Narration:
         reply = _call("explain", system, user)
         lines = _extract_json(reply.text)
         lines = {k: str(v) for k, v in lines.items() if k in {f['id'] for f in facts}}
-        return Narration(lines, reply.provider, reply.latency_ms, reply.model)
-    except Exception:
+        return Narration(lines, reply.provider, reply.latency_ms, reply.model, reply.cached)
+    except Exception as error:
         lines = {f["id"]: f"{', '.join(f['colours']).capitalize()} {', '.join(f['materials'])}, "
                           f"{f['formality'].replace('_', ' ')}." for f in facts}
-        return Narration(lines, "template")
+        return Narration(lines, "template", error=llm.failure_code(error))
 
 
 def enquiry(cat: Catalogue, look: Look, brief: Brief, contact_name: str = "", note: str = "") -> list[dict]:
@@ -67,12 +73,14 @@ def enquiry(cat: Catalogue, look: Look, brief: Brief, contact_name: str = "", no
               "confirm availability, sizes and a final quote including delivery. Do not state any prices or "
               "delivery times yourself. Under 100 words each. Return JSON: {\"<merchant id>\": \"message\", ...}")
     messages, source, ms = {}, "template", 0
+    cached, model, model_error = False, "", None
     try:
         reply = _call("enquiry", system, json.dumps(facts))
         messages = {k: str(v).strip() for k, v in _extract_json(reply.text).items() if k in by_merchant}
         source, ms = reply.provider, reply.latency_ms
-    except Exception:
-        pass
+        cached, model = reply.cached, reply.model
+    except Exception as error:
+        model_error = llm.failure_code(error)
     out = []
     for mid, offers in by_merchant.items():
         m = cat.merchants[mid]
@@ -89,15 +97,17 @@ def enquiry(cat: Catalogue, look: Look, brief: Brief, contact_name: str = "", no
             "items": lines, "subtotal": round(sum(x["price"] for x in lines), 2), "currency": m.currency,
             "shipping": ship.cost, "delivery_days": ship.days, "message": body,
             "message_source": source if mid in messages else "template", "latency_ms": ms,
-            "status": "sent to merchant inbox (demo, not emailed)",
+            "message_cached": cached if mid in messages else False, "model": model if mid in messages else "",
+            "model_error": model_error, "persistence": "transient_instance",
+            "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
         })
     try:
         ENQUIRIES_LOG.parent.mkdir(parents=True, exist_ok=True)
         with ENQUIRIES_LOG.open("a", encoding="utf-8") as f:
             for r in out:
                 f.write(json.dumps(r) + "\n")
-    except OSError:
-        pass
+    except OSError as error:
+        raise EnquiryStorageError("The temporary demo inbox could not be written. Nothing was delivered.") from error
     return out
 
 
@@ -107,7 +117,7 @@ def ideas(occasion: str, market: str, notes: str = "") -> Narration:
     try:
         reply = _call("ideas", system, f"Occasion: {occasion}. Market: {market}. Notes: {notes}")
         data = _extract_json(reply.text)["ideas"][:3]
-        return Narration(data, reply.provider, reply.latency_ms, reply.model)
+        return Narration(data, reply.provider, reply.latency_ms, reply.model, reply.cached)
     except Exception:
         return Narration([
             {"title": "Rewearable colour", "brief": f"A {occasion} look in one strong colour I can wear again, comfortable all day."},
@@ -132,7 +142,7 @@ def mood_notes(images: list[llm.Image]) -> Narration:
     except Exception:
         notes = ""
     notes = notes or reply.text.strip()[:400]
-    return Narration(notes, reply.provider, reply.latency_ms, reply.model)
+    return Narration(notes, reply.provider, reply.latency_ms, reply.model, reply.cached)
 
 
 def as_dict(n: Narration) -> dict:

@@ -26,9 +26,9 @@ def _key(e: dict) -> str:
 
 def load_entries() -> list[dict]:
     if GAPS_LOG.exists():
-        return [json.loads(line) for line in GAPS_LOG.read_text().splitlines() if line.strip()]
+        return [{**json.loads(line), "source": "transient_demo"} for line in GAPS_LOG.read_text().splitlines() if line.strip()]
     if os.environ.get("VERCEL") and SEED_GAPS.exists():
-        return [json.loads(line) for line in SEED_GAPS.read_text().splitlines() if line.strip()]
+        return [{**json.loads(line), "source": "synthetic_seed"} for line in SEED_GAPS.read_text().splitlines() if line.strip()]
     return []
 
 
@@ -43,6 +43,7 @@ def ranked(cat: Catalogue, market: str | None = None, looks_total: int | None = 
         markets = Counter(e["market"] for e in es)
         top_reason = reasons.most_common(1)[0][0]
         rows.append({
+            "source": es[0]["source"], "persistence": "transient_instance",
             "want": key, "count": len(es), "markets": dict(markets), "reason": top_reason,
             "reason_text": REASONS.get(top_reason, top_reason),
             "examples": list(dict.fromkeys(e["description"] for e in es))[:3],
