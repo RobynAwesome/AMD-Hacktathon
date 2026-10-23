@@ -262,12 +262,12 @@ footer.foot .wrapper { padding-top: 20px; padding-bottom: 24px; display: flex; f
     <div class="hero-copy">
       <div class="words shop-copy">
         <h1>Dream the fit.<br><em>Wear the real thing.</em></h1>
-        <p>Say it however it lives in your head. GOA builds the whole look from real shops, in your size, there before your day. One brief, every piece checked.</p>
+        <p>Say it however it lives in your head. GOA builds the whole look from fictional demo makers, in your size, there before your day. One brief, every piece checked.</p>
       </div>
       <div class="words maker-copy">
         <span class="tag" style="color:var(--pop)">[demand gaps]</span>
         <h1>Wanted.<br><em>Not made yet.</em></h1>
-        <p>Every part people asked for and could not get, counted and in their own words. Plus the quote requests sent to you.</p>
+        <p>Synthetic example gaps and temporary demo results. These are not verified customer demand. Demo quote requests are never emailed.</p>
       </div>
       <div class="stamp">
         <svg width="180" height="180" viewBox="0 0 200 200" role="img" aria-label="Every piece checked in code">
@@ -339,7 +339,7 @@ footer.foot .wrapper { padding-top: 20px; padding-bottom: 24px; display: flex; f
 <footer class="foot">
   <div class="wrapper">
     <span id="usage" aria-live="polite"></span>
-    <span>Makers and catalogue are fictional, for demonstration. No payments taken.</span>
+    <span>Makers and catalogue are fictional. Demo requests are temporary, never emailed; no reply or payment. GOA co-created by Robyn and Busi.</span>
   </div>
 </footer>
 
@@ -518,7 +518,7 @@ function renderReceipt(r, look, animate) {
 }
 
 async function recompose(first = false) {
-  const req = { brief_id: state.briefId, brief: state.brief, market: $("#market").value, scope: state.scope,
+  const req = { brief_id: state.briefId, brief: state.brief, sample: !!state.sample, market: $("#market").value, scope: state.scope,
     size: $("#s-size") ? $("#s-size").value || null : $("#size").value || null,
     shoe_size: $("#s-shoe") ? $("#s-shoe").value || null : $("#shoe").value || null,
     prefs: { ...state.prefs, liked: state.liked }, overrides: state.overrides };
@@ -544,7 +544,7 @@ async function build(e) {
     Object.assign(state, { briefId: b.brief_id, brief: b.brief, sample: b.sample });
     clearInterval(tick);
     const c = b.calls.find(x => x.step === "brief") || {};
-    $("#wait").textContent = b.sample ? "Sample brief · no model call"
+    $("#wait").textContent = b.sample ? "Fallback brief · no model output"
       : c.cached ? "Gemma on AMD · from cache" : `Gemma on AMD · read in ${((c.latency_ms || 0) / 1000).toFixed(1)} s`;
     const w = document.querySelector(".shape .wait"); if (w) w.textContent = "Shape it, live";
     renderCalls(b.calls);
@@ -574,7 +574,7 @@ function renderLook() {
   const L = state.look; if (!L) return;
   const ccy = L.currency;
   let h = "";
-  if (state.sample) h += `<div class="notice">Sample brief: no model was called for this brief. Add the Token Factory key for a live Gemma call.</div>`;
+  if (state.sample) h += `<div class="notice">Demo fallback: this brief uses sample or heuristic data. No successful model output was used.</div>`;
   h += `<section class="summary fade" aria-label="Your look">
     <span class="tag">[your look] ${L.scope === "global" ? "searched worldwide" : L.scope === "region" ? "searched your region" : "searched near you"}</span>
     <div class="top"><span class="total">${money(L.total_local, ccy)}</span><span class="status ${L.budget_status}">${STATUS[L.budget_status]}</span></div>
@@ -619,7 +619,7 @@ function renderLook() {
     <div class="row"><label class="f">Your name<input id="ename" placeholder="Thandi" autocomplete="name"></label><label class="f">Note to the shop (optional)<input id="enote" placeholder="Anything they should know"></label></div>
     <button type="button" class="btn big pop" id="send">Send quote request <span aria-hidden="true">→</span></button>
     <button type="button" class="btn ghost" id="save">Save this look</button>
-    <div class="dim" style="font-size:13px">No payment now. Shops reply with a confirmed price. Demo: nothing is emailed.</div>
+    <div class="dim" style="font-size:13px">Demo only: nothing is emailed and no merchant reply is expected. The temporary inbox may reset or differ between devices.</div>
     <div id="sent" style="display:grid;gap:10px" aria-live="polite"></div></section>`;
   ($("#lookArea") || $("#view")).innerHTML = h;
   document.querySelectorAll(".swaps button").forEach(b => b.onclick = () => doSwap(+b.dataset.part, +b.dataset.opt));
@@ -630,7 +630,7 @@ function renderLook() {
     try {
       const w = await api(`/api/why/${state.lookId}`, { brief: state.brief, compose: state.composeReq, chosen: state.look ? state.look.chosen : null });
       state.look.parts.forEach(p => p.options.forEach(o => { if (w.why[o.item_id]) o.why = w.why[o.item_id] }));
-      state.whySrc = w.provider === "token_factory" ? `Reasons written by ${w.model} on AMD Token Factory${w.latency_ms ? ` in ${(w.latency_ms / 1000).toFixed(1)} s` : " (cached)"}` : "Reasons: plain summary (no model call)";
+      state.whySrc = w.provider === "token_factory" ? `Reasons written by ${w.model} on AMD Token Factory${w.cached ? " (cached)" : ` in ${(w.latency_ms / 1000).toFixed(1)} s`}` : "Reasons: plain template";
       renderLook();
     } catch (e) { $("#why").textContent = "Could not load reasons"; }
   };
@@ -671,9 +671,9 @@ async function sendEnquiry() {
     state.sentEnquiries = [...d.enquiries, ...(state.sentEnquiries || [])];
     const shops = [...new Set(d.enquiries.map(q => q.merchant))];
     const amd = d.enquiries.some(q => q.message_source === "token_factory");
-    $("#sent").innerHTML = `<div class="sent" role="status"><b>Request sent to ${shops.length > 1 ? shops.slice(0, -1).map(esc).join(", ") + " and " + esc(shops[shops.length - 1]) : esc(shops[0])}</b>
-      <span>They will reply with a confirmed price${state.brief && state.brief.event_date ? ` before ${day(state.brief.event_date)}` : ""}.</span>
-      ${amd ? `<span class="calls"><span class="amd">Message written by Gemma on AMD Token Factory</span></span>` : ""}</div>`;
+    $("#sent").innerHTML = `<div class="sent" role="status"><b>Demo request prepared for ${shops.length > 1 ? shops.slice(0, -1).map(esc).join(", ") + " and " + esc(shops[shops.length - 1]) : esc(shops[0])}</b>
+      <span>Nothing was emailed; no reply is expected. This inbox is temporary and may reset or differ across devices.</span>
+      ${amd ? `<span class="calls"><span class="amd">Message from Gemma on AMD Token Factory${d.enquiries.some(q => q.message_cached) ? " (cached)" : ""}</span></span>` : `<span class="calls">Message uses a plain template.</span>`}</div>`;
     loadTicker();
   } catch (e) { alertInline(e.message) }
   finally { $("#send").disabled = false }
@@ -685,7 +685,7 @@ async function renderGaps() {
     const rows = await api("/api/gaps");
     const looks = rows.reduce((a, r) => a + r.count, 0);
     let h = `<div class="mk-head"><span class="tag">[for makers] demand gaps</span>
-      <p style="margin:0;color:var(--muted);max-width:620px">Counted from every look people built. Each row is a real part someone asked for and could not get. Not a forecast.</p></div>`;
+      <p style="margin:0;color:var(--muted);max-width:620px">${rows.some(r => r.source === "synthetic_seed") ? "Synthetic examples from the frozen evaluation briefs." : "Temporary results from demo looks on this instance."} Not verified customer demand. Counts may reset or differ across devices.</p></div>`;
     if (!rows.length) { $("#view").innerHTML = h + `<div class="empty"><h2>No gaps yet</h2><p style="margin:0;color:var(--muted)">Build a few looks first. Every part nobody can supply will show up here.</p></div>`; return }
     const top = rows[0];
     h += `<div class="topgap">
@@ -693,7 +693,7 @@ async function renderGaps() {
         ${top.examples[0] ? `<div style="font-size:17px;color:#EEE8FF">“${esc(top.examples[0])}”</div>` : ""}</div>
         <div style="display:grid;gap:8px"><div class="n">${top.count}</div><div class="tag" style="color:#EEE8FF">${top.count === 1 ? "look asked" : "looks asked"} · ${Object.entries(top.markets).map(([k, v]) => `${esc(k)} ${v}`).join(" · ")}</div>
         <span class="status no_budget" style="justify-self:start">${esc(top.reason_text)}</span></div></article>
-      <article class="side"><span class="tag" style="color:var(--ink)">[unmet parts logged]</span><div class="n">${looks}</div><div style="font-size:15px">across ${rows.length} distinct ${rows.length === 1 ? "wish" : "wishes"}. Every one is a product someone already wants.</div></article>
+      <article class="side"><span class="tag" style="color:var(--ink)">[unmet parts logged]</span><div class="n">${looks}</div><div style="font-size:15px">across ${rows.length} distinct ${rows.length === 1 ? "wish" : "wishes"}. Demo examples only; not proof of market demand.</div></article>
     </div>`;
     if (rows.length > 1) h += `<div class="table"><table><caption class="sr">Unmet demand, ranked</caption><thead><tr><th scope="col">[#]</th><th scope="col">[wanted]</th><th scope="col">[looks]</th><th scope="col">[where]</th><th scope="col">[why unmet]</th><th scope="col">[in their words]</th></tr></thead><tbody>
       ${rows.slice(1).map((r, i) => `<tr><td class="rank">${String(i + 2).padStart(2, "0")}</td><td class="wanted">${esc(r.want)}</td><td style="font:600 15px var(--mono)">${r.count}</td><td style="font:13px var(--mono);color:var(--muted)">${Object.entries(r.markets).map(([k, v]) => `${esc(k)} ${v}`).join(" · ")}</td><td><span class="reason">${esc(r.reason_text)}</span></td><td class="want">${r.examples.map(x => `“${esc(x)}”`).join("<br>")}</td></tr>`).join("")}
@@ -705,17 +705,17 @@ async function renderGaps() {
 async function renderInbox() {
   try {
     const serverRows = await api("/api/enquiries");
-    const seen = new Set(serverRows.map(q => `${q.at}|${q.merchant}|${q.from}`));
-    const rows = [...(state.sentEnquiries || []).filter(q => !seen.has(`${q.at}|${q.merchant}|${q.from}`)), ...serverRows];
+    const seen = new Set(serverRows.map(q => `${q.ts}|${q.merchant}|${q.from}`));
+    const rows = [...(state.sentEnquiries || []).filter(q => !seen.has(`${q.ts}|${q.merchant}|${q.from}`)), ...serverRows];
     $("#view").innerHTML = `<div class="mk-head"><span class="tag">[for makers] quote requests</span><h2>Quote<br><em>requests.</em></h2>
-      <p style="margin:0;color:var(--muted)">Sent from GOA with verified items, size and date. Demo inbox: nothing is emailed.</p></div>
+      <p style="margin:0;color:var(--muted)">Temporary demo inbox with checked catalogue items. Nothing is emailed; no reply is expected. Records may disappear on reload or differ across devices.</p></div>
       ${rows.length ? rows.map(q => `<article class="inbox dark">
         <div style="display:grid;gap:10px"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:baseline"><span class="who">${esc(q.from || "A shopper")}</span><span class="tag">to ${esc(q.merchant)} · ship to ${esc(q.market)}${q.event_date ? ` · needed by ${day(q.event_date)}` : ""}</span></div>
           <pre class="msg dim">${esc(q.message)}</pre></div>
         <div class="lines">${q.items.map(i => `<div><span>${esc(i.name)} · ${esc(i.size)}</span><span>${money(i.price ?? 0, q.currency)}</span></div>`).join("")}
           <div class="dim"><span>Shipping</span><span>${money(q.shipping, q.currency)}</span></div>
           <div class="tot"><span>Subtotal</span><span>${money(q.subtotal, q.currency)}</span></div></div>
-      </article>`).join("") : `<div class="empty"><h2>No requests yet</h2><p style="margin:0;color:var(--muted)">When a shopper sends a quote request, it lands here.</p></div>`}`;
+      </article>`).join("") : `<div class="empty"><h2>No requests yet</h2><p style="margin:0;color:var(--muted)">Prepared demo requests may appear here on the same instance. Nothing is emailed or durably stored.</p></div>`}`;
   } catch (e) { $("#view").innerHTML = `<div class="notice err" role="alert">${esc(e.message)}</div>` }
 }
 
@@ -728,7 +728,7 @@ async function runMirror(codes) {
   try {
     const d = await api("/api/mirror", { text: $("#text").value, markets: codes, size: $("#size").value || "M", shoe_size: $("#shoe").value || "38" });
     renderCalls(d.calls);
-    $("#mwait").textContent = d.sample ? "Sample brief (no model call), then code for each shopper" : "One Gemma call on AMD, then code for each shopper";
+    $("#mwait").textContent = d.sample ? "Fallback brief (no model output), then code for each shopper" : "One Gemma call on AMD, then code for each shopper";
     d.shoppers.forEach(s => {
       const L = s.look, c = s.market;
       $("#mir-" + c).innerHTML = `<h3>${esc(ms[c].default_city)}</h3>
@@ -746,7 +746,7 @@ $("#ideas-btn").onclick = async () => {
   try {
     const d = await api(`/api/ideas?market=${$("#market").value}&occasion=${encodeURIComponent("graduation")}`);
     $("#ideas").innerHTML = d.ideas.map(i => `<button type="button" class="chip" data-brief="${esc(i.brief)}"><b>${esc(i.title)}</b><br>${esc(i.brief)}</button>`).join("")
-      + `<span class="calls"><span class="${d.provider === "token_factory" ? "amd" : ""}">${d.provider === "token_factory" ? "Ideas from Gemma on AMD Token Factory" : d.provider === "template" ? "Starter ideas (no model call)" : "Ideas from " + esc(d.provider)}</span></span>`;
+      + `<span class="calls"><span class="${d.provider === "token_factory" ? "amd" : ""}">${d.provider === "token_factory" ? "Ideas from Gemma on AMD Token Factory" : d.provider === "template" ? "Starter ideas (no successful model output)" : "Ideas from " + esc(d.provider)}</span></span>`;
     document.querySelectorAll("#ideas .chip").forEach(c => c.onclick = () => { $("#text").value = c.dataset.brief; $("#text").focus() });
   } catch (e) { $("#ideas").innerHTML = `<span class="notice err">${esc(e.message)}</span>` }
   finally { $("#ideas-btn").disabled = false }
@@ -807,7 +807,7 @@ async function renderUsage() {
     const u = await api("/api/usage");
     const pct = u.fraction_remaining == null ? "quota unknown" : Math.round(u.fraction_remaining * 100) + "% of today's AMD quota left";
     const guard = { normal: "", essential: " · saving quota: only brief and enquiry call the model", cache_only: " · cache only: no live model calls" }[u.guard] || "";
-    $("#usage").innerHTML = `<span class="amdmark">Token Factory: ${pct}${guard} · ${u.calls_live} live calls, ${u.calls_cached} from cache</span>`;
+    $("#usage").innerHTML = `<span class="amdmark">Token Factory: ${pct}${guard} · this instance: ${u.calls_live} live calls, ${u.calls_cached} from cache</span>`;
   } catch {}
 }
 renderUsage(); setInterval(renderUsage, 60000);

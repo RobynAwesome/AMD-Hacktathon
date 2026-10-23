@@ -4,6 +4,24 @@ Describe an outfit freely, from anywhere. Gemma 4 on AMD Token Factory turns it 
 
 AMD Developer Hackathon ACT III, Track 3: Reinvent Commerce. Scope: `concept-note.md`. Diagrams: `docs/architecture.html`.
 
+GOA is co-created by Kholofelo Robyn Rababalela and Busi. Busi’s original implementation and source authorship are preserved.
+
+## Release boundaries
+
+This is a fictional-catalogue demo. Brief/look memory, `/tmp` files, quote requests, usage snapshots and rate limits are instance-local and transient on Vercel. State may reset or differ across reloads, instances and devices. The browser replays the brief and selected options to reconstruct a look; that is not durable storage. Requests are prepared in a temporary demo inbox: nothing is emailed and no merchant reply is expected. A failed inbox write returns HTTP 503. Gap rows identify `synthetic_seed` evaluation examples or `transient_demo` results; neither is verified market demand.
+
+Vercel uses Python 3.12 (`.python-version`) and locked dependencies (`requirements.txt`, generated from `requirements.in`). The function entrypoint has a 60-second duration; API model operations share at most 40 seconds including quota waits, retries and transport, with a 5-second response margin. Cached, live, template and opted-in sample/heuristic outcomes are labelled separately; sanitized errors contain no provider bodies or credentials.
+
+`GOA_ALLOW_SAMPLE=1` explicitly enables sample/heuristic brief fallback. `GOA_CACHE_ONLY=1` prevents live model calls. Shared-key rotation requires a separate secure environment update and non-secret receipt; the presence of a key is not proof it was rotated. The public demo has no globally shared limiter or durable inbox.
+
+Release check (one synthetic journey; add `--fresh` only when shared API use is cleared):
+
+```
+python scripts/release_smoke.py --base https://goa-creative-commerce.vercel.app --sha <exact-deployed-sha> --out receipt.json
+```
+
+The receipt separates fresh inference, durable persistence, credential rotation and mobile evidence; a 200 demo journey does not silently clear those gates.
+
 ## What it does
 
 - **Global search, your scope.** Near me, my region, or worldwide. Prices in your currency, shipping and arrival dates included.
@@ -37,7 +55,7 @@ Offline demo without a key: `GOA_ALLOW_SAMPLE=1 uvicorn app.main:app`. The Thand
 | ideas | Gemma-4-31B-IT on AMD Token Factory | no |
 | embeddings | bge-small via fastembed on CPU (Token Factory has no embeddings endpoint) | no |
 
-Any step can be routed to another provider (`goa/providers.json`: OpenAI-compatible endpoints or Claude via the Anthropic SDK) with `GOA_PROVIDER_<STEP>`. `GOA_MODE=submission` refuses to start if a locked step leaves Token Factory. The Token Factory client retries 429 with backoff, since the team key is limited to 30 requests a minute.
+Any step can be routed to another provider (`goa/providers.json`: OpenAI-compatible endpoints or Claude via the Anthropic SDK) with `GOA_PROVIDER_<STEP>`. `GOA_MODE=submission` rejects a locked step unless its provider, model and endpoint match the approved Gemma/AMD route, before cache or fallback use. The Token Factory client retries 429 with backoff, since the team key is limited to 20 requests a minute in the recorded usage receipt.
 
 ## Evaluation
 
@@ -48,26 +66,27 @@ python eval/run_eval.py --offline   # reference parses, no model calls
 python eval/run_eval.py             # live: shows the Token Factory calls needed, then --yes to run
 ```
 
-Offline results (matching and rules only, hand-written parses): see `eval/results_offline.md`.
+The committed **live evaluation from 18 October 2026** is in [`eval/results_live.md`](eval/results_live.md) and JSON: 20 AMD/Gemma brief calls, 0 cached. Offline results remain separately available in [`eval/results_offline.md`](eval/results_offline.md). These synthetic evaluations do not prove deployed POST behaviour, mobile completion or customer outcomes.
 
-| Measure | GOA | Keyword search |
+| Live measure | GOA | Keyword search |
 | --- | --- | --- |
-| Valid composition rate | 55% | 25% |
-| Grounding | 100% | 77% |
-| Briefs reaching a sendable enquiry | 90% | 60% |
-| Median steps to a sendable enquiry | 3 | 9 |
-| Unmet parts captured as demand | 9 | 0 |
+| Valid complete composition | 55% | 30% |
+| Grounding | 100% | 82% |
+| Parts filled | 83% | 93% |
+| Briefs reaching a sendable enquiry | 80% | 35% |
+| Median steps to a sendable enquiry | 3 | 8 |
+| Unmet synthetic catalogue parts | 12 | 0 |
 
-Blind fit ratings: `eval/blind/` (systems hidden, order shuffled). The live run replaces these numbers once it has been run.
+The baseline fills more parts. Blind fit sheets are in `eval/blind/`. Do not rerun the live batch without approval for shared-key use; run it on a developer machine, outside web-request limits.
 
 ## Protecting the shared AMD quota
 
 The team shares one Token Factory key (20 requests a minute per /v1/usage, 8 concurrent, a daily spend cap in USD).
 
-- Every model reply is cached on disk; reruns cost nothing. `GOA_CACHE_ONLY=1` never calls the model.
-- Our limiter stays at 15 requests a minute and 4 in flight, leaving room for teammates.
+- Successful model replies are cached on disk. On Vercel those caches are instance-local and may disappear; a rerun can incur a fresh call. `GOA_CACHE_ONLY=1` never calls the model.
+- Our per-process limiter stays at 15 requests a minute and 4 in flight. Multiple instances do not share it, so it does not enforce a team-wide cap.
 - `max_tokens` is capped per step (brief 1200, explain 600, enquiry 400, ideas 400, vision 300).
-- Spend guard: under 25% of the daily cap left, only brief and enquiry call the model; under 10%, cache only. Shown in the page footer.
+- Spend guard: under 25% of the daily cap left, only brief and enquiry call the model; under 10%, cache only. Shown in the page footer. Unknown quota does not establish available spend; use cache-only mode when the shared key is not cleared for use.
 - `python scripts/usage.py` prints quota, usage and our recent calls. `cache/calls.jsonl` logs token counts, never prompt text.
 - Big jobs (eval, vision tags) print the calls they need and wait for `--yes`.
 

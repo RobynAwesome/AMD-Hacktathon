@@ -1,4 +1,4 @@
-"""Token Factory usage: rate limiting, spend guard and a call log, so the shared team key is never exhausted.
+"""Token Factory usage: rate limiting, spend guard and a call log, with per-process limits, not a global shared-key guarantee.
 
 Guard levels (from the spend remaining on the key, read from X-RateLimit-* headers and GET /v1/usage):
   normal       all steps call the model
@@ -40,18 +40,26 @@ class RateLimiter:
         self.lock = threading.Lock()
         self.clock, self.sleep = clock, sleep
 
-    def acquire(self) -> None:
-        self.slots.acquire()
-        while True:
-            with self.lock:
-                now = self.clock()
-                while self.starts and now - self.starts[0] >= 60:
-                    self.starts.popleft()
-                if len(self.starts) < self.per_minute:
-                    self.starts.append(now)
-                    return
-                wait = 60 - (now - self.starts[0]) + 0.05
-            self.sleep(wait)
+    def acquire(self, timeout: float | None = None) -> None:
+        started = self.clock()
+        if not self.slots.acquire(timeout=timeout):
+            raise TimeoutError("No model slot within the request budget")
+        try:
+            while True:
+                with self.lock:
+                    now = self.clock()
+                    while self.starts and now - self.starts[0] >= 60:
+                        self.starts.popleft()
+                    if len(self.starts) < self.per_minute:
+                        self.starts.append(now)
+                        return
+                    wait = 60 - (now - self.starts[0]) + 0.05
+                if timeout is not None and wait >= timeout - (self.clock() - started):
+                    raise TimeoutError("Rate limit wait exceeds the request budget")
+                self.sleep(wait)
+        except BaseException:
+            self.slots.release()
+            raise
 
     def release(self) -> None:
         self.slots.release()
@@ -183,5 +191,7 @@ def summary() -> dict:
         "calls_live": len(live), "calls_cached": sum(1 for c in calls if c["cached"]),
         "tokens_in": sum(c.get("tokens_in") or 0 for c in live),
         "tokens_out": sum(c.get("tokens_out") or 0 for c in live),
-        "limiter": {"per_minute": LIMITER.per_minute},
+        "limiter": {"per_minute": LIMITER.per_minute, "scope": "process_only"},
+        "persistence": "transient_instance",
+        "quota_known": USAGE.fraction_remaining() is not None,
     }

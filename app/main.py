@@ -5,6 +5,7 @@ Run: uvicorn app.main:app --reload
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import json
 import os
@@ -16,12 +17,12 @@ from datetime import date
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from goa import compose as C
-from goa import gaps, llm, narrate, preread, rules, usage
+from goa import deadline, gaps, llm, narrate, preread, rules, usage
 from goa.brief import BriefError, parse_brief
 from goa.catalogue import CATALOGUE_DIR, ROOT, load
 from goa.schemas import Brief, Budget
@@ -31,15 +32,16 @@ SAMPLE_BRIEFS = ROOT / "eval" / "sample_briefs.json"
 
 def _usage_poller(stop: threading.Event) -> None:
     """Refresh Token Factory usage every 5 minutes so the spend guard has current numbers."""
-    while not stop.wait(300):
+    while not stop.is_set():
         llm.refresh_usage()
+        if stop.wait(300):
+            break
 
 
 @asynccontextmanager
 async def lifespan(_app):
     llm.check_submission()  # in GOA_MODE=submission, refuse to start if a prize-locked step left Token Factory
     load()
-    llm.refresh_usage()
     stop = threading.Event()
     threading.Thread(target=_usage_poller, args=(stop,), daemon=True).start()
     yield
@@ -49,6 +51,25 @@ async def lifespan(_app):
 app = FastAPI(title="GOA", lifespan=lifespan)
 app.mount("/images", StaticFiles(directory=CATALOGUE_DIR / "images"), name="images")
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
+
+@app.middleware("http")
+async def request_budget(request, call_next):
+    if not request.url.path.startswith("/api/"):
+        return await call_next(request)
+    # Shared by vision, brief validation retries, model retries and limiter waits.
+    # The extra 5s lets an expired model budget return a labelled fallback.
+    with deadline.budget(deadline.web_seconds()):
+        try:
+            llm.check_submission()
+            response = await asyncio.wait_for(call_next(request), timeout=deadline.web_seconds() + 5)
+        except llm.LLMConfigError:
+            response = JSONResponse(status_code=503, content={"detail": "Submission routing is invalid (configuration)."})
+        except (TimeoutError, deadline.BudgetExceeded):
+            response = JSONResponse(status_code=504, content={"detail": "Demo request deadline exceeded. Please retry."})
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["X-GOA-Persistence"] = "transient-instance"
+    return response
+
 
 LOOKS: dict[str, dict] = {}  # look_id to {"look": Look, "brief": Brief}; in memory, no accounts
 
@@ -122,6 +143,9 @@ def config() -> dict:
         "merchants": [{"id": m.id, "name": m.name, "city": m.city, "market": m.market, "about": m.about}
                       for m in cat.merchants.values()],
         "scopes": C.SCOPES, "routes": routes, "mode": llm.mode(),
+        "release_sha": os.environ.get("VERCEL_GIT_COMMIT_SHA", ""),
+        "persistence": "transient_instance", "demo": True,
+        "web_budget_seconds": deadline.web_seconds(),
     }
 
 
@@ -147,6 +171,7 @@ class ComposeRequest(BaseModel):
     prefs: PrefsIn = PrefsIn()
     overrides: dict = {}  # chip corrections: occasion, event_date, location, budget {amount, currency}
     brief: dict | None = None
+    sample: bool = False
 
 
 class MirrorRequest(BaseModel):
@@ -166,21 +191,25 @@ def _read_brief(text: str, market: str, images: list[str]) -> tuple[Brief, list[
         try:
             mood = narrate.mood_notes(_images(images))
             text += f"\nMood photos: {mood.text}"
-            calls.append({"step": "vision", "provider": mood.source, "model": mood.model, "latency_ms": mood.latency_ms})
+            calls.append({"step": "vision", "provider": mood.source, "model": mood.model, "latency_ms": mood.latency_ms, "cached": mood.cached})
         except Exception as e:  # mood photos are optional; say so instead of failing the look
-            calls.append({"step": "vision", "error": f"Mood photos skipped: {e}"})
+            calls.append({"step": "vision", "error": llm.failure_code(e)})
     try:
         res = parse_brief(text, market=market)
         calls.append({"step": "brief", "provider": res.provider, "model": res.model,
                       "latency_ms": res.latency_ms, "attempts": res.attempts, "cached": res.cached})
         return res.brief, calls, False
     except Exception as e:
+        if llm.mode() == "submission" and llm.lock_problems():
+            raise HTTPException(503, "Submission routing is invalid (configuration).") from e
         sample = _sample_brief(text, market)
-        if sample is None and os.environ.get("VERCEL"):
+        source = "sample brief (no model output)"
+        if sample is None and os.environ.get("VERCEL") and os.environ.get("GOA_ALLOW_SAMPLE") == "1":
             sample = preread.fallback_brief(text, market)
+            source = "heuristic fallback (no model output)"
         if sample is None:
-            raise HTTPException(503, f"Could not read the brief: {e}")
-        calls.append({"step": "brief", "provider": "sample brief (no model call)", "latency_ms": 0})
+            raise HTTPException(503, f"Could not read the brief ({llm.failure_code(e)}).") from e
+        calls.append({"step": "brief", "provider": source, "latency_ms": 0, "cached": False, "error": llm.failure_code(e)})
         return sample, calls, True
 
 
@@ -263,7 +292,7 @@ def api_compose(req: ComposeRequest) -> dict:
     cat = load()
     entry = BRIEFS.get(req.brief_id)
     if not entry and req.brief:
-        entry = {"brief": Brief.model_validate(req.brief), "sample": False}
+        entry = {"brief": Brief.model_validate(req.brief), "sample": req.sample}
         BRIEFS[req.brief_id] = entry
     if not entry:
         raise HTTPException(404, "That brief has expired. Build the look again.")
@@ -287,7 +316,8 @@ def api_why(look_id: str, req: WhyRequest | None = None) -> dict:
     for p in entry["look"].parts:
         for o in p.options:
             o.why = lines.get(o.item_id, o.why)
-    return {"why": lines, "provider": why.source, "model": why.model, "latency_ms": why.latency_ms}
+    return {"why": lines, "provider": why.source, "model": why.model, "latency_ms": why.latency_ms,
+            "cached": why.cached, "error": why.error}
 
 
 @app.post("/api/mirror")
@@ -342,7 +372,11 @@ def send_enquiry(req: EnquiryRequest) -> dict:
         raise HTTPException(400, "This look is over budget. Swap a part before sending an enquiry.")
     if look.size is None and any(p.part["slot"] in ("garment", "outer_layer") for p in look.parts if p.status == "available"):
         raise HTTPException(400, "Add your clothing size before sending an enquiry.")
-    return {"enquiries": narrate.enquiry(load(), look, entry["brief"], req.name, req.note)}
+    try:
+        rows = narrate.enquiry(load(), look, entry["brief"], req.name, req.note)
+    except narrate.EnquiryStorageError as error:
+        raise HTTPException(503, str(error)) from error
+    return {"enquiries": rows, "persistence": "transient_instance", "delivered": False}
 
 
 @app.get("/api/enquiries")

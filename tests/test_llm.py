@@ -33,7 +33,9 @@ def test_per_step_override(monkeypatch):
     assert llm.route("ideas").provider == "anthropic"
     assert llm.route("ideas").model == "claude-opus-5-5"
     assert llm.route("brief").model == "gemma-x"
-    assert llm.lock_problems() == []  # ideas is not prize-locked
+    assert any("Gemma model" in p for p in llm.lock_problems())
+    monkeypatch.delenv("GOA_MODEL_BRIEF")
+    assert llm.lock_problems() == []  # ideas remains independently configurable
 
 
 def test_submission_mode_refuses_locked_step(monkeypatch):

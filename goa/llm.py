@@ -12,6 +12,7 @@ Providers and prize locks live in goa/providers.json.
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import hashlib
 import json
@@ -31,7 +32,7 @@ try:
 except ImportError:
     pass
 
-from goa import usage
+from goa import deadline, usage
 from goa.catalogue import CACHE_ROOT
 
 CONFIG = json.loads((Path(__file__).parent / "providers.json").read_text(encoding="utf-8"))
@@ -101,13 +102,27 @@ def route(step: str) -> Route:
     return Route(step, name, p["kind"], model, base_url, key, lock)
 
 
+def _route_problems(r: Route) -> list[str]:
+    if not r.locked_to:
+        return []
+    approved = PROVIDERS[r.locked_to]
+    problems = []
+    if r.provider != r.locked_to:
+        problems.append(f"{r.step}: {LOCKS[r.step]['why']} requires {r.locked_to}")
+    if r.model != approved["model"]:
+        problems.append(f"{r.step}: submission requires the approved Gemma model")
+    if r.base_url != approved["base_url"].rstrip("/"):
+        problems.append(f"{r.step}: submission requires the approved AMD Token Factory endpoint")
+    return problems
+
+
+def require_submission_route(r: Route) -> None:
+    if mode() == "submission" and _route_problems(r):
+        raise LLMConfigError("Submission mode: " + "; ".join(_route_problems(r)))
+
+
 def lock_problems() -> list[str]:
-    out = []
-    for step in STEPS:
-        r = route(step)
-        if r.locked_to and r.provider != r.locked_to:
-            out.append(f"{step} is routed to {r.provider}, but {LOCKS[step]['why']} needs {r.locked_to}")
-    return out
+    return [problem for step in STEPS for problem in _route_problems(route(step))]
 
 
 def check_submission() -> None:
@@ -126,12 +141,34 @@ def _require(r: Route) -> None:
             f"Set {PROVIDERS[r.provider]['key_env']} for provider {r.provider} (step {r.step}), "
             "in .env or the environment."
         )
-    if mode() == "submission" and r.locked_to and r.provider != r.locked_to:
-        raise LLMConfigError(f"Submission mode: step {r.step} must use {r.locked_to} ({LOCKS[r.step]['why']}).")
+    require_submission_route(r)
 
 
-class LLMTimeout(RuntimeError):
-    pass
+LLMTimeout = deadline.BudgetExceeded
+
+
+def failure_code(error: Exception) -> str:
+    """Safe release telemetry: no provider body, URL, key or user text."""
+    if isinstance(error, httpx.HTTPStatusError):
+        return f"provider_http_{error.response.status_code}"
+    if isinstance(error, LLMConfigError):
+        return "configuration"
+    if isinstance(error, LLMUnavailable):
+        return "quota_or_cache_only"
+    if isinstance(error, (LLMTimeout, httpx.TimeoutException)):
+        return "timeout"
+    return "provider_or_parse_failure"
+
+
+async def _bounded_post(url, body, headers, timeout):
+    # wait_for cancels the transport itself, including slow streamed response bodies.
+    async def send():
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            return await client.post(url, json=body, headers=headers)
+    try:
+        return await asyncio.wait_for(send(), timeout=deadline.remaining(timeout))
+    except TimeoutError as e:
+        raise LLMTimeout("The request model deadline expired.") from e
 
 
 def _timeout() -> float:
@@ -147,19 +184,25 @@ def _post_with_backoff(url: str, body: dict, headers: dict, timeout: float, trie
     timeouts = 0
     for attempt in range(tries):
         try:
-            resp = httpx.post(url, json=body, headers=headers, timeout=timeout)
+            if deadline.END.get() is not None:
+                resp = asyncio.run(_bounded_post(url, body, headers, deadline.remaining(timeout)))
+            else:
+                resp = httpx.post(url, json=body, headers=headers, timeout=timeout)
         except (httpx.TimeoutException, httpx.ConnectError, httpx.RemoteProtocolError) as e:
             timeouts += 1
             if timeouts >= 2:
                 raise LLMTimeout(f"{body.get('model')} did not answer within {timeout:.0f} s, twice "
                                  f"({type(e).__name__}). The shared endpoint may be busy; try again, "
                                  "or raise GOA_TIMEOUT.") from e
-            time.sleep(2 + random.random())
+            deadline.pause(2 + random.random())
             continue
         if resp.status_code not in (429, 502, 503) or attempt == tries - 1:
             return resp
-        wait = float(resp.headers.get("retry-after", 0) or 0) or (2 ** attempt + random.random())
-        time.sleep(min(wait, 60))
+        try:
+            wait = float(resp.headers.get("retry-after", 0) or 0)
+        except ValueError:
+            wait = 0
+        deadline.pause(min(max(wait, 0) or (2 ** attempt + random.random()), 60))
     return resp
 
 
@@ -212,6 +255,22 @@ def _anthropic(r: Route, messages: list[dict], json_mode: bool, images: list[Ima
         import anthropic
     except ImportError as e:
         raise LLMConfigError("pip install anthropic to use the anthropic provider") from e
+    if deadline.END.get() is not None and client is None:
+        async def send():
+            async with anthropic.AsyncAnthropic(api_key=r.key or None, timeout=timeout, max_retries=0) as bounded:
+                return await bounded.beta.messages.create(
+                    betas=["server-side-fallback-2026-07-01"], extra_body={"fallbacks": "default"},
+                    **_anthropic_request(r, messages, images))
+        async def run():
+            return await asyncio.wait_for(send(), timeout=deadline.remaining(timeout))
+        try:
+            resp = asyncio.run(run())
+        except TimeoutError as e:
+            raise LLMTimeout("The request model deadline expired.") from e
+        if resp.stop_reason == "refusal":
+            raise RuntimeError("the model declined this request")
+        u = getattr(resp, "usage", None)
+        return "".join(b.text for b in resp.content if b.type == "text"), getattr(u, "input_tokens", None), getattr(u, "output_tokens", None)
     client = client or anthropic.Anthropic(api_key=r.key or None, timeout=timeout)
     req = _anthropic_request(r, messages, images)
     # Server-side fallback: if the model declines, the API reruns the request on a fallback model.
@@ -244,6 +303,7 @@ def chat(step: str, messages: list[dict], json_mode: bool = True, images: list[I
          timeout: float | None = None, use_cache: bool = True) -> LLMReply:
     """One model call, through the cache, the usage guard and the rate limiter, in that order."""
     r = route(step)
+    require_submission_route(r)  # Also enforce the lock before serving a cache hit.
     images = images or []
     timeout = timeout or _timeout()
     if os.environ.get("GOA_JSON_MODE") == "0":
@@ -258,7 +318,10 @@ def chat(step: str, messages: list[dict], json_mode: bool = True, images: list[I
     if not ok:
         raise LLMUnavailable(why)
     _require(r)
-    usage.LIMITER.acquire()
+    try:
+        usage.LIMITER.acquire(timeout=deadline.remaining())
+    except TimeoutError as e:
+        raise LLMTimeout("Rate limiter wait exceeds the request budget.") from e
     start = time.perf_counter()
     try:
         if r.kind == "anthropic":
@@ -289,7 +352,7 @@ def refresh_usage() -> dict | None:
         return None
     try:
         resp = httpx.get(f"{r.base_url}/usage", params={"include_recent": "true"},
-                         headers={"Authorization": f"Bearer {r.key}"}, timeout=20)
+                         headers={"Authorization": f"Bearer {r.key}"}, timeout=5)
         resp.raise_for_status()
         data = resp.json()
     except Exception:

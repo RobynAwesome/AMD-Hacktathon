@@ -103,6 +103,7 @@ def parse_brief(
     chat_fn: ChatFn | None = None,
     use_cache: bool = True,
 ) -> BriefResult:
+    llm.require_submission_route(llm.route("brief"))
     if market not in MARKETS:
         raise ValueError(f"unknown market {market}")
     today = today or date.today()
