@@ -1,0 +1,366 @@
+{
+  "status": "DEMO_CORRECTIONS_DEPLOYED_FULL_RELEASE_GATE_HOLD",
+  "recorded_at_sast": "2026-10-23T05:35:09.785493+02:00",
+  "issue": "https://github.com/RobynAwesome/AMD-Hacktathon/issues/2",
+  "merged_pr": "https://github.com/RobynAwesome/AMD-Hacktathon/pull/4",
+  "release_sha": "e5193c51d929eeb2d81ae3acb06aee19c5c72975",
+  "tested_source_tree": "867113ce2e9705d12fa2018cc53de171c2ea4f05",
+  "preview_deployment": "dpl_97Fssxp8dDM6ZMjeQHevKqvLUth3",
+  "production_deployment": "dpl_AKUeur1pvVP9tXTUB5ombgyvGSec",
+  "production_url": "https://goa-creative-commerce.vercel.app/",
+  "production_state": "READY",
+  "production_environment": {
+    "GOA_MODE": "submission",
+    "GOA_CACHE_ONLY": "1",
+    "GOA_ALLOW_SAMPLE": "1"
+  },
+  "validation": {
+    "tests_passed": 96,
+    "locked_packages": 49,
+    "dependency_compatibility": "passed in clean Python 3.12.14 environment",
+    "frontend_javascript_syntax": "passed",
+    "git_diff_check": "passed",
+    "python_minor_pin": "3.12",
+    "vercel_build": "READY; Python 3.12 selected from .python-version",
+    "configured_function_seconds": 60,
+    "configured_model_budget_seconds": 40,
+    "response_margin_seconds": 5
+  },
+  "fresh_inference_attempt": {
+    "deployment": "dpl_93BdfPgSQaqHv993X9yKD3gs9FHB",
+    "trace": {
+      "release_sha": "e5193c51d929eeb2d81ae3acb06aee19c5c72975",
+      "base_url": "https://goa-creative-commerce.vercel.app",
+      "started_at": "2026-10-23T03:30:30.504819+00:00",
+      "synthetic": true,
+      "steps": [
+        {
+          "path": "/api/config",
+          "method": "GET",
+          "status": 200,
+          "seconds": 9.22,
+          "release_sha": "e5193c51d929eeb2d81ae3acb06aee19c5c72975",
+          "mode": "submission",
+          "routes": [
+            {
+              "step": "brief",
+              "provider": "token_factory",
+              "model": "Gemma-4-31B-IT",
+              "locked_to": "token_factory"
+            },
+            {
+              "step": "vision",
+              "provider": "token_factory",
+              "model": "Gemma-4-31B-IT",
+              "locked_to": "token_factory"
+            },
+            {
+              "step": "explain",
+              "provider": "token_factory",
+              "model": "Gemma-4-31B-IT",
+              "locked_to": "token_factory"
+            },
+            {
+              "step": "enquiry",
+              "provider": "token_factory",
+              "model": "Gemma-4-31B-IT",
+              "locked_to": "token_factory"
+            },
+            {
+              "step": "ideas",
+              "provider": "token_factory",
+              "model": "Gemma-4-31B-IT",
+              "locked_to": null
+            }
+          ],
+          "persistence": "transient_instance",
+          "web_budget_seconds": 40.0
+        },
+        {
+          "path": "/api/brief",
+          "method": "POST",
+          "status": 200,
+          "seconds": 9.55,
+          "calls": [
+            {
+              "step": "brief",
+              "provider": "heuristic fallback (no model output)",
+              "latency_ms": 0,
+              "cached": false,
+              "error": "provider_http_401"
+            }
+          ],
+          "sample": true
+        },
+        {
+          "path": "/api/compose",
+          "method": "POST",
+          "status": 200,
+          "seconds": 8.74,
+          "sample": true,
+          "look": {
+            "budget_status": "within",
+            "total_local": 2404.63,
+            "chosen": [
+              0,
+              0,
+              null,
+              0
+            ]
+          }
+        },
+        {
+          "path": "/api/why/4d5c40ae133f",
+          "method": "POST",
+          "status": 200,
+          "seconds": 9.3,
+          "provider": "template",
+          "model": "",
+          "cached": false,
+          "latency_ms": 0,
+          "error": "provider_http_401"
+        },
+        {
+          "path": "/api/enquiry",
+          "method": "POST",
+          "status": 200,
+          "seconds": 9.17,
+          "persistence": "transient_instance",
+          "delivered": false,
+          "enquiries": [
+            {
+              "merchant_id": "m_fynbos",
+              "message_source": "template",
+              "message_cached": false,
+              "model": "",
+              "model_error": "provider_http_401",
+              "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
+              "persistence": "transient_instance"
+            },
+            {
+              "merchant_id": "m_oso",
+              "message_source": "template",
+              "message_cached": false,
+              "model": "",
+              "model_error": "provider_http_401",
+              "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
+              "persistence": "transient_instance"
+            }
+          ]
+        },
+        {
+          "path": "/api/enquiries",
+          "method": "GET",
+          "status": 200,
+          "seconds": 9.15,
+          "count": 2,
+          "matching_synthetic_records": 2
+        },
+        {
+          "path": "/api/gaps",
+          "method": "GET",
+          "status": 200,
+          "seconds": 6.66,
+          "count": 1,
+          "sources": [
+            "transient_demo"
+          ]
+        }
+      ],
+      "fresh_brief_verified": false,
+      "post_journey_passed": true,
+      "durable_persistence_verified": false,
+      "mobile_verified": false,
+      "credential_rotation_verified": false,
+      "finished_at": "2026-10-23T03:31:32.300371+00:00"
+    },
+    "result": "AMD HTTP 401; heuristic/template outcomes labelled; no successful fresh inference"
+  },
+  "final_cache_only_journey": {
+    "release_sha": "e5193c51d929eeb2d81ae3acb06aee19c5c72975",
+    "base_url": "https://goa-creative-commerce.vercel.app",
+    "started_at": "2026-10-23T03:32:44.563039+00:00",
+    "synthetic": true,
+    "steps": [
+      {
+        "path": "/api/config",
+        "method": "GET",
+        "status": 200,
+        "seconds": 8.43,
+        "release_sha": "e5193c51d929eeb2d81ae3acb06aee19c5c72975",
+        "mode": "submission",
+        "routes": [
+          {
+            "step": "brief",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "locked_to": "token_factory"
+          },
+          {
+            "step": "vision",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "locked_to": "token_factory"
+          },
+          {
+            "step": "explain",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "locked_to": "token_factory"
+          },
+          {
+            "step": "enquiry",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "locked_to": "token_factory"
+          },
+          {
+            "step": "ideas",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "locked_to": null
+          }
+        ],
+        "persistence": "transient_instance",
+        "web_budget_seconds": 40.0
+      },
+      {
+        "path": "/api/brief",
+        "method": "POST",
+        "status": 200,
+        "seconds": 8.56,
+        "calls": [
+          {
+            "step": "brief",
+            "provider": "token_factory",
+            "model": "Gemma-4-31B-IT",
+            "latency_ms": 0,
+            "attempts": 0,
+            "cached": true
+          }
+        ],
+        "sample": false
+      },
+      {
+        "path": "/api/compose",
+        "method": "POST",
+        "status": 200,
+        "seconds": 8.28,
+        "sample": false,
+        "look": {
+          "budget_status": "within",
+          "total_local": 2462.73,
+          "chosen": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "path": "/api/why/e765130bb30e",
+        "method": "POST",
+        "status": 200,
+        "seconds": 8.4,
+        "provider": "template",
+        "model": "",
+        "cached": false,
+        "latency_ms": 0,
+        "error": "quota_or_cache_only"
+      },
+      {
+        "path": "/api/enquiry",
+        "method": "POST",
+        "status": 200,
+        "seconds": 8.45,
+        "persistence": "transient_instance",
+        "delivered": false,
+        "enquiries": [
+          {
+            "merchant_id": "m_lotus",
+            "message_source": "template",
+            "message_cached": false,
+            "model": "",
+            "model_error": "quota_or_cache_only",
+            "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
+            "persistence": "transient_instance"
+          },
+          {
+            "merchant_id": "m_fynbos",
+            "message_source": "template",
+            "message_cached": false,
+            "model": "",
+            "model_error": "quota_or_cache_only",
+            "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
+            "persistence": "transient_instance"
+          },
+          {
+            "merchant_id": "m_imbali",
+            "message_source": "template",
+            "message_cached": false,
+            "model": "",
+            "model_error": "quota_or_cache_only",
+            "status": "prepared in temporary demo inbox (not emailed; no reply expected)",
+            "persistence": "transient_instance"
+          }
+        ]
+      },
+      {
+        "path": "/api/enquiries",
+        "method": "GET",
+        "status": 200,
+        "seconds": 8.47,
+        "count": 6,
+        "matching_synthetic_records": 3
+      },
+      {
+        "path": "/api/gaps",
+        "method": "GET",
+        "status": 200,
+        "seconds": 8.6,
+        "count": 12,
+        "sources": [
+          "synthetic_seed"
+        ]
+      }
+    ],
+    "fresh_brief_verified": false,
+    "post_journey_passed": true,
+    "durable_persistence_verified": false,
+    "mobile_verified": false,
+    "credential_rotation_verified": false,
+    "finished_at": "2026-10-23T03:33:43.757983+00:00"
+  },
+  "final_usage": {
+    "path": "/api/usage",
+    "status": 200,
+    "guard": "cache_only",
+    "calls_live": 0,
+    "persistence": "transient_instance",
+    "limiter_scope": "process_only"
+  },
+  "public_browser": {
+    "desktop_journey_passed": true,
+    "existing_look_replayed_across_redeployment": true,
+    "confirmation": "Demo request prepared; nothing emailed; no reply expected; temporary inbox may reset or differ across devices; plain template",
+    "seed_labels_verified": true,
+    "temporary_inbox_verified": true,
+    "mobile_verified": false,
+    "mobile_limitation": "No physical phone result or supported mobile emulation result obtained"
+  },
+  "persistence": "Explicitly transient instance-local demo. Immediate read-after-write does not prove durability or cross-instance visibility.",
+  "runtime_logs": "No warning/error records matched queried production deployment filters; this does not negate the handled AMD HTTP 401 in the response trace.",
+  "provider_function_artifact_inspection": "File listing endpoint returned 404 for Git deployment; configured 60-second limit is source/build evidence, not a separately retrieved function artifact.",
+  "credential_rotation_verified": false,
+  "historical_evaluation": "Existing 20-call 2026-10-18 live evaluation retained; no batch rerun.",
+  "attribution": "Busi co-creator and original source author preserved; release corrections by Codex Forge under owner execution instruction.",
+  "next_actions": [
+    "Owner securely rotates/replaces TOKEN_FACTORY_API_KEY in Vercel Production; never paste it into chat or receipts.",
+    "After owner confirmation, redeploy with cache-only disabled and run one bounded uncached journey; preserve any failures.",
+    "Obtain actual public mobile-browser brief-compose-enquiry result before clearing issue #2."
+  ],
+  "authority_limits": {
+    "rtc_or_kc_cassey_approval_claimed": false,
+    "local_windows_gsmb_accessible": false
+  }
+}
